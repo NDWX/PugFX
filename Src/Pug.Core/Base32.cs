@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -405,40 +406,88 @@ namespace Pug
 		//[ThreadStatic]
 		//static Base32Encoder _encoder = new Base32Encoder();
 
-		public static string From(byte[] data)
+		//public static string From(byte[] data)
+		//{
+		//    Base32Encoder _encoder = new Base32Encoder();
+
+		//    string result = string.Empty;
+
+		//    try
+		//    {
+		//        result = _encoder.Encode(data);
+		//    }
+		//    catch (Exception ex)
+		//    {
+		//        throw ex;
+		//    }
+
+		//    return result;
+		//}
+
+		//public static byte[] ToBytes(string text)
+		//{
+		//    Base32Encoder _encoder = new Base32Encoder();
+
+		//    byte[] result = null;
+
+		//    try
+		//    {
+		//        result = _encoder.Decode(text);
+		//    }
+		//    catch (Exception ex)
+		//    {
+		//        throw ex;
+		//    }
+
+		//    return result;
+		//}
+
+		public static string Encode(byte[] data)
 		{
-			Base32Encoder _encoder = new Base32Encoder();
+			char[] base32Dictionary = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '2', '3', '4', '5', '6', '7' };
 
-			string result = string.Empty;
+			StringBuilder resultBuilder = new StringBuilder();
 
-			try
+			//byte currentByte = data[0];
+			//int currentByteRemainder = 0;
+			//int currentSegment = currentByte;
+
+			//resultBuilder.Append(base32Dictionary[currentSegment & 63]);
+
+			//int currentSegmentRemainder = currentSegment >> 5;
+
+			//for (int idx = 1; idx < data.Length; idx++)
+			//{
+			//    currentByte = data[idx];
+				
+			//    currentSegment = currentSegmentRemainder | (currentByte << 3);
+			//    currentByteRemainder = currentByte | 192;
+
+			//    resultBuilder.Append(base32Dictionary[currentSegment & 63]);
+
+			//    currentSegmentRemainder = currentSegmentRemainder >> 5;
+			//}
+
+			//resultBuilder.Append(base32Dictionary[lastByteRemainder]);
+
+			BitArray dataBits = new BitArray(data);
+
+			int totalSegments = (data.Length * 8 / 5) + 1;
+
+			int segmentBitCount = 5;
+
+			for (int currentSegment = 0; currentSegment < totalSegments; currentSegment++)
 			{
-				result = _encoder.Encode(data);
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
+				int segmentFirstBit = currentSegment * 5;
+				int segmentLastBit = segmentFirstBit + 4;
 
-			return result;
-		}
+				if (segmentLastBit > dataBits.Length - 1)
+					segmentBitCount = (dataBits.Length - segmentFirstBit);
 
-		public static byte[] ToBytes(string text)
-		{
-			Base32Encoder _encoder = new Base32Encoder();
-
-			byte[] result = null;
-
-			try
-			{
-				result = _encoder.Decode(text);
-			}
-			catch (Exception ex)
-			{
-				throw ex;
+				resultBuilder.Append(base32Dictionary[dataBits.GetBytes(segmentFirstBit, segmentBitCount)[0]]);
 			}
 
-			return result;
+			return resultBuilder.ToString();
 		}
 
 	}

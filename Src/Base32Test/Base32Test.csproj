@@ -69,8 +69,10 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base32BitArrayExtensionsTests.cs" />
     <Compile Include="Base32EncoderTest.cs" />
     <Compile Include="Base32Test.cs" />
+    <Compile Include="BitArrayExtensionBitArrayExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

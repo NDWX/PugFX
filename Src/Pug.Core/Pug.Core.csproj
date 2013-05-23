@@ -43,6 +43,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Base32Encoder.cs" />
+    <Compile Include="BitArrayExtension.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
