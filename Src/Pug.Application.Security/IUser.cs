@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace Pug.Application.Security
 {
 	/// <summary>
@@ -6,7 +7,7 @@ namespace Pug.Application.Security
 	/// </summary>
 	public interface IUser
 	{
-		Pug.Application.Security.IUserIdentity Identity { get; }
+		Pug.Application.Security.IPrincipalIdentity Identity { get; }
 
 		bool IsAuthorized(string operation, System.Collections.Generic.ICollection<string> objectNames, System.Collections.Generic.IDictionary<string, string> context);
 

@@ -71,9 +71,9 @@ namespace CsvTests
 		public void ReadNextTest()
 		{
 			string file = @"F:\Pug Computing Services\Development\PugFX\1.0\Src\Tests\CsvTests\startrackexportBAYSWATER(4).din"; // TODO: Initialize to an appropriate value
-			CsvFile target = CsvFile.Open(file); // TODO: Initialize to an appropriate value
-			CsvFile.CsvLine expected = null; // TODO: Initialize to an appropriate value
-			CsvFile.CsvLine actual;
+			CsvReader target = CsvReader.Open(file); // TODO: Initialize to an appropriate value
+			CsvReader.CsvLine expected = null; // TODO: Initialize to an appropriate value
+			CsvReader.CsvLine actual;
 			actual = target.ReadLine();
 
 			while (actual != null && actual.Length > 0)

@@ -42,6 +42,8 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\SecureStringExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="ICredentials.cs" />
     <Compile Include="InvalidAuthorization.cs" />
     <Compile Include="InvalidCredentials.cs" />
@@ -56,6 +58,7 @@
     <Compile Include="Implementations\User.cs" />
     <Compile Include="Web\AspNetBasicSecurityManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Web\AspNetGenericIntegratedSecurityManager.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

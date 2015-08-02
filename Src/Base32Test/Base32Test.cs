@@ -73,11 +73,11 @@ namespace Base32Test
 			byte[] data = new byte[] {65, 16, 4, 135, 170, 26}; // TODO: Initialize to an appropriate value
 			string expected = "ABDHPCJU"; // TODO: Initialize to an appropriate value
 			string actual;
-			actual = Base32.From(data);
+			actual = Base32.Encode(data);
 
-			//byte[] returnData = Base32.GetBytes(actual);
+			string returnData = Base32.From(data);
 
-			//Assert.AreEqual(data, returnData);
+			Assert.AreEqual(actual, returnData);
 			//Assert.AreEqual(expected, actual);
 			Assert.Inconclusive("Verify the correctness of this test method.");
 		}

@@ -22,6 +22,8 @@ namespace Pug.Application.Security
 			}
 		}
 
+		public abstract bool UserIsInRole(ICredentials credentials, string role);
+
 		public abstract bool UserIsAuthorized(ICredentials credentials, string operation, ICollection<string> objectNames, IDictionary<string, string> context);
 	}
 }

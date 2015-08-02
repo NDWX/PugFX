@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Application.Data.Csv", "Pug.Application.Data.Csv\Pug.Application.Data.Csv.csproj", "{B038BB75-0909-4329-B39E-69D88F1BDE8D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Core", "Pug.Core\Pug.Core.csproj", "{2B98F237-D76A-40FF-8248-D224E226D81E}"
@@ -32,52 +34,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Application.Data.SqlLit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlLiteTests", "Tests\SqlLiteTests\SqlLiteTests.csproj", "{604703BB-262D-43B3-A637-98FF98E2EE77}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Application.Data.Postgres", "Pug.Application.Data.Postgres\Pug.Application.Data.Postgres.csproj", "{AEDD8BBF-E296-43F6-A4E3-44282D530B46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Application.Text", "Pug.Application.Text\Pug.Application.Text.csproj", "{0D11DB5D-F158-4829-AD50-AAB82F790F2A}"
+EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 12
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://localhost:20619/tfs/pug%20computing%20services
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Base32Test\\Base32Test.csproj
-		SccProjectTopLevelParentUniqueName1 = PugFX.sln
-		SccProjectName1 = Base32Test
-		SccLocalPath1 = Base32Test
-		SccProjectUniqueName2 = Pug.Core\\Pug.Core.csproj
-		SccProjectName2 = Pug.Core
-		SccLocalPath2 = Pug.Core
-		SccProjectUniqueName3 = Pug.Application\\Pug.Application.csproj
-		SccProjectName3 = Pug.Application
-		SccLocalPath3 = Pug.Application
-		SccProjectUniqueName4 = Pug.Application.Security\\Pug.Application.Security.csproj
-		SccProjectName4 = Pug.Application.Security
-		SccLocalPath4 = Pug.Application.Security
-		SccProjectUniqueName5 = Pug.Application.Data.Common\\Pug.Application.Data.Common.csproj
-		SccProjectName5 = Pug.Application.Data.Common
-		SccLocalPath5 = Pug.Application.Data.Common
-		SccProjectUniqueName6 = Pug.Application.Data\\Pug.Application.Data.csproj
-		SccProjectName6 = Pug.Application.Data
-		SccLocalPath6 = Pug.Application.Data
-		SccProjectUniqueName7 = Pug.Application.Data.SqlServer\\Pug.Application.Data.SqlServer.csproj
-		SccProjectName7 = Pug.Application.Data.SqlServer
-		SccLocalPath7 = Pug.Application.Data.SqlServer
-		SccProjectUniqueName8 = Pug.Application.Data.Csv\\Pug.Application.Data.Csv.csproj
-		SccProjectName8 = Pug.Application.Data.Csv
-		SccLocalPath8 = Pug.Application.Data.Csv
-		SccProjectUniqueName9 = Tests\\CsvTests\\CsvTests.csproj
-		SccProjectTopLevelParentUniqueName9 = PugFX.sln
-		SccProjectName9 = Tests/CsvTests
-		SccLocalPath9 = Tests\\CsvTests
-		SccProjectUniqueName10 = Pug.Application.Data.SqlLite\\Pug.Application.Data.SqlLite.csproj
-		SccProjectName10 = Pug.Application.Data.SqlLite
-		SccLocalPath10 = Pug.Application.Data.SqlLite
-		SccProjectUniqueName11 = Tests\\SqlLiteTests\\SqlLiteTests.csproj
-		SccProjectTopLevelParentUniqueName11 = PugFX.sln
-		SccProjectName11 = Tests/SqlLiteTests
-		SccLocalPath11 = Tests\\SqlLiteTests
-	EndGlobalSection
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = PugFX.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -127,6 +88,14 @@ Global
 		{604703BB-262D-43B3-A637-98FF98E2EE77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{604703BB-262D-43B3-A637-98FF98E2EE77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{604703BB-262D-43B3-A637-98FF98E2EE77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEDD8BBF-E296-43F6-A4E3-44282D530B46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEDD8BBF-E296-43F6-A4E3-44282D530B46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEDD8BBF-E296-43F6-A4E3-44282D530B46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEDD8BBF-E296-43F6-A4E3-44282D530B46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D11DB5D-F158-4829-AD50-AAB82F790F2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D11DB5D-F158-4829-AD50-AAB82F790F2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D11DB5D-F158-4829-AD50-AAB82F790F2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D11DB5D-F158-4829-AD50-AAB82F790F2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -135,5 +104,8 @@ Global
 		{7B76D89B-BB93-41B4-AF8C-C5292A764B15} = {3F96EF91-50BF-4BF7-B14C-9C3073B55D81}
 		{2670E1AE-0B09-4D9C-A5DB-2646E49FE834} = {3F96EF91-50BF-4BF7-B14C-9C3073B55D81}
 		{604703BB-262D-43B3-A637-98FF98E2EE77} = {3F96EF91-50BF-4BF7-B14C-9C3073B55D81}
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = PugFX.vsmdi
 	EndGlobalSection
 EndGlobal

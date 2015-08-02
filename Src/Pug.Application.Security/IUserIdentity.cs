@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using System.Security.Principal;
+
 namespace Pug.Application.Security
 {
-	public interface IUserIdentity : ICredentials, IDisposable
+	public interface IPrincipalIdentity : ICredentials, IDisposable, System.Security.Principal.IIdentity
 	{
-		string Name
-		{
-			get;
-		}
-
 		IDictionary<string, string> Attributes
 		{
 			get;

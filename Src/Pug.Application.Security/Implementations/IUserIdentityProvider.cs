@@ -7,6 +7,6 @@ namespace Pug.Application.Security
 {
 	public interface IUserIdentityProvider
 	{
-		IUserIdentity GetUserIdentity();
+		IPrincipalIdentity GetUserIdentity();
 	}
 }

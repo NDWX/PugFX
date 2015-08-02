@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Pug.Extensions;
 
-namespace Pug
+namespace Pug.Extensions
 {
 	public static class BitArrayExtension
 	{

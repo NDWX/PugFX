@@ -38,5 +38,18 @@ namespace Pug
 				return value;
 			}
 		}
+
+		public V Refresh(K key)
+		{
+			V value = source(key);
+			remembered[key] = value;
+
+			return value;
+		}
+
+		public void ForgetAll()
+		{
+			remembered.Clear();
+		}
 	}
 }

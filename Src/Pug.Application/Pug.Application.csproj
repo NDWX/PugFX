@@ -43,8 +43,16 @@
   <ItemGroup>
     <Compile Include="ApplicationUserSession.cs" />
     <Compile Include="AspNetUserSessionProvider.cs" />
+    <Compile Include="Threading\Synchronization\EntityLock.cs" />
+    <Compile Include="Threading\Synchronization\EntityLocked.cs" />
+    <Compile Include="Threading\Synchronization\EntitySynchronizationManager.cs" />
+    <Compile Include="Threading\IdentityTracker.cs" />
     <Compile Include="IUserSessionProvider.cs" />
+    <Compile Include="Threading\IWorkerTaskWait.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Threading\WaitingWorker.cs" />
+    <Compile Include="Threading\WorkersDispatcher.cs" />
+    <Compile Include="Threading\WorkerTaskQueue.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -3,17 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using System.Security.Principal;
+
 namespace Pug.Application.Security
 {
-	public class User : Pug.Application.Security.IUser
+	public class User : Pug.Application.Security.IUser, System.Security.Principal.IPrincipal
 	{
-		IUserIdentity identity;
+		IPrincipalIdentity identity;
 		IUserSecurity userSecurity;
 
-		public User(IUserIdentity credentials, IUserSecurity userSecurity)
+		public User(IPrincipalIdentity credentials, IUserSecurity userSecurity)
 		{
 			this.identity = credentials;
 			this.userSecurity = userSecurity;
+		}
+
+		public bool IsInRole(string role)
+		{
+			return userSecurity.UserIsInRole(identity, role);
 		}
 
 		public bool IsAuthorized(string operation, ICollection<string> objectNames, IDictionary<string, string> context)
@@ -21,7 +28,12 @@ namespace Pug.Application.Security
 			return userSecurity.UserIsAuthorized(identity, operation, objectNames, context);
 		}
 
-		public IUserIdentity Identity
+		public IPrincipalIdentity Identity
+		{
+			get { return identity; }
+		}
+
+		IIdentity IPrincipal.Identity
 		{
 			get
 			{

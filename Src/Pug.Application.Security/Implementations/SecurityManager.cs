@@ -25,7 +25,7 @@ namespace Pug.Application.Security
 
 				if (currentUser == null)
 				{
-					IUserIdentity userIdentity = userIdentityProvider.GetUserIdentity();
+					IPrincipalIdentity userIdentity = userIdentityProvider.GetUserIdentity();
 
 					if (userIdentity != null)
 					{
