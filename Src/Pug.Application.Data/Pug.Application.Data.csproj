@@ -67,6 +67,7 @@
     <Compile Include="ApplicationData.cs" />
     <Compile Include="ApplicationDataSession.cs" />
     <Compile Include="DatabaseSession.cs" />
+    <Compile Include="Extensions\IApplicationDataExtensions.cs" />
     <Compile Include="IApplicationData.cs">
       <SubType>Code</SubType>
     </Compile>

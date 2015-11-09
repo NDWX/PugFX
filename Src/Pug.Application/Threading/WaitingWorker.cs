@@ -5,35 +5,54 @@ using System.Threading;
 
 namespace Pug.Application.Threading
 {
-#if !NET35
-	public delegate R Func<T, R>(T taskObject);
-#endif
+	//#if !NET35
+	//	public delegate R Func<T, R>(T taskObject);
+	//#endif
 
 	//public delegate T WorkWait<T>();
 
+
 	public class WaitingWorker<I,T,R> : IDisposable
 	{
-		public delegate void EventHandler(WaitingWorker<I, T, R> worker);
-		public delegate void TaskEventHandler(T task, WaitingWorker<I, T, R> worker);
-		public delegate void TaskCompletedEventHandler(T task, R result, WaitingWorker<I, T, R> worker);
-		public delegate void TaskErrorEventHandler(T task, Exception error, WaitingWorker<I, T, R> worker);
+		public interface IEventListener
+		{
+			void Ready(WaitingWorker<I, T, R> waitingWorker);
+
+			void StartingTask(T task, WaitingWorker<I, T, R> waitingWorker);
+
+			void TaskError(T task, Exception error, WaitingWorker<I, T, R> waitingWorker);
+
+			void TaskCompleted(T task, R result, WaitingWorker<I, T, R> waitingWorker);
+
+			void Finishing(WaitingWorker<I, T, R> waitingWorker);
+		}
+
+		public interface IWorker
+		{
+			R DoWork(T task);
+		}
+
 #if TRACE
 		static TraceSwitch traceSwitch = new TraceSwitch("Pug.Application.Threading.WaitingWorker", "WaitingWorker trace switch");
 #endif
 		I identifier;
 
-		//Action setup, cleanup;
-		IWorkerTaskWait<T> workWait;
-		Func<T, R> work;
+		object disposeSync = new object();
+		object startSync = new object();
+		
+		IEventListener eventListener;
+		TaskSourceWaitableAdapter<T> taskSource;
+		IWorker worker;
 
 		Thread workerThread;
-		EventWaitHandle workingWaitHandle;
+		EventWaitHandle taskWait;
+        EventWaitHandle workingWaitHandle;
 
 		bool isWaiting;
 		bool isWorking;
 		bool isDisposing, isDisposed;
 		
-		public WaitingWorker(I identifier, IWorkerTaskWait<T> workWait, Func<T, R> worker)
+		public WaitingWorker(I identifier, IWorkerTaskSource<T> workWait, IWorker worker, IEventListener eventListener)
 		{
 			if (identifier == null)
 				throw new ArgumentNullException("identifier");
@@ -46,102 +65,35 @@ namespace Pug.Application.Threading
 
 			this.identifier = identifier;
 
-			this.workWait = workWait;
-			this.work = worker;
+			this.taskSource = new TaskSourceWaitableAdapter<T>(workWait);
+			this.worker = worker;
+			this.eventListener = eventListener;
 
+			taskWait = new EventWaitHandle(false, EventResetMode.AutoReset);
 			workingWaitHandle = new EventWaitHandle(true, EventResetMode.ManualReset);
 		}
 
 		public EventHandler Ready, Finishing;
 
-		public TaskEventHandler OnStartingTask;
-		public TaskCompletedEventHandler OnTaskCompleted;
-
-		public TaskErrorEventHandler OnTaskError;
-
-		void WaitForWork()
-		{
-			workingWaitHandle.Reset();
-
-			T task;
-			R result;
-
-			if (Ready != null)
-			{
-#if TRACE
-				Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} notifying READY for work", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
-#endif
-				Ready(this);
-			}
-
-			isWaiting = true;
-#if TRACE
-			Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} waiting for work", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
-#endif
-			while (workWait.HasTasks || !isDisposing)
-			{
-				task = workWait.GetNextTask(200);
-
-				if (task != null)
-				{
-#if TRACE
-					Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} work received", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
-#endif
-					if (OnStartingTask != null)
-					{
-#if TRACE
-						Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} notifying STARTING work", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
-#endif
-						OnStartingTask(task, this);
-					}
-
-					result = DoWork(task);
-
-					if (OnTaskCompleted != null)
-					{
-#if TRACE
-						Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} notifying FINISHED work", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
-#endif
-						OnTaskCompleted(task, result, this);
-					}
-				}
-			}
-
-			isWaiting = false;
-
-			if (Finishing != null)
-			{ 
-#if TRACE
-				Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} notifying FINISHING", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
-#endif
-				Finishing(this);
-			}
-
-			//if( cleanup != null )
-			//    cleanup();
-
-			workingWaitHandle.Set();
-		}
-
 		R DoWork(T task)
 		{
 			isWorking = true;
-			
+
 			R result = default(R);
 #if TRACE
 			Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} is doing work", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
 			try
 			{
-				result = work(task);
+				result = worker.DoWork(task);
 			}
-			catch(Exception exception)
+			catch (Exception exception)
 			{
 #if TRACE
 				Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} encountered error while doing work : {3}", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s"), exception.Message));
 #endif
-				if( OnTaskError != null )
-					OnTaskError(task, exception, this);
+				if (eventListener != null)
+					eventListener.TaskError(task, exception, this);
 			}
 #if TRACE
 			Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} has finished working", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
@@ -151,33 +103,86 @@ namespace Pug.Application.Threading
 			return result;
 		}
 
-//        void SetUpAndWaitForWork()
-//        {
-//#if TRACE
-//            Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} is setting up", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
-//#endif
-//            setup();
-//#if TRACE
-//            Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} is ready for work", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
-//#endif
-//            WaitForWork();
-//        }
+		void WaitForWork()
+		{
+			workingWaitHandle.Reset();
+
+			//T task;
+			R result;
+
+			if (eventListener != null)
+			{
+#if TRACE
+				Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} notifying READY for work", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+#endif
+				eventListener.Ready(this);
+			}
+
+			isWaiting = true;
+#if TRACE
+			Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} waiting for work", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+#endif
+
+			NonBindingWait<T> waiter = new NonBindingWait<T>(taskSource);
+
+			while( !isDisposing)
+			{
+				waiter.WaitAndNotify(0, taskWait);
+
+				taskWait.WaitOne();
+
+				if (!isDisposing && waiter.TaskReceived)
+				{
+#if TRACE
+					Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} work received", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+#endif
+					if (eventListener != null)
+					{
+#if TRACE
+						Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} notifying STARTING work", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+#endif
+						eventListener.StartingTask(waiter.Task, this);
+					}
+
+					result = DoWork(waiter.Task);
+
+					if (eventListener != null)
+					{
+#if TRACE
+						Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} notifying FINISHED work", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+#endif
+						eventListener.TaskCompleted(waiter.Task, result, this);
+					}
+				}
+					
+			}
+
+			taskWait.Close();
+
+			isWaiting = false;
+
+			if (Finishing != null)
+			{ 
+#if TRACE
+				Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} notifying FINISHING", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+#endif
+				eventListener.Finishing(this);
+			}
+
+			workingWaitHandle.Set();
+		}
 
 		public void Start()
 		{
-			workerThread = new Thread(new ThreadStart(WaitForWork));
-			workerThread.Start();
+			lock(startSync)
+			{
+				if (workerThread != null)
+					return;
+
+				workerThread = new Thread(new ThreadStart(WaitForWork));
+				workerThread.Start();
+			}
 		}
-
-		//public void Start(Action setup)
-		//{
-		//    if( setup == null )
-		//        throw new ArgumentNullException("setup");
-
-		//    this.setup = setup;
-		//    workerThread = new Thread(new ThreadStart(SetUpAndWaitForWork));
-		//    workerThread.Start();
-		//}
 
 		public bool IsWorking
 		{
@@ -191,39 +196,39 @@ namespace Pug.Application.Threading
 
 		public void Dispose()
 		{
-			isDisposing = true;
+			lock( disposeSync)
+			{
+				isDisposing = true;
+
+				// stop waiting for task;
+				taskWait.Set();
 
 #if TRACE
-			Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} waiting for all work to finish before disposing", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+				Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} waiting for all work to finish before disposing", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
 
-			workingWaitHandle.WaitOne();
+				workingWaitHandle.WaitOne();
 #if TRACE
-			Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} has finished all works and is ready to dispose", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+				Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} has finished all works and is ready to dispose", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
-			try
-			{
-				workingWaitHandle.Close();
-			}
-			catch
-			{
+				try
+				{
+					workingWaitHandle.Close();
+				}
+				catch
+				{
 #if TRACE
-				Trace.WriteLineIf(traceSwitch.TraceWarning, string.Format("[{2}] WaitingWorker: {0}@{1} encounter error when trying to close working event handle on dispose", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+					Trace.WriteLineIf(traceSwitch.TraceWarning, string.Format("[{2}] WaitingWorker: {0}@{1} encounter error when trying to close working event handle on dispose", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
-				throw;
-			}
-			finally
-			{
-				isDisposed = true;
+					throw;
+				}
+				finally
+				{
+					isDisposed = true;
+				}
 			}
 
 		}
-
-		//public void Dispose(Action cleanUp)
-		//{
-		//    this.cleanup = cleanUp;
-		//    Dispose();
-		//}
 
 		#endregion
 	}

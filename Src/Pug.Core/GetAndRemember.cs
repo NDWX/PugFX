@@ -3,20 +3,20 @@ using System.Collections.Generic;
 
 namespace Pug
 {
-	public class GetAndRemember<K, V>
+	public class LocalGetAndRemember<K, V> : IGetAndRemember<K, V> where K : IEquatable<K>, IComparable<K>
 	{
 		IDictionary<K, V> remembered;
 		Func<K, V> source;
 
-		private GetAndRemember(Func<K, V> source)
+		private LocalGetAndRemember(Func<K, V> source)
 		{
 			remembered = new Dictionary<K, V>();
 			this.source = source;
 		}
 
-		public static GetAndRemember<K, V> From(Func<K, V> source)
+		public static LocalGetAndRemember<K, V> From(Func<K, V> source)
 		{
-			return new GetAndRemember<K, V>(source);
+			return new LocalGetAndRemember<K, V>(source);
 		}
 
 		public V this[K key]
@@ -50,6 +50,16 @@ namespace Pug
 		public void ForgetAll()
 		{
 			remembered.Clear();
+		}
+
+		public void Throttle()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Trim()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Application.Data.Csv", "Pug.Application.Data.Csv\Pug.Application.Data.Csv.csproj", "{B038BB75-0909-4329-B39E-69D88F1BDE8D}"
 EndProject
@@ -37,6 +37,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Application.Data.Postgres", "Pug.Application.Data.Postgres\Pug.Application.Data.Postgres.csproj", "{AEDD8BBF-E296-43F6-A4E3-44282D530B46}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Application.Text", "Pug.Application.Text\Pug.Application.Text.csproj", "{0D11DB5D-F158-4829-AD50-AAB82F790F2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Net", "Pug.Net\Pug.Net.csproj", "{638F88E3-70C6-4594-AB2A-471FDF1949DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -96,6 +98,10 @@ Global
 		{0D11DB5D-F158-4829-AD50-AAB82F790F2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D11DB5D-F158-4829-AD50-AAB82F790F2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D11DB5D-F158-4829-AD50-AAB82F790F2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{638F88E3-70C6-4594-AB2A-471FDF1949DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{638F88E3-70C6-4594-AB2A-471FDF1949DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{638F88E3-70C6-4594-AB2A-471FDF1949DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{638F88E3-70C6-4594-AB2A-471FDF1949DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
