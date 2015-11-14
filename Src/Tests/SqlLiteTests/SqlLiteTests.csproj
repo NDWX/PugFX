@@ -60,10 +60,6 @@
       <Project>{DCD76110-60C8-491E-BA8B-3E2889E0E5E1}</Project>
       <Name>Pug.Application.Data.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Pug.Application.Data.SqlLite\Pug.Application.Data.SqlLite.csproj">
-      <Project>{CC4FF5E1-DC89-441A-83CB-92A8A91503F6}</Project>
-      <Name>Pug.Application.Data.SqlLite</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Pug.Application.Data\Pug.Application.Data.csproj">
       <Project>{61FCB219-4308-4F5F-A9D2-995C0FAC8C32}</Project>
       <Name>Pug.Application.Data</Name>

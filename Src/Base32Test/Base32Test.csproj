@@ -76,10 +76,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pug.Application.Data.Csv\Pug.Application.Data.Csv.csproj">
-      <Project>{B038BB75-0909-4329-B39E-69D88F1BDE8D}</Project>
-      <Name>Pug.Application.Data.Csv</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Pug.Core\Pug.Core.csproj">
       <Project>{2B98F237-D76A-40FF-8248-D224E226D81E}</Project>
       <Name>Pug.Core</Name>

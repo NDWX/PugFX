@@ -75,12 +75,6 @@
     <Compile Include="UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Pug.Application.Data.Csv\Pug.Application.Data.Csv.csproj">
-      <Project>{B038BB75-0909-4329-B39E-69D88F1BDE8D}</Project>
-      <Name>Pug.Application.Data.Csv</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>

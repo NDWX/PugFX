@@ -3,11 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Application.Data.Csv", "Pug.Application.Data.Csv\Pug.Application.Data.Csv.csproj", "{B038BB75-0909-4329-B39E-69D88F1BDE8D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Core", "Pug.Core\Pug.Core.csproj", "{2B98F237-D76A-40FF-8248-D224E226D81E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base32Test", "Base32Test\Base32Test.csproj", "{7B76D89B-BB93-41B4-AF8C-C5292A764B15}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3CD983C6-7E6B-4923-A24C-0BD007F34BCC}"
 	ProjectSection(SolutionItems) = preProject
@@ -28,17 +24,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Application.Data", "Pug
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Application.Data.SqlServer", "Pug.Application.Data.SqlServer\Pug.Application.Data.SqlServer.csproj", "{C44CC14A-E91F-40D8-87D9-DF21396645DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvTests", "Tests\CsvTests\CsvTests.csproj", "{2670E1AE-0B09-4D9C-A5DB-2646E49FE834}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Application.Data.SqlLite", "Pug.Application.Data.SqlLite\Pug.Application.Data.SqlLite.csproj", "{CC4FF5E1-DC89-441A-83CB-92A8A91503F6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlLiteTests", "Tests\SqlLiteTests\SqlLiteTests.csproj", "{604703BB-262D-43B3-A637-98FF98E2EE77}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Application.Data.Postgres", "Pug.Application.Data.Postgres\Pug.Application.Data.Postgres.csproj", "{AEDD8BBF-E296-43F6-A4E3-44282D530B46}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Application.Text", "Pug.Application.Text\Pug.Application.Text.csproj", "{0D11DB5D-F158-4829-AD50-AAB82F790F2A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Net", "Pug.Net\Pug.Net.csproj", "{638F88E3-70C6-4594-AB2A-471FDF1949DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,18 +32,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B038BB75-0909-4329-B39E-69D88F1BDE8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B038BB75-0909-4329-B39E-69D88F1BDE8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B038BB75-0909-4329-B39E-69D88F1BDE8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B038BB75-0909-4329-B39E-69D88F1BDE8D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2B98F237-D76A-40FF-8248-D224E226D81E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2B98F237-D76A-40FF-8248-D224E226D81E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B98F237-D76A-40FF-8248-D224E226D81E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B98F237-D76A-40FF-8248-D224E226D81E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7B76D89B-BB93-41B4-AF8C-C5292A764B15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B76D89B-BB93-41B4-AF8C-C5292A764B15}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B76D89B-BB93-41B4-AF8C-C5292A764B15}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B76D89B-BB93-41B4-AF8C-C5292A764B15}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F284A4BF-B545-4DAA-A837-8DE456870BEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F284A4BF-B545-4DAA-A837-8DE456870BEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F284A4BF-B545-4DAA-A837-8DE456870BEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -78,38 +56,13 @@ Global
 		{C44CC14A-E91F-40D8-87D9-DF21396645DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C44CC14A-E91F-40D8-87D9-DF21396645DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C44CC14A-E91F-40D8-87D9-DF21396645DD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2670E1AE-0B09-4D9C-A5DB-2646E49FE834}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2670E1AE-0B09-4D9C-A5DB-2646E49FE834}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2670E1AE-0B09-4D9C-A5DB-2646E49FE834}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2670E1AE-0B09-4D9C-A5DB-2646E49FE834}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CC4FF5E1-DC89-441A-83CB-92A8A91503F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC4FF5E1-DC89-441A-83CB-92A8A91503F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC4FF5E1-DC89-441A-83CB-92A8A91503F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC4FF5E1-DC89-441A-83CB-92A8A91503F6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{604703BB-262D-43B3-A637-98FF98E2EE77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{604703BB-262D-43B3-A637-98FF98E2EE77}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{604703BB-262D-43B3-A637-98FF98E2EE77}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{604703BB-262D-43B3-A637-98FF98E2EE77}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AEDD8BBF-E296-43F6-A4E3-44282D530B46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AEDD8BBF-E296-43F6-A4E3-44282D530B46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEDD8BBF-E296-43F6-A4E3-44282D530B46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEDD8BBF-E296-43F6-A4E3-44282D530B46}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0D11DB5D-F158-4829-AD50-AAB82F790F2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D11DB5D-F158-4829-AD50-AAB82F790F2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D11DB5D-F158-4829-AD50-AAB82F790F2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D11DB5D-F158-4829-AD50-AAB82F790F2A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{638F88E3-70C6-4594-AB2A-471FDF1949DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{638F88E3-70C6-4594-AB2A-471FDF1949DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{638F88E3-70C6-4594-AB2A-471FDF1949DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{638F88E3-70C6-4594-AB2A-471FDF1949DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{7B76D89B-BB93-41B4-AF8C-C5292A764B15} = {3F96EF91-50BF-4BF7-B14C-9C3073B55D81}
-		{2670E1AE-0B09-4D9C-A5DB-2646E49FE834} = {3F96EF91-50BF-4BF7-B14C-9C3073B55D81}
-		{604703BB-262D-43B3-A637-98FF98E2EE77} = {3F96EF91-50BF-4BF7-B14C-9C3073B55D81}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = PugFX.vsmdi
