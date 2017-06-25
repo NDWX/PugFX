@@ -1,6 +1,8 @@
 ﻿using System;
 
+#if NETFX
 using System.Transactions;
+#endif
 
 namespace Pug.Application.Data.Extensions
 {
@@ -32,7 +34,20 @@ namespace Pug.Application.Data.Extensions
 		/// <param name="errorHandler">Specifies if and how an error is to be handled. Corresponding error would be thrown by the function if this parameter is null.</param>
 		/// <param name="onSuccess">Action to perform upon successful completion of <paramref name="action"/>. Created instance of T data session would have already been disposed at this stage.</param>
 		/// <param name="onFinished">Action to perform upon completion of <paramref name="action"/> regardless of whether it was successful.</param>
-		public static void Perform<T, C>(this IApplicationData<T> applicationData, Action<T, C> action, C context, TransactionScopeOption transactionScopeOption = TransactionScopeOption.Required, Action<Exception, C> onError = null, Action<Exception, C> errorHandler = null, Action<C> onSuccess = null, Action<C> onFinished = null)
+		public static void Perform<T, C>(
+			this IApplicationData<T> applicationData, 
+			Action<T, C> action, 
+			C context,
+#if NETFX
+			TransactionScopeOption transactionScopeOption = TransactionScopeOption.Required,
+#else
+			bool transactionRequired = true, 
+#endif
+			Action<Exception, C> onError = null,
+			Action<Exception, C> errorHandler = null, 
+			Action<C> onSuccess = null, 
+			Action<C> onFinished = null
+		)		
 			where T : class, IApplicationDataSession
 		{
 			T dataSession = null;
@@ -42,15 +57,35 @@ namespace Pug.Application.Data.Extensions
 			{
 				dataSession = applicationData.GetSession();
 
+#if NETFX
 				using (TransactionScope tx = new TransactionScope(transactionScopeOption))
 				{
 					action(dataSession, context);
 
 					tx.Complete();
 				}
+#else
+				if (transactionRequired)
+				{
+					dataSession.BeginTransaction();
+
+					action(dataSession, context);
+				
+					dataSession.CommitTransaction();
+				}
+				else
+				{
+					action(dataSession, context);
+				}
+#endif
 			}
 			catch (Exception exception)
 			{
+#if !NETFX
+				if (transactionRequired)
+					dataSession.RollbackTransaction();
+#endif
+
 				successful = false;
 
 				if (onError != null)
@@ -81,7 +116,20 @@ namespace Pug.Application.Data.Extensions
 			}
 		}
 
-		public static R Call<T, C, R>(this IApplicationData<T> applicationData, Func<T, C, R> function, C context, TransactionScopeOption transactionScopeOption = TransactionScopeOption.Required, Action<Exception, C> onError = null, Action<Exception, C> errorHandler = null, Action<C> onSuccess = null, Action<C> onFinished = null)
+		public static R Call<T, C, R>(
+			this IApplicationData<T> applicationData, 
+			Func<T, C, R> function, 
+			C context,
+#if NETFX
+			TransactionScopeOption transactionScopeOption = TransactionScopeOption.Required,
+#else
+			bool transactionRequired = true, 
+#endif
+			Action<Exception, C> onError = null, 
+			Action<Exception, C> errorHandler = null, 
+			Action<C> onSuccess = null, 
+			Action<C> onFinished = null
+		)
 			where T : class, IApplicationDataSession
 		{
 			T dataSession = null;
@@ -90,17 +138,36 @@ namespace Pug.Application.Data.Extensions
 
 			try
 			{
-				dataSession = applicationData.GetSession();
-
+				dataSession = applicationData.GetSession();				
+#if NETFX
 				using (TransactionScope tx = new TransactionScope(transactionScopeOption))
 				{
 					result = function(dataSession, context);
 
 					tx.Complete();
 				}
+#else
+				if (transactionRequired)
+				{
+					dataSession.BeginTransaction();
+
+					result = function(dataSession, context);
+				
+					dataSession.CommitTransaction();
+				}
+				else
+				{
+					result = function(dataSession, context);
+				}
+#endif
 			}
 			catch (Exception exception)
 			{
+#if !NETFX
+				if (transactionRequired)
+					dataSession.RollbackTransaction();
+#endif
+
 				successful = false;
 
 				if (onError != null)

@@ -51,7 +51,7 @@ namespace Pug.Application.Threading
 			{
 				if (resourceComparer.Equals(resource, emptyResource))
 				{
-					waitHandle.Close();
+					waitHandle.Dispose();
 					isWaiting = false;
 
 					return !resourceComparer.Equals(this.Resource, emptyResource);

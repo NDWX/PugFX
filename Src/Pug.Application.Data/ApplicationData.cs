@@ -1,11 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data.Common;
-
-using System.Transactions;
-
 namespace Pug.Application.Data
 {
 	public abstract class ApplicationData<T>

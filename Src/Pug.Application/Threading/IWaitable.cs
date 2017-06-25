@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Pug.Application.Threading
+﻿namespace Pug.Application.Threading
 {
 	public interface IWaitable
 	{

@@ -3,102 +3,102 @@ using System.Threading;
 
 namespace Pug.Application.Threading.Synchronization
 {
-    internal class EntityLock : IDisposable
-    {
-        string identifier;
-        Mutex entityMutex;
+	internal class EntityLock : IDisposable
+	{
+		string identifier;
+		Mutex entityMutex;
 
-        object counterSync;
+		object counterSync;
 
-        int waitCounter;
-        bool locked;
-        DateTime lastLock = DateTime.MinValue;
+		int waitCounter;
+		bool locked;
+		DateTime lastLock = DateTime.MinValue;
 
-        internal EntityLock(string identifier, Mutex mutex)
-        {
-            this.identifier = identifier;
-            counterSync = new object();
+		internal EntityLock(string identifier, Mutex mutex)
+		{
+			this.identifier = identifier;
+			counterSync = new object();
 
-            this.entityMutex = mutex;
-        }
+			this.entityMutex = mutex;
+		}
 
-        void IncreaseLockWait()
-        {
-            Monitor.Enter(counterSync);
+		void IncreaseLockWait()
+		{
+			Monitor.Enter(counterSync);
 
-            waitCounter++;
+			waitCounter++;
 
-            Monitor.Exit(counterSync);
-        }
+			Monitor.Exit(counterSync);
+		}
 
-        void DecreaseLockWait()
-        {
-            Monitor.Enter(counterSync);
+		void DecreaseLockWait()
+		{
+			Monitor.Enter(counterSync);
 
-            waitCounter--;
+			waitCounter--;
 
-            Monitor.Exit(counterSync);
-        }
+			Monitor.Exit(counterSync);
+		}
 
-        public bool TryLock(int timeout)
-        {
-            IncreaseLockWait();
+		public bool TryLock(int timeout)
+		{
+			IncreaseLockWait();
 
-            bool entityLocked = entityMutex.WaitOne(timeout, false);
+			bool entityLocked = entityMutex.WaitOne(timeout);
 
-            if (entityLocked)
-            {
-                lastLock = DateTime.Now;
-                locked = true;
-            }
+			if (entityLocked)
+			{
+				lastLock = DateTime.Now;
+				locked = true;
+			}
 
-            DecreaseLockWait();
+			DecreaseLockWait();
 
-            return entityLocked;
-        }
+			return entityLocked;
+		}
 
-        public void ReleaseLock()
-        {
-            locked = false;
-            entityMutex.ReleaseMutex();
-        }
+		public void ReleaseLock()
+		{
+			locked = false;
+			entityMutex.ReleaseMutex();
+		}
 
-        public int WaitCounter
-        {
-            get { return waitCounter; }
-            set { waitCounter = value; }
-        }
+		public int WaitCounter
+		{
+			get { return waitCounter; }
+			set { waitCounter = value; }
+		}
 
-        public bool Locked
-        {
-            get { return locked; }
-            set { locked = value; }
-        }
+		public bool Locked
+		{
+			get { return locked; }
+			set { locked = value; }
+		}
 
-        public DateTime LastLock
-        {
-            get { return lastLock; }
-            set { lastLock = value; }
-        }
+		public DateTime LastLock
+		{
+			get { return lastLock; }
+			set { lastLock = value; }
+		}
 
-        #region IDisposable Members
+		#region IDisposable Members
 
-        public void Dispose()
-        {
-            Monitor.Enter(counterSync);
+		public void Dispose()
+		{
+			Monitor.Enter(counterSync);
 
-            if (this.locked || this.waitCounter > 0)
-                throw new EntityLocked(this.identifier);
+			if (this.locked || this.waitCounter > 0)
+				throw new EntityLocked(this.identifier);
 
-            this.entityMutex.Close();
-            this.entityMutex = null;
+			this.entityMutex.Dispose();
+			this.entityMutex = null;
 
-            Monitor.Exit(counterSync);
+			Monitor.Exit(counterSync);
 
-            GC.SuppressFinalize(this);
-        }
+			GC.SuppressFinalize(this);
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 
 }

@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Data.Common;
+#if NETFX
+using System.Transactions;
+#endif
 
 namespace Pug.Application.Data
 {
@@ -50,13 +54,13 @@ namespace Pug.Application.Data
 		{
 			DatabaseSession.CommitTransaction();
 		}
-
-		public void EnlistInTransaction(System.Transactions.Transaction transaction)
+#if NETFX
+		public void EnlistInTransaction(Transaction transaction)
 		{
 			DatabaseSession.EnlistTransaction(transaction);
 		}
-
-		#endregion
+#endif
+#endregion
 		
 		protected T EvaluateIsNullToDefault<T>(object obj)
 		{
@@ -76,13 +80,13 @@ namespace Pug.Application.Data
 			return (T)obj;
 		}
 
-		#region IDisposable Members
+#region IDisposable Members
 
 		public virtual void Dispose()
 		{
 			DatabaseSession.Close();
 		}
 
-		#endregion
+#endregion
 	}
 }

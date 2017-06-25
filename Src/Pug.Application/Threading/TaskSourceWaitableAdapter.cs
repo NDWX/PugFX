@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Pug.Application.Threading
+﻿namespace Pug.Application.Threading
 {
 	public class TaskSourceWaitableAdapter<T> : IWaitable<T>
 	{

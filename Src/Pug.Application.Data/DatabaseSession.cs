@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Data;
 using System.Data.Common;
+#if NETFX
 using System.Transactions;
+#endif
 
 namespace Pug.Application.Data
 {
@@ -9,7 +11,10 @@ namespace Pug.Application.Data
 	{
 		DbConnection connection;
 		DbTransaction transaction;
+		
+		#if NETFX
 		Transaction distributedTransaction;
+		#endif
 
 		//DbProviderFactory dbProviderFactory;
 
@@ -56,17 +61,6 @@ namespace Pug.Application.Data
 		{
 			if (this.transaction == null)
 				throw new TransactionNotStarted();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <exception cref="EnlistedInDistributedTransaction"></exception>
-		void CheckEnlistedInDistributedTransaction()
-		{
-			if (this.distributedTransaction != null)
-				throw new EnlistedInDistributedTransaction();
-
 		}
 
 		void Prepare(DbCommand command)
@@ -124,8 +118,9 @@ namespace Pug.Application.Data
 		public void BeginTransaction()
 		{
 			CheckConnectionIsOpen();
+#if NETFX
 			CheckEnlistedInDistributedTransaction();
-
+#endif
 			CheckTransactionNotExist();
 
 			try
@@ -147,8 +142,9 @@ namespace Pug.Application.Data
 		public void BeginTransaction(System.Data.IsolationLevel isolationLevel)
 		{
 			CheckConnectionIsOpen();
+#if NETFX
 			CheckEnlistedInDistributedTransaction();
-
+#endif
 			CheckTransactionNotExist();
 			
 			try
@@ -159,6 +155,18 @@ namespace Pug.Application.Data
 			{
 				exceptionHandler( exception );
 			}
+		}
+
+#if NETFX
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <exception cref="EnlistedInDistributedTransaction"></exception>
+		void CheckEnlistedInDistributedTransaction()
+		{
+			if (this.distributedTransaction != null)
+				throw new EnlistedInDistributedTransaction();
+
 		}
 
 		/// <summary>
@@ -180,6 +188,7 @@ namespace Pug.Application.Data
 		{
 			this.distributedTransaction = null;
 		}
+#endif
 
 		/// <summary>
 		/// 

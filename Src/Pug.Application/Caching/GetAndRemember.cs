@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Pug
+namespace Pug.Application.Caching
 {
-	public class LocalGetAndRemember<K, V> : IGetAndRemember<K, V> where K : IEquatable<K>, IComparable<K>
+	public class LocalGetAndRemember<K, V> : ICache<K, V> where K : IEquatable<K>, IComparable<K>
 	{
 		IDictionary<K, V> remembered;
 		Func<K, V> source;

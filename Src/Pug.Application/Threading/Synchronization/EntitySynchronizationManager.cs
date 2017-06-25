@@ -3,319 +3,319 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Threading;
-using System.Timers;
 
 namespace Pug.Application.Threading.Synchronization
 {
-    public class EntitySynchronizationManager : IDisposable
-    {
-        static string GetRandomIdentity()
-        {
-            return Guid.NewGuid().ToString();
-        }
+	public class EntitySynchronizationManager : IDisposable
+	{
+		static string GetRandomIdentity()
+		{
+			return Guid.NewGuid().ToString();
+		}
 
-        static IdentityTracker<string> identityTracker = new IdentityTracker<string>(GetRandomIdentity);
+		static IdentityTracker<string> identityTracker = new IdentityTracker<string>(GetRandomIdentity);
 
-        string name;
-        HybridDictionary locks;
-        ReaderWriterLockSlim globalLock;
-        TimeSpan lockIdleTimeout;
-        bool isDisposing, isDisposed;
+		string name;
+		HybridDictionary locks;
+		ReaderWriterLockSlim globalLock;
+		TimeSpan lockIdleTimeout;
+		bool isDisposing, isDisposed;
+		int cleanupInterval;
 
-        System.Timers.Timer cleanupTimer;
+		Timer cleanupTimer;
 #if TRACE
-        TraceSwitch traceSwitch;
+		TraceSwitch traceSwitch;
 #endif
-        public EntitySynchronizationManager(string name, bool identityIsCaseSensitive, TimeSpan lockIdleTimeout, int cleanupInterval)
-        {
-            this.name = name;
+		public EntitySynchronizationManager(string name, bool identityIsCaseSensitive, TimeSpan lockIdleTimeout, int cleanupInterval)
+		{
+			this.name = name;
 
-            if (!identityTracker.RegisterIdentifier(name))
-                throw new ArgumentException(string.Format("Specified name: {0} is already used", name), "name");
+			if (!identityTracker.RegisterIdentifier(name))
+				throw new ArgumentException(string.Format("Specified name: {0} is already used", name), "name");
 
-            globalLock = new ReaderWriterLockSlim();
+			globalLock = new ReaderWriterLockSlim();
 
-            locks = new HybridDictionary(!identityIsCaseSensitive);
+			locks = new HybridDictionary(!identityIsCaseSensitive);
 
-            this.lockIdleTimeout = lockIdleTimeout;
+			this.lockIdleTimeout = lockIdleTimeout;
 
-            cleanupTimer = new System.Timers.Timer(cleanupInterval);
-            cleanupTimer.AutoReset = false;
-            cleanupTimer.Elapsed += new ElapsedEventHandler(cleanupTimer_Elapsed);
+			cleanupTimer = new Timer(new TimerCallback(cleanupTimer_Elapsed), null, Timeout.Infinite, 0);
+
+			this.cleanupInterval = cleanupInterval;
 #if TRACE
-            traceSwitch = new TraceSwitch("Pug.Application.Threading.EntitySynchronizationManager", "Entity Threading Trace");
+			traceSwitch = new TraceSwitch("Pug.Application.Threading.EntitySynchronizationManager", "Entity Threading Trace");
 #endif
-        }
+		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="identityIsCaseSensitive"></param>
-        /// <param name="lockIdleTimeout"></param>
-        /// <param name="cleanupInterval"></param>
-        public EntitySynchronizationManager(bool identityIsCaseSensitive, TimeSpan lockIdleTimeout, int cleanupInterval)
-            : this(identityTracker.GetNewIdentifier(), identityIsCaseSensitive, lockIdleTimeout, cleanupInterval)
-        {
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="identityIsCaseSensitive"></param>
+		/// <param name="lockIdleTimeout"></param>
+		/// <param name="cleanupInterval"></param>
+		public EntitySynchronizationManager(bool identityIsCaseSensitive, TimeSpan lockIdleTimeout, int cleanupInterval)
+			: this(identityTracker.GetNewIdentifier(), identityIsCaseSensitive, lockIdleTimeout, cleanupInterval)
+		{
+		}
 
-        void cleanupTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            Cleanup();
-        }
+		void cleanupTimer_Elapsed(object state)
+		{
+			Cleanup();
+		}
 
-        void Cleanup()
-        {
+		void Cleanup()
+		{
 #if TRACE
-            Trace.WriteLineIf(this.traceSwitch.TraceVerbose, "Starting cleanup");
+			Trace.WriteLineIf(this.traceSwitch.TraceVerbose, "Starting cleanup");
 #endif
-            string[] entities = new string[locks.Count];
+			string[] entities = new string[locks.Count];
 
-            this.locks.Keys.CopyTo(entities, 0);            
+			this.locks.Keys.CopyTo(entities, 0);            
 #if TRACE
-            Trace.WriteLineIf(this.traceSwitch.TraceVerbose, string.Format("{0} entities to check.", locks.Count.ToString()));
+			Trace.WriteLineIf(this.traceSwitch.TraceVerbose, string.Format("{0} entities to check.", locks.Count.ToString()));
 #endif
-            object lockObj;
-            EntityLock entityLock;
-            TimeSpan idle;
+			object lockObj;
+			EntityLock entityLock;
+			TimeSpan idle;
 
-            foreach (string entity in entities)
-            {
-                if (isDisposing || isDisposed)
-                    return;
+			foreach (string entity in entities)
+			{
+				if (isDisposing || isDisposed)
+					return;
 
-                if (string.IsNullOrEmpty(entity))
-                    continue;
+				if (string.IsNullOrEmpty(entity))
+					continue;
 #if TRACE
-                Trace.WriteLineIf(this.traceSwitch.TraceVerbose, string.Format("Checking {0} . . .", entity));
+				Trace.WriteLineIf(this.traceSwitch.TraceVerbose, string.Format("Checking {0} . . .", entity));
 #endif
-                if (!locks.Contains(entity))
-                {
+				if (!locks.Contains(entity))
+				{
 #if TRACE
-                    Trace.WriteLineIf(this.traceSwitch.TraceWarning, string.Format("Lock {0} not found", entity));
+					Trace.WriteLineIf(this.traceSwitch.TraceWarning, string.Format("Lock {0} not found", entity));
 #endif
-                    continue;
-                }
+					continue;
+				}
 
-                lockObj = locks[entity];
+				lockObj = locks[entity];
 
-                if (lockObj == null)
-                    continue;
+				if (lockObj == null)
+					continue;
 
-                entityLock = (EntityLock)lockObj;
+				entityLock = (EntityLock)lockObj;
 
-                idle = DateTime.Now.Subtract(entityLock.LastLock);                
+				idle = DateTime.Now.Subtract(entityLock.LastLock);                
 #if TRACE
-                Trace.WriteLineIf(this.traceSwitch.TraceVerbose, string.Format("Lock {0} {1}locked.", entity, entityLock.Locked? string.Empty:"not "));
-                Trace.WriteLineIf(this.traceSwitch.TraceVerbose, string.Format("Lock {0} idle for {1}.", entity, idle.TotalMilliseconds.ToString()));
-                Trace.WriteLineIf(this.traceSwitch.TraceVerbose, string.Format("Lock {0} wait: {1}.", entity, entityLock.WaitCounter.ToString()));
+				Trace.WriteLineIf(this.traceSwitch.TraceVerbose, string.Format("Lock {0} {1}locked.", entity, entityLock.Locked? string.Empty:"not "));
+				Trace.WriteLineIf(this.traceSwitch.TraceVerbose, string.Format("Lock {0} idle for {1}.", entity, idle.TotalMilliseconds.ToString()));
+				Trace.WriteLineIf(this.traceSwitch.TraceVerbose, string.Format("Lock {0} wait: {1}.", entity, entityLock.WaitCounter.ToString()));
 #endif
-                if (!entityLock.Locked && entityLock.WaitCounter == 0 && idle.CompareTo(lockIdleTimeout) > -1)
-                {
+				if (!entityLock.Locked && entityLock.WaitCounter == 0 && idle.CompareTo(lockIdleTimeout) > -1)
+				{
 #if TRACE
-                    Trace.WriteLineIf(this.traceSwitch.TraceInfo, string.Format("Lock {0} expired.", entity));
+					Trace.WriteLineIf(this.traceSwitch.TraceInfo, string.Format("Lock {0} expired.", entity));
 #endif
-                    globalLock.EnterWriteLock();
+					globalLock.EnterWriteLock();
 
-                    try
-                    {
-                        entityLock.Dispose();
-                    }
-                    catch (EntityLocked)
-                    {
-                        globalLock.ExitWriteLock();
-                        continue;
-                    }
+					try
+					{
+						entityLock.Dispose();
+					}
+					catch (EntityLocked)
+					{
+						globalLock.ExitWriteLock();
+						continue;
+					}
 
-                    locks.Remove(entity);                    
+					locks.Remove(entity);                    
 #if TRACE
-                    Trace.WriteLineIf(this.traceSwitch.TraceInfo, string.Format("Lock {0} removed.", entity));
+					Trace.WriteLineIf(this.traceSwitch.TraceInfo, string.Format("Lock {0} removed.", entity));
 #endif
-                    globalLock.ExitWriteLock();
-                }
-            }
+					globalLock.ExitWriteLock();
+				}
+			}
 
-            if ( this.locks.Count > 0 && !isDisposing )
-            {
-                this.cleanupTimer.Start();
+			if ( this.locks.Count > 0 && !isDisposing )
+			{
+				this.cleanupTimer.Change(cleanupInterval, 0);
 #if TRACE
-                Trace.WriteLineIf(this.traceSwitch.TraceInfo, "Cleanup timer restarted");
+				Trace.WriteLineIf(this.traceSwitch.TraceInfo, "Cleanup timer restarted");
 #endif
-            }
-        }
+			}
+		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="identifier"></param>
-        /// <param name="timeout"></param>
-        /// <returns></returns>
-        /// <exception cref="ObjectDisposedException"></exception>
-        public bool ObtainLock(string identifier, int timeout)
-        {
-            bool locked = false;
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="identifier"></param>
+		/// <param name="timeout"></param>
+		/// <returns></returns>
+		/// <exception cref="ObjectDisposedException"></exception>
+		public bool ObtainLock(string identifier, int timeout)
+		{
+			bool locked = false;
 
-            EntityLock entityLock;
+			EntityLock entityLock;
 
-            if (isDisposing)
-            {
-                throw new ObjectDisposedException("EntitySynchronizationManager");
-            }
+			if (isDisposing)
+			{
+				throw new ObjectDisposedException("EntitySynchronizationManager");
+			}
 
-            globalLock.EnterUpgradeableReadLock();
+			globalLock.EnterUpgradeableReadLock();
 
-            if (isDisposed)
-            {
-                globalLock.ExitUpgradeableReadLock();
-                throw new ObjectDisposedException("EntitySynchronizationManager");
-            }
+			if (isDisposed)
+			{
+				globalLock.ExitUpgradeableReadLock();
+				throw new ObjectDisposedException("EntitySynchronizationManager");
+			}
 
-            if (locks.Contains(identifier))
-            {                
+			if (locks.Contains(identifier))
+			{                
 #if TRACE
-                Trace.WriteLineIf(this.traceSwitch.TraceInfo, string.Format("{0}: Lock for {1} already exists, reusing.", System.Threading.Thread.CurrentThread.ManagedThreadId, identifier));
+				Trace.WriteLineIf(this.traceSwitch.TraceInfo, string.Format("{0}: Lock for {1} already exists, reusing.", System.Threading.Thread.CurrentThread.ManagedThreadId, identifier));
 #endif
-                entityLock = (EntityLock)locks[identifier];
+				entityLock = (EntityLock)locks[identifier];
 
-                globalLock.ExitUpgradeableReadLock();
+				globalLock.ExitUpgradeableReadLock();
 
-                locked = entityLock.TryLock(timeout);
-            }
-            else
-            {
+				locked = entityLock.TryLock(timeout);
+			}
+			else
+			{
 #if TRACE
-                Trace.WriteLineIf(this.traceSwitch.TraceInfo, string.Format("{0}: Lock for {1} does not exist, creating . . .", System.Threading.Thread.CurrentThread.ManagedThreadId, identifier));
+				Trace.WriteLineIf(this.traceSwitch.TraceInfo, string.Format("{0}: Lock for {1} does not exist, creating . . .", System.Threading.Thread.CurrentThread.ManagedThreadId, identifier));
 #endif
-                entityLock = new EntityLock(identifier, new Mutex(false));
-                entityLock.TryLock(timeout);
+				entityLock = new EntityLock(identifier, new Mutex(false));
+				entityLock.TryLock(timeout);
 
-                globalLock.EnterWriteLock();
+				globalLock.EnterWriteLock();
 
-                if (locks.Contains(identifier))
-                {
-                    globalLock.ExitWriteLock();
+				if (locks.Contains(identifier))
+				{
+					globalLock.ExitWriteLock();
 
-                    entityLock.Dispose();
+					entityLock.Dispose();
 
-                    entityLock = (EntityLock)locks[identifier];
+					entityLock = (EntityLock)locks[identifier];
 
-                    locked = entityLock.TryLock(timeout);
-                }
-                else
-                {
-                    locks.Add(identifier, entityLock);
+					locked = entityLock.TryLock(timeout);
+				}
+				else
+				{
+					locks.Add(identifier, entityLock);
 
-                    globalLock.ExitWriteLock();
-                    globalLock.ExitUpgradeableReadLock();
+					globalLock.ExitWriteLock();
+					globalLock.ExitUpgradeableReadLock();
 
-                    if (this.locks.Count > 0 && !cleanupTimer.Enabled)
-                    {
-                        cleanupTimer.Start();
+					if (this.locks.Count > 0)
+					{
+						this.cleanupTimer.Change(cleanupInterval, 0);
 #if TRACE
-                        Trace.WriteLineIf(this.traceSwitch.TraceInfo, "Cleanup timer started");
+						Trace.WriteLineIf(this.traceSwitch.TraceInfo, "Cleanup timer started");
 #endif
-                    }
+					}
 
-                    locked = true;
-                }
-            }            
+					locked = true;
+				}
+			}            
 #if TRACE
-            Trace.WriteLineIf(this.traceSwitch.TraceInfo, string.Format("{0}: lock for {1} {2}obtained.", System.Threading.Thread.CurrentThread.ManagedThreadId, identifier, locked ? string.Empty : "not "));
+			Trace.WriteLineIf(this.traceSwitch.TraceInfo, string.Format("{0}: lock for {1} {2}obtained.", System.Threading.Thread.CurrentThread.ManagedThreadId, identifier, locked ? string.Empty : "not "));
 #endif
-            return locked;
-        }
+			return locked;
+		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="identifier"></param>
-        /// <exception cref="ObjectDisposedException"></exception>
-        public void ReleaseLock(string identifier)
-        {
-            EntityLock entityLock;
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="identifier"></param>
+		/// <exception cref="ObjectDisposedException"></exception>
+		public void ReleaseLock(string identifier)
+		{
+			EntityLock entityLock;
 
-            if (isDisposed )
-                throw new ObjectDisposedException("EntitySynchronizationManager");
+			if (isDisposed )
+				throw new ObjectDisposedException("EntitySynchronizationManager");
 
-            if( !locks.Contains(identifier) )
-                throw new ArgumentOutOfRangeException();
+			if( !locks.Contains(identifier) )
+				throw new ArgumentOutOfRangeException();
 
-            entityLock = (EntityLock)locks[identifier];
+			entityLock = (EntityLock)locks[identifier];
 
-            try
-            {
-                entityLock.ReleaseLock();
-            }
-            catch (ApplicationException)
-            {
+			try
+			{
+				entityLock.ReleaseLock();
+			}
+			catch (Exception)
+			{
 #if TRACE
-                Trace.WriteLineIf(this.traceSwitch.TraceWarning, string.Format("{0}: Lock for {1} was not obtained.", System.Threading.Thread.CurrentThread.ManagedThreadId, identifier));
+				Trace.WriteLineIf(this.traceSwitch.TraceWarning, string.Format("{0}: Lock for {1} was not obtained.", System.Threading.Thread.CurrentThread.ManagedThreadId, identifier));
 #endif
-                return;
-            }            
+				return;
+			}            
 #if TRACE
-            Trace.WriteLineIf(this.traceSwitch.TraceInfo, string.Format("{0}: Lock for {1} released.", System.Threading.Thread.CurrentThread.ManagedThreadId, identifier));
+			Trace.WriteLineIf(this.traceSwitch.TraceInfo, string.Format("{0}: Lock for {1} released.", System.Threading.Thread.CurrentThread.ManagedThreadId, identifier));
 #endif
-        }
+		}
 
-        #region IDisposable Members
+		#region IDisposable Members
 
-        public void Dispose()
-        {
-            isDisposing = true;
+		public void Dispose()
+		{
+			isDisposing = true;
 
-            this.Dispose(true);
+			this.Dispose(true);
 
-            isDisposing = false;
+			isDisposing = false;
 
-            GC.SuppressFinalize(this);
-        }
+			GC.SuppressFinalize(this);
+		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="cleanupManagedResources"></param>
-        /// <exception cref="EntityLocked"></exception>
-        protected virtual void Dispose(bool cleanupManagedResources)
-        {
-            if (cleanupManagedResources)
-            {
-                this.cleanupTimer.Stop();
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="cleanupManagedResources"></param>
+		/// <exception cref="EntityLocked"></exception>
+		protected virtual void Dispose(bool cleanupManagedResources)
+		{
+			if (cleanupManagedResources)
+			{
+				this.cleanupTimer.Change(Timeout.Infinite, 0);
 
-                globalLock.EnterWriteLock();
+				globalLock.EnterWriteLock();
 
-                ArrayList entities = new ArrayList(locks.Count);
+				ArrayList entities = new ArrayList(locks.Count);
 
-                IDictionaryEnumerator enumerator = this.locks.GetEnumerator();
+				IDictionaryEnumerator enumerator = this.locks.GetEnumerator();
 
-                while (enumerator.MoveNext())
-                {
-                    try
-                    {
-                        ((EntityLock)enumerator.Value).Dispose();
+				while (enumerator.MoveNext())
+				{
+					try
+					{
+						((EntityLock)enumerator.Value).Dispose();
 
-                        entities.Add(enumerator.Key);
-                    }
-                    catch (EntityLocked)
-                    {
-                        foreach (object entity in entities)
-                            locks.Remove(entity);
+						entities.Add(enumerator.Key);
+					}
+					catch (EntityLocked)
+					{
+						foreach (object entity in entities)
+							locks.Remove(entity);
 
-                        throw;
-                    }
-                }
+						throw;
+					}
+				}
 
-                this.locks.Clear();
+				this.locks.Clear();
 
-                isDisposed = true;
+				isDisposed = true;
 
-                globalLock.ExitWriteLock();
+				globalLock.ExitWriteLock();
 
-                cleanupTimer.Dispose();
+				cleanupTimer.Dispose();
 
-                globalLock.Dispose();
-            }
-        }
+				globalLock.Dispose();
+			}
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

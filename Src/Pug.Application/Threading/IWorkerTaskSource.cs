@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace Pug.Application.Threading
+﻿namespace Pug.Application.Threading
 {
-    public interface IWorkerTaskSource<T>// : IWaitable<T>
+	public interface IWorkerTaskSource<T>// : IWaitable<T>
     {
         bool HasTasks { get; }
         bool GetNextTask(ref T task);

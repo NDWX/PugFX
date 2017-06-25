@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Pug
+namespace Pug.Application.Caching
 {
-	public interface IGetAndRemember<K, V>
+	public interface ICache<K, V>
 		where K : IEquatable<K>, IComparable<K>
 	{
 		V this[K key]

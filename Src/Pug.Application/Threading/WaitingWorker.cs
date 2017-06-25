@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 
@@ -157,7 +156,7 @@ namespace Pug.Application.Threading
 					
 			}
 
-			taskWait.Close();
+			taskWait.Dispose();
 
 			isWaiting = false;
 
@@ -213,7 +212,7 @@ namespace Pug.Application.Threading
 #endif
 				try
 				{
-					workingWaitHandle.Close();
+					workingWaitHandle.Dispose();
 				}
 				catch
 				{

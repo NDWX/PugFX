@@ -155,7 +155,7 @@ namespace Pug.Application.Threading
 
 		public void Dispose()
 		{
-			taskWaitHandle.Close();
+			taskWaitHandle.Dispose();
 		}
 	}
 }

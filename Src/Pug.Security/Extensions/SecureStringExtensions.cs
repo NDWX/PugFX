@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Security;
-using System.ComponentModel;
 
 using System.Runtime.InteropServices;
 
@@ -19,8 +16,11 @@ namespace Pug.Application.Security.Extensions
 
 			try
 			{
+#if NETFX
 				dataPointer = Marshal.SecureStringToGlobalAllocUnicode(secret);
-
+#else
+				dataPointer = SecureStringMarshal.SecureStringToGlobalAllocUnicode(secret);
+#endif
 				for (int dataIdx = 0; dataIdx < secret.Length * 2; dataIdx++)
 					data[dataIdx] = Marshal.ReadByte(dataPointer, dataIdx);
 			}

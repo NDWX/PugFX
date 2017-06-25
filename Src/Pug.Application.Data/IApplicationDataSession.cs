@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+#if NETFX
 using System.Transactions;
+#endif
 
 namespace Pug.Application.Data
 {
@@ -13,7 +12,8 @@ namespace Pug.Application.Data
         void RollbackTransaction();
 
         void CommitTransaction();
-
+#if NETFX
         void EnlistInTransaction(Transaction transaction);
+#endif
     }
 }
