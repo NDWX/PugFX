@@ -4,25 +4,28 @@ using System.Security.Principal;
 
 namespace Pug.Application.Security
 {
+
 	public class User : Pug.Application.Security.IUser, System.Security.Principal.IPrincipal
 	{
 		IPrincipalIdentity identity;
-		IUserSecurity userSecurity;
+		IUserRoleProvider userRoleProvider;
+		IAuthorizationProvider userSecurity;
 
-		public User(IPrincipalIdentity credentials, IUserSecurity userSecurity)
+		public User(IPrincipalIdentity credentials, IUserRoleProvider userRoleProvider, IAuthorizationProvider userSecurity)
 		{
 			this.identity = credentials;
+			this.userRoleProvider = userRoleProvider;
 			this.userSecurity = userSecurity;
 		}
 
 		public bool IsInRole(string role)
 		{
-			return userSecurity.UserIsInRole(identity, role);
+			return userRoleProvider.UserIsInRole(identity.Identifier, role);
 		}
 
-		public bool IsAuthorized(string operation, ICollection<string> objectNames, IDictionary<string, string> context)
+		public bool IsAuthorized( IDictionary<string, string> context, string operation, string objectType, string objectName = "" )
 		{
-			return userSecurity.UserIsAuthorized(identity, operation, objectNames, context);
+			return userSecurity.UserIsAuthorized( context, identity, operation, objectType, objectName);
 		}
 
 		public IPrincipalIdentity Identity

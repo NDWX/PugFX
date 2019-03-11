@@ -1,10 +1,18 @@
-namespace Pug.Application
+﻿namespace Pug.Application
 {
-	public interface IApplicationUserSessionProvider
-	{
-		ApplicationUserSession CurrentSession
-		{
-			get;
-		}
-	}
+    public delegate void SessionEventHandler(IUserSession session);
+
+    public interface IUserSessionProvider
+    {
+        event SessionEventHandler SessionStarted;
+
+        event SessionEventHandler SessionEnded;
+
+        IUserSession CurrentSession
+        {
+            get;
+        }
+    }
 }
+
+

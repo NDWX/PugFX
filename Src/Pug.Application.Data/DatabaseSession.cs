@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 #if NETFX
@@ -7,14 +8,15 @@ using System.Transactions;
 
 namespace Pug.Application.Data
 {
-	public class DatabaseSession
+
+    public class DatabaseSession
 	{
 		DbConnection connection;
 		DbTransaction transaction;
 		
-		#if NETFX
+#if NETFX
 		Transaction distributedTransaction;
-		#endif
+#endif
 
 		//DbProviderFactory dbProviderFactory;
 
@@ -260,7 +262,8 @@ namespace Pug.Application.Data
 		/// 
 		/// </summary>
 		/// <exception cref="NotConnected"></exception>
-		public DbDataReader ExecuteQuery(DbCommand command)
+        [Obsolete( "Use ExecuteQuery<R>( DbCommand command, Func<DbDataReader, R> func ) instead.")]
+        public DbDataReader ExecuteQuery(DbCommand command)
 		{
 			CheckConnectionIsOpen();
 			
@@ -278,13 +281,23 @@ namespace Pug.Application.Data
 			}
 
 			return dataReader;
-		}
+        }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <exception cref="NotConnected"></exception>
-		public DbDataReader ExecuteQuery(DbCommand command, CommandBehavior behavior)
+        public void ExecuteQuery( DbCommand command, Action<DbDataReader> action )
+        {
+            ExecuteQuery( command, CommandBehavior.Default, action );
+        }
+
+        public R ExecuteQuery<R>( DbCommand command, Func<DbDataReader, R> func )
+        {
+            return ExecuteQuery( command, CommandBehavior.Default, func );
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <exception cref="NotConnected"></exception>
+        public DbDataReader ExecuteQuery(DbCommand command, CommandBehavior behavior)
 		{
 			CheckConnectionIsOpen();
 
@@ -302,13 +315,33 @@ namespace Pug.Application.Data
 			}
 
 			return dataReader;
-		}
+        }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <exception cref="NotConnected"></exception>
-		public object ExecuteScalar(DbCommand command)
+        public void ExecuteQuery( DbCommand command, CommandBehavior behavior, Action<DbDataReader> action )
+        {
+            using ( DbDataReader dataReader = ExecuteQuery( command, behavior ) )
+            {
+                action( dataReader );
+            }
+        }
+
+        public R ExecuteQuery<R>( DbCommand command, CommandBehavior behavior, Func<DbDataReader, R> func )
+        {
+            R returnValue = default( R );
+
+            using (DbDataReader dataReader = ExecuteQuery(command, behavior) )
+            {
+                returnValue = func( dataReader );
+            }
+            
+            return returnValue;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <exception cref="NotConnected"></exception>
+        public object ExecuteScalar(DbCommand command)
 		{
 			CheckConnectionIsOpen();
 

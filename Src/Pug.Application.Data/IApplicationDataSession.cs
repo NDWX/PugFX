@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Data;
+using System.Data.Common;
+using System.Collections.Generic;
 #if NETFX
 using System.Transactions;
 #endif
@@ -9,9 +12,9 @@ namespace Pug.Application.Data
     {
         void BeginTransaction();
 
-        void RollbackTransaction();
-
         void CommitTransaction();
+
+        void RollbackTransaction();
 #if NETFX
         void EnlistInTransaction(Transaction transaction);
 #endif

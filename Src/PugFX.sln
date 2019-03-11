@@ -32,6 +32,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application.Data.SqlSer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Core", "Pug.Core\Pug.Core.csproj", "{6F790938-D789-4C98-9693-DE980DAAEB7B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application.ServiceModel", "Pug.Application.ServiceModel\Pug.Application.ServiceModel.csproj", "{5D9806F0-D678-4E70-B29F-45DE2CEC86E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Web.AspNet.Core.Session", "Pug.Web.AspNet.Core.Session\Pug.Web.AspNet.Core.Session.csproj", "{132AF8F5-AA00-4AD3-99C8-7BD1DE78D268}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -150,12 +154,39 @@ Global
 		{6F790938-D789-4C98-9693-DE980DAAEB7B}.Release|x64.Build.0 = Release|Any CPU
 		{6F790938-D789-4C98-9693-DE980DAAEB7B}.Release|x86.ActiveCfg = Release|Any CPU
 		{6F790938-D789-4C98-9693-DE980DAAEB7B}.Release|x86.Build.0 = Release|Any CPU
+		{5D9806F0-D678-4E70-B29F-45DE2CEC86E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D9806F0-D678-4E70-B29F-45DE2CEC86E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D9806F0-D678-4E70-B29F-45DE2CEC86E6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5D9806F0-D678-4E70-B29F-45DE2CEC86E6}.Debug|x64.Build.0 = Debug|Any CPU
+		{5D9806F0-D678-4E70-B29F-45DE2CEC86E6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5D9806F0-D678-4E70-B29F-45DE2CEC86E6}.Debug|x86.Build.0 = Debug|Any CPU
+		{5D9806F0-D678-4E70-B29F-45DE2CEC86E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D9806F0-D678-4E70-B29F-45DE2CEC86E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D9806F0-D678-4E70-B29F-45DE2CEC86E6}.Release|x64.ActiveCfg = Release|Any CPU
+		{5D9806F0-D678-4E70-B29F-45DE2CEC86E6}.Release|x64.Build.0 = Release|Any CPU
+		{5D9806F0-D678-4E70-B29F-45DE2CEC86E6}.Release|x86.ActiveCfg = Release|Any CPU
+		{5D9806F0-D678-4E70-B29F-45DE2CEC86E6}.Release|x86.Build.0 = Release|Any CPU
+		{132AF8F5-AA00-4AD3-99C8-7BD1DE78D268}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{132AF8F5-AA00-4AD3-99C8-7BD1DE78D268}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{132AF8F5-AA00-4AD3-99C8-7BD1DE78D268}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{132AF8F5-AA00-4AD3-99C8-7BD1DE78D268}.Debug|x64.Build.0 = Debug|Any CPU
+		{132AF8F5-AA00-4AD3-99C8-7BD1DE78D268}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{132AF8F5-AA00-4AD3-99C8-7BD1DE78D268}.Debug|x86.Build.0 = Debug|Any CPU
+		{132AF8F5-AA00-4AD3-99C8-7BD1DE78D268}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{132AF8F5-AA00-4AD3-99C8-7BD1DE78D268}.Release|Any CPU.Build.0 = Release|Any CPU
+		{132AF8F5-AA00-4AD3-99C8-7BD1DE78D268}.Release|x64.ActiveCfg = Release|Any CPU
+		{132AF8F5-AA00-4AD3-99C8-7BD1DE78D268}.Release|x64.Build.0 = Release|Any CPU
+		{132AF8F5-AA00-4AD3-99C8-7BD1DE78D268}.Release|x86.ActiveCfg = Release|Any CPU
+		{132AF8F5-AA00-4AD3-99C8-7BD1DE78D268}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{31F1E8F1-6CE8-4B40-A3D0-2D52190C9C30} = {4AFD75B2-6BA8-4758-815B-530768AC826E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {96BAA238-536F-4DC8-846F-0C22B1954E65}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = PugFX.vsmdi

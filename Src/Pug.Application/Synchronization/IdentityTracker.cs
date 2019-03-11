@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Pug.Application.Threading
+namespace Pug.Application
 {
     public delegate I NewIdentityCreator<I>();
 

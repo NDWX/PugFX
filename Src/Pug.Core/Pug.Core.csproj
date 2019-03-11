@@ -11,6 +11,7 @@
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <Authors>Andrian</Authors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,6 +29,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="backup\**" />
+    <Compile Remove="output\**" />
+    <EmbeddedResource Remove="backup\**" />
+    <EmbeddedResource Remove="output\**" />
+    <None Remove="backup\**" />
+    <None Remove="output\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Base32.cs" />
     <Compile Remove="Properties\AssemblyInfo.cs" />
   </ItemGroup>
 
@@ -42,7 +53,6 @@
   <Target Name="PrecompileScript" BeforeTargets="BeforeBuild" Condition=" '$(IsCrossTargetingBuild)' != 'true' " />
 
   <Target Name="PostcompileScript" AfterTargets="Build" Condition=" '$(IsCrossTargetingBuild)' != 'true' ">
-    <Exec Command="dotnet pack --no-build --configuration $(Configuration) --output ..\..\output" />
   </Target>
 
 </Project>

@@ -2,7 +2,7 @@
 //using System.Runtime.Serialization;
 //using System.Security.Permissions;
 
-namespace Pug.Application.Threading.Synchronization
+namespace Pug.Application.Synchronization
 {
     //[Serializable]
     public class EntityLocked : Exception

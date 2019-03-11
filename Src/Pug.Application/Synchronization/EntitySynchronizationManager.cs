@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Threading;
 
-namespace Pug.Application.Threading.Synchronization
+namespace Pug.Application.Synchronization
 {
 	public class EntitySynchronizationManager : IDisposable
 	{

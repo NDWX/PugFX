@@ -4,7 +4,7 @@
 using System.Transactions;
 #endif
 
-namespace Pug.Application.Data.Extensions
+namespace Pug.Application.Data
 {
 	public static class IApplicationDataExtensions
 	{
@@ -116,7 +116,7 @@ namespace Pug.Application.Data.Extensions
 			}
 		}
 
-		public static R Call<T, C, R>(
+		public static R Execute<T, C, R>(
 			this IApplicationData<T> applicationData, 
 			Func<T, C, R> function, 
 			C context,
@@ -199,6 +199,30 @@ namespace Pug.Application.Data.Extensions
 
 			return result;
 		}
+
+		[Obsolete]
+		public static R Call<T, C, R>(
+			this IApplicationData<T> applicationData,
+			Func<T, C, R> function,
+			C context,
+#if NETFX
+			TransactionScopeOption transactionScopeOption = TransactionScopeOption.Required,
+#else
+			bool transactionRequired = true,
+#endif
+			Action<Exception, C> onError = null,
+			Action<Exception, C> errorHandler = null,
+			Action<C> onSuccess = null,
+			Action<C> onFinished = null
+		)
+			where T : class, IApplicationDataSession
+		{
+#if NETFX
+			return Execute( applicationData, function, context, transactionScopeOption, onError, errorHandler, onSuccess, onFinished );
+#else
+			return Execute( applicationData, function, context, transactionRequired, onError, errorHandler, onSuccess, onFinished );
+#endif
+		}
 	}
 
-}
+	}

@@ -3,12 +3,14 @@ namespace Pug.Application.Security
 	public abstract class SecurityManager : Pug.Application.Security.ISecurityManager
 	{
 		IUserIdentityProvider userIdentityProvider;
-		IUserSecurity userSecurity;
+		IUserRoleProvider userRoleProvider;
+		IAuthorizationProvider authorizationProvider;
 
-		protected SecurityManager(IUserIdentityProvider userIdentityProvider, IUserSecurity userSecurity)
+		protected SecurityManager(IUserIdentityProvider userIdentityProvider, IUserRoleProvider userRoleProvider, IAuthorizationProvider uathorizationProvider)
 		{
 			this.userIdentityProvider = userIdentityProvider;
-			this.userSecurity = userSecurity;
+			this.userRoleProvider = userRoleProvider;
+			this.authorizationProvider = uathorizationProvider;
 		}
 
 		public IUser CurrentUser
@@ -23,7 +25,7 @@ namespace Pug.Application.Security
 
 					if (userIdentity != null)
 					{
-						currentUser = new User(userIdentity, userSecurity);
+						currentUser = new User(userIdentity, userRoleProvider, authorizationProvider);
 						SetCurrentUser(currentUser);
 					}
 				}
@@ -43,5 +45,7 @@ namespace Pug.Application.Security
 				return userIdentityProvider;
 			}
 		}
+
+		protected IUserRoleProvider UserRoleProvider => this.userRoleProvider;
 	}
 }

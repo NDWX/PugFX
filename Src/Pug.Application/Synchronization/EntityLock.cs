@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Pug.Application.Threading.Synchronization
+namespace Pug.Application.Synchronization
 {
 	internal class EntityLock : IDisposable
 	{

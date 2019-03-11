@@ -6,10 +6,10 @@ namespace Pug.Application.Security.Web
 	{
 		string stateKeyPrefix;
 
-		public AspNetBasicSecurityManager(IUserIdentityProvider identityProvider, IUserSecurity userSecurity) : this(identityProvider, userSecurity, "_PAS_")
+		public AspNetBasicSecurityManager(IUserIdentityProvider identityProvider, IUserRoleProvider userROleProvider, IAuthorizationProvider authorizationProvider) : this(identityProvider, userROleProvider, authorizationProvider, "_PAS_")
 		{}
 
-		public AspNetBasicSecurityManager(IUserIdentityProvider identityProvider, IUserSecurity userSecurity, string stateKeyPrefix) : base(identityProvider, userSecurity)
+		public AspNetBasicSecurityManager(IUserIdentityProvider identityProvider, IUserRoleProvider userROleProvider, IAuthorizationProvider authorizationProvider, string stateKeyPrefix) : base(identityProvider, userROleProvider, authorizationProvider)
 		{
 			this.stateKeyPrefix += stateKeyPrefix;
 		}

@@ -1,4 +1,6 @@
-﻿namespace Pug.Application.Security
+﻿using System.Collections.Generic;
+
+namespace Pug.Application.Security
 {
 	/// <summary>
 	/// An IUser object encapsulates a user's identity and provides a single point of entry for all user related security.
@@ -7,7 +9,7 @@
 	{
 		Pug.Application.Security.IPrincipalIdentity Identity { get; }
 
-		bool IsAuthorized(string operation, System.Collections.Generic.ICollection<string> objectNames, System.Collections.Generic.IDictionary<string, string> context);
+		bool IsAuthorized( IDictionary<string, string> context, string operation, string objectType, string objectName = "" );
 
 		void Dispose();
 	}

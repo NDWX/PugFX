@@ -59,9 +59,9 @@ namespace Pug.Application.Security.Web
 				return new UserPseudoIdentity(HttpContext.Current.User.Identity);
 			}
 		}
-		
-		public  AspNetIntegratedSecurityManager( IUserSecurity userSecurity) :
-			 base(new UserPseudoIdentityProvider(), userSecurity)
+
+		public AspNetIntegratedSecurityManager( IUserRoleProvider userROleProvider, IAuthorizationProvider authorizationProvider) :
+			 base(new UserPseudoIdentityProvider(), userROleProvider, authorizationProvider)
 		{
 		}
 

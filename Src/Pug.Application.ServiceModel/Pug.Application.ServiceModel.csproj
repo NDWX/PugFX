@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Application service model library</Description>
+    <AssemblyTitle>Pug.Application.ServiceModel</AssemblyTitle>
+	  <TargetFrameworks>netstandard1.3;netcoreapp1.0;</TargetFrameworks>
+    <AssemblyName>Pug.Application.ServiceModel</AssemblyName>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <Authors>Andrian</Authors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Pug.Application.Data.Common\Pug.Application.Data.Common.csproj" />
+    <ProjectReference Include="..\Pug.Application.Data\Pug.Application.Data.csproj" />
+    <ProjectReference Include="..\Pug.Application.Security\Pug.Application.Security.csproj" />
+    <ProjectReference Include="..\Pug.Application\Pug.Application.csproj" />
+  </ItemGroup>
+
+</Project>

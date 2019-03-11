@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.Common;
 #if NETFX
 using System.Transactions;
@@ -6,14 +7,17 @@ using System.Transactions;
 
 namespace Pug.Application.Data
 {
-	public abstract class ApplicationDataSession : IApplicationDataSession
+
+
+    public abstract class ApplicationDataSession : IApplicationDataSession
 	{
-		DatabaseSession databaseSession;
+        IDbConnection connection;
+        IDbTransaction transaction;
 		IDataAccessProvider dataAccessProvider;
 
-		public ApplicationDataSession(DatabaseSession databaseSession, IDataAccessProvider dataAccessProvider)
+		public ApplicationDataSession(IDbConnection databaseSession, IDataAccessProvider dataAccessProvider)
 		{
-			this.databaseSession = databaseSession;
+			this.connection = databaseSession;
 			this.dataAccessProvider = dataAccessProvider;
 		}
 
@@ -24,11 +28,11 @@ namespace Pug.Application.Data
 
 		#region IApplicationData Members
 
-		protected DatabaseSession DatabaseSession
+		protected IDbConnection Connection
 		{
 			get
 			{
-				return databaseSession;
+				return connection;
 			}
 		}
 
@@ -38,31 +42,37 @@ namespace Pug.Application.Data
 			{
 				return dataAccessProvider;
 			}
-		}
+        }
 
-		public void BeginTransaction()
+        public void BeginTransaction()
+        {
+            transaction = Connection.BeginTransaction();
+        }
+
+        public void BeginTransaction(IsolationLevel isolation )
 		{
-			DatabaseSession.BeginTransaction();
+            transaction = Connection.BeginTransaction(isolation);
 		}
 
 		public void RollbackTransaction()
 		{
-			DatabaseSession.RollbackTransaction();
+			transaction.Rollback();
 		}
 
 		public void CommitTransaction()
 		{
-			DatabaseSession.CommitTransaction();
+            transaction.Commit();
 		}
+
 #if NETFX
 		public void EnlistInTransaction(Transaction transaction)
 		{
-			DatabaseSession.EnlistTransaction(transaction);
+			Connection.EnlistTransaction(transaction);
 		}
 #endif
-#endregion
-		
-		protected T EvaluateIsNullToDefault<T>(object obj)
+        #endregion
+
+        protected T EvaluateIsNullToDefault<T>(object obj)
 		{
 			if (DBNull.Value == obj)
 				return default(T);
@@ -84,7 +94,7 @@ namespace Pug.Application.Data
 
 		public virtual void Dispose()
 		{
-			DatabaseSession.Close();
+			Connection.Close();
 		}
 
 #endregion
