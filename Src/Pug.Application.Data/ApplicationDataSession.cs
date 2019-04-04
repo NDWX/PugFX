@@ -7,18 +7,14 @@ using System.Transactions;
 
 namespace Pug.Application.Data
 {
-
-
     public abstract class ApplicationDataSession : IApplicationDataSession
 	{
         IDbConnection connection;
         IDbTransaction transaction;
-		IDataAccessProvider dataAccessProvider;
 
-		public ApplicationDataSession(IDbConnection databaseSession, IDataAccessProvider dataAccessProvider)
+		public ApplicationDataSession(IDbConnection databaseSession)
 		{
 			this.connection = databaseSession;
-			this.dataAccessProvider = dataAccessProvider;
 		}
 
 		//public ApplicationDataSession(DataAccessProviderFactory providerFactory)
@@ -35,14 +31,6 @@ namespace Pug.Application.Data
 				return connection;
 			}
 		}
-
-		protected IDataAccessProvider DataAccessProvider
-		{
-			get
-			{
-				return dataAccessProvider;
-			}
-        }
 
         public void BeginTransaction()
         {
