@@ -34,7 +34,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Core", "Pug.Core\Pug.Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application.ServiceModel", "Pug.Application.ServiceModel\Pug.Application.ServiceModel.csproj", "{5D9806F0-D678-4E70-B29F-45DE2CEC86E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Web.AspNet.Core.Session", "Pug.Web.AspNet.Core.Session\Pug.Web.AspNet.Core.Session.csproj", "{132AF8F5-AA00-4AD3-99C8-7BD1DE78D268}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Web.AspNet.Core.Session", "Pug.Web.AspNet.Core.Session\Pug.Web.AspNet.Core.Session.csproj", "{132AF8F5-AA00-4AD3-99C8-7BD1DE78D268}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Application.Data.Csv", "Pug.Application.Data.Csv\Pug.Application.Data.Csv.csproj", "{B038BB75-0909-4329-B39E-69D88F1BDE8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -178,6 +180,18 @@ Global
 		{132AF8F5-AA00-4AD3-99C8-7BD1DE78D268}.Release|x64.Build.0 = Release|Any CPU
 		{132AF8F5-AA00-4AD3-99C8-7BD1DE78D268}.Release|x86.ActiveCfg = Release|Any CPU
 		{132AF8F5-AA00-4AD3-99C8-7BD1DE78D268}.Release|x86.Build.0 = Release|Any CPU
+		{B038BB75-0909-4329-B39E-69D88F1BDE8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B038BB75-0909-4329-B39E-69D88F1BDE8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B038BB75-0909-4329-B39E-69D88F1BDE8D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B038BB75-0909-4329-B39E-69D88F1BDE8D}.Debug|x64.Build.0 = Debug|Any CPU
+		{B038BB75-0909-4329-B39E-69D88F1BDE8D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B038BB75-0909-4329-B39E-69D88F1BDE8D}.Debug|x86.Build.0 = Debug|Any CPU
+		{B038BB75-0909-4329-B39E-69D88F1BDE8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B038BB75-0909-4329-B39E-69D88F1BDE8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B038BB75-0909-4329-B39E-69D88F1BDE8D}.Release|x64.ActiveCfg = Release|Any CPU
+		{B038BB75-0909-4329-B39E-69D88F1BDE8D}.Release|x64.Build.0 = Release|Any CPU
+		{B038BB75-0909-4329-B39E-69D88F1BDE8D}.Release|x86.ActiveCfg = Release|Any CPU
+		{B038BB75-0909-4329-B39E-69D88F1BDE8D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
