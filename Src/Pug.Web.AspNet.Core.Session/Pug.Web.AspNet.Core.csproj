@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.3; netstandard2.0</TargetFrameworks>
+    <PackageTags>Pug Web AspNet Core ASP.NET .NET Session Security PugFX</PackageTags>
+    <Authors>Andrian</Authors>
+    <Company>Pug Computing Services</Company>
+    <Product>PugFX</Product>
+    <Version>1.0.12</Version>
+    <AssemblyVersion>1.0.12.0</AssemblyVersion>
+    <FileVersion>1.0.12.0</FileVersion>
+    <PackageVersion>1.0.12</PackageVersion>
+    <PackageReleaseNotes>Ignore claims not part of JWT standard.</PackageReleaseNotes>
+    <PackageLicenseExpression>Apache-2.0+</PackageLicenseExpression>
+    <License>Apache2.0</License>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/PugCS/PugFX.git</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
+    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.7" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Pug.Application.Security\Pug.Application.Security.csproj" />
+    <ProjectReference Include="..\Pug.Application\Pug.Application.csproj" />
+  </ItemGroup>
+
+</Project>

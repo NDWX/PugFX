@@ -1,15 +1,42 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Description>Application service model library</Description>
     <AssemblyTitle>Pug.Application.ServiceModel</AssemblyTitle>
-	  <TargetFrameworks>netstandard1.3;netcoreapp1.0;</TargetFrameworks>
+	  <TargetFrameworks>netstandard1.3;netstandard2.0;</TargetFrameworks>
     <AssemblyName>Pug.Application.ServiceModel</AssemblyName>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <Authors>Andrian</Authors>
+    <PackageTags>Pug Application Service Model Security Session Transaction</PackageTags>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/PugCS/PugFX.git</RepositoryUrl>
+    <PackageLicenseExpression>Apache-2.0+</PackageLicenseExpression>
+    <License>Apache2.0</License>
+    <Version>1.0.10</Version>
+    <PackageVersion>1.0.10</PackageVersion>
+    <AssemblyVersion>1.0.10</AssemblyVersion>
+    <FileVersion>1.0.10</FileVersion>
+    <PackageReleaseNotes>
+      v1.0.10
+         - Fixed bug where ApplicationService.DataProvider is no longer visible in implementation
+      
+      v1.0.9
+        - Added Transaction backwards compatibility support for NetStandard 2.0
+    </PackageReleaseNotes>
+    <FileVersion>1.0.9</FileVersion>
+    <AssemblyVersion>1.0.9</AssemblyVersion>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard1.3' ">
+    <DefineConstants>NETSTANDARD_1_3</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Castle.Core" Version="4.4.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Pug.Application.Data.Common\Pug.Application.Data.Common.csproj" />

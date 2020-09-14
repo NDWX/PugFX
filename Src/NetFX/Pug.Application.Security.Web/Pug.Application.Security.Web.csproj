@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="AspNetBasicSecurityManager.cs" />
     <Compile Include="AspNetGenericIntegratedSecurityManager.cs" />
+    <Compile Include="AspNetUserSessionProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -51,6 +52,10 @@
     <ProjectReference Include="..\..\Pug.Application.Security\Pug.Application.Security.csproj">
       <Project>{4fba48b5-134c-4ab8-8393-6c61358011c4}</Project>
       <Name>Pug.Application.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Pug.Application\Pug.Application.csproj">
+      <Project>{ad6fb099-81f3-423b-bf4e-a16112a5dc3a}</Project>
+      <Name>Pug.Application</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

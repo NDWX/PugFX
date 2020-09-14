@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Http;
 
-namespace Pug.Web.AspNet.Core.Application
+namespace Pug.Web.AspNet.Core
 {
     public class RequestSession : Session
     {

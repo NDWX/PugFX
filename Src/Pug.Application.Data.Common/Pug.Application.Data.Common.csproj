@@ -3,15 +3,22 @@
   <PropertyGroup>
     <Description>Application data common library</Description>
     <AssemblyTitle>Pug.Application.Data.Common</AssemblyTitle>
-	  <TargetFrameworks>netstandard1.3;netcoreapp1.0;</TargetFrameworks>
+	  <TargetFrameworks>netstandard1.3;netstandard2.0;</TargetFrameworks>
     <AssemblyName>Pug.Application.Data.Common</AssemblyName>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Andrian</Authors>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageLicenseUrl>https://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/PugCS/PugFX.git</RepositoryUrl>
+    <PackageLicenseExpression>Apache-2.0+</PackageLicenseExpression>
+    <License>Apache2.0</License>
+    <AssemblyVersion>1.0.2.0</AssemblyVersion>
+    <FileVersion>1.0.2.0</FileVersion>
+    <Version>1.0.2</Version>
+    <PackageVersion>1.0.2</PackageVersion>
+    <PackageReleaseNotes>Added new InvalidTransactionState exception type.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

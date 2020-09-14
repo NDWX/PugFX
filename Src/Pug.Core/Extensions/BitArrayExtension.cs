@@ -3,42 +3,52 @@ using System.Collections;
 
 namespace Pug.Extensions
 {
-	public static class BitArrayExtension
-	{
-		public static byte[] GetBytes(this BitArray bitArray, int start, int length)
-		{
-			// reduce calculation time by storing comparison length
-			int lastBitIdx = start + length - 1;
+    public static class BitArrayExtension
+    {
+        static readonly byte[] bitDictionary = new byte[] { 1, 2, 4, 8, 16, 32, 64, 128 };
+        static readonly byte byteLength = 8;
 
-			if( lastBitIdx > bitArray.Length )
-				throw new ArgumentOutOfRangeException("length");
+        public static byte[] GetBytes(this BitArray bitArray, int start, int length)
+        {
+            BitArray resultArray = new BitArray(length);
 
-			byte[] bitDictionary = new byte[] {1, 2, 4, 8, 16, 32, 64, 128};
+            for (int idx = 0; idx < length; idx++)
+            {
+                resultArray.Set(idx, bitArray.Get(start + idx));
+            }
 
-			byte[] result = new byte[(length / 8) + 1];
+            return resultArray.GetBytes();
+        }
 
-			byte currentByte;
+        public static byte[] GetBytes(this BitArray bitArray)
+        {
+            byte currentByteBitIdx = 0;
+            byte currentByte = 0;
+            int resultIdx = 0;
 
-			int nextBitIdx = 0;
+            byte bitValue = 0;
 
-			for (int byteIdx = 0; byteIdx < result.Length; byteIdx++)
-			{
-				currentByte = 0;
+            byte[] result = new byte[(bitArray.Length / 8) + 1];
 
-				nextBitIdx = start + (8 * byteIdx) + 0;
+            for (int idx = 0; idx < bitArray.Length; idx++)
+            {
+                bitValue = (byte)(bitArray.Get(idx) ? 1 : 0);
 
-				for (byte currentByteBitIdx = 0; currentByteBitIdx < 7 && nextBitIdx <= lastBitIdx; currentByteBitIdx++)
-				{
-					if( bitArray[nextBitIdx] )
-						currentByte += bitDictionary[currentByteBitIdx];
+                currentByte += (byte)(bitValue * bitDictionary[currentByteBitIdx]);
 
-					nextBitIdx = start + (8 * byteIdx) + currentByteBitIdx + 1;
-				}
+                currentByteBitIdx++;
 
-				result[byteIdx] = currentByte;
-			}
+                if (currentByteBitIdx >= byteLength)
+                {
+                    currentByteBitIdx = 0;
+                    result[resultIdx] = currentByte;
 
-			return result;
-		}
-	}
+                    resultIdx++;
+                    currentByte = 0;
+                }
+            }
+
+            return result;
+        }
+    }
 }

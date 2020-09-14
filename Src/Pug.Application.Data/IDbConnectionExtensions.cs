@@ -73,20 +73,50 @@ namespace Pug.Application.Data
 
         public static void ExecuteQuery(this IDbConnection connection, CommandInfo command, Action<IDataReader> action, IDbTransaction transaction = null)
         {
+#pragma warning disable 618
             using (IDataReader dataReader = connection.ExecuteQuery(command, transaction))
             {
                 action(dataReader);
             }
+#pragma warning restore 618
         }
 
         public static R ExecuteQuery<R>(this IDbConnection connection, CommandInfo command, Func<IDataReader, R> func, IDbTransaction transaction = null)
         {
             R returnValue = default(R);
 
+#pragma warning disable 618
             using (IDataReader dataReader = connection.ExecuteQuery(command, transaction))
             {
                 returnValue = func(dataReader);
             }
+#pragma warning restore 618
+
+            return returnValue;
+        }
+        
+        public static void ExecuteQuery<TContext>(this IDbConnection connection, CommandInfo command, Action<IDataReader, TContext> action, TContext context = null, IDbTransaction transaction = null)
+            where TContext: class
+        {
+#pragma warning disable 618
+            using (IDataReader dataReader = connection.ExecuteQuery(command, transaction))
+            {
+                action(dataReader, context);
+            }
+#pragma warning restore 618
+        }
+
+        public static R ExecuteQuery<R, TContext>(this IDbConnection connection, CommandInfo command, Func<IDataReader, TContext, R> func, TContext context = null, IDbTransaction transaction = null)
+            where TContext: class
+        {
+            R returnValue = default(R);
+
+#pragma warning disable 618
+            using (IDataReader dataReader = connection.ExecuteQuery(command, transaction))
+            {
+                returnValue = func(dataReader, context);
+            }
+#pragma warning restore 618
 
             return returnValue;
         }

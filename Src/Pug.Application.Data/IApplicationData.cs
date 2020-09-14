@@ -1,4 +1,5 @@
-﻿namespace Pug.Application.Data
+﻿
+namespace Pug.Application.Data
 {
 	public interface IApplicationData<out T> where T : class, IApplicationDataSession
 	{

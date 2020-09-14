@@ -3,13 +3,22 @@
   <PropertyGroup>
     <Description>Application security framework library</Description>
     <AssemblyTitle>Pug.Application.Security</AssemblyTitle>
-	  <TargetFrameworks>netstandard1.2;netcoreapp1.0;</TargetFrameworks>
+	  <TargetFrameworks>netstandard1.3;netstandard2.0;</TargetFrameworks>
     <AssemblyName>Pug.Application.Security</AssemblyName>
-    <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.6' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <Authors>Andrian</Authors>
+    <PackageLicenseExpression>Apache-2.0+</PackageLicenseExpression>
+    <License>Apache2.0</License>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/PugCS/PugFX.git</RepositoryUrl>
+    <PackageTags>Pug Security Session User Identity PugFX</PackageTags>
+    <Version>1.1.4</Version>
+    <AssemblyVersion>1.1.4</AssemblyVersion>
+    <FileVersion>1.1.4</FileVersion>
+    <PackageVersion>1.1.4</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,9 +27,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Security.Principal">
-      <Version>4.0.1</Version>
-    </PackageReference>
+    <Compile Remove="Implementations\IUserIdentityProvider.cs" />
+    <Compile Remove="Implementations\ThreadStaticSecurityManager.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Security.Principal" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Pug.Application\Pug.Application.csproj" />
+    <ProjectReference Include="..\Pug.Core\Pug.Core.csproj" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net46' ">

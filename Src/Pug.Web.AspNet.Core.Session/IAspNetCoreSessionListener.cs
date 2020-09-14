@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Http;
 
-namespace Pug.Web.AspNet.Core.Application
+namespace Pug.Web.AspNet.Core
 {
     public interface IAspNetCoreSessionListener
     {

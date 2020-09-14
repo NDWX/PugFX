@@ -1,16 +1,22 @@
+using Pug.Application;
+
 namespace Pug.Application.Security
 {
-	public abstract class SecurityManager : Pug.Application.Security.ISecurityManager
-	{
-		IUserIdentityProvider userIdentityProvider;
-		IUserRoleProvider userRoleProvider;
-		IAuthorizationProvider authorizationProvider;
 
-		protected SecurityManager(IUserIdentityProvider userIdentityProvider, IUserRoleProvider userRoleProvider, IAuthorizationProvider uathorizationProvider)
+    public class SecurityManager : ISecurityManager
+	{
+        string application;
+        ISessionUserIdentityAccessor sessionUserIdentityAccessor;
+        IAuthorizationProvider authorizationProvider;
+        IUserSessionProvider sessionProvider;
+
+		public SecurityManager(string application, ISessionUserIdentityAccessor sessionUserIdentityAccessor, IUserRoleProvider userRoleProvider, IAuthorizationProvider uathorizationProvider, IUserSessionProvider sessionProvider)
 		{
-			this.userIdentityProvider = userIdentityProvider;
-			this.userRoleProvider = userRoleProvider;
-			this.authorizationProvider = uathorizationProvider;
+            this.application = application;
+			this.sessionUserIdentityAccessor = sessionUserIdentityAccessor;
+			this.UserRoleProvider = userRoleProvider;
+			this.AuthorizationProvider = uathorizationProvider;
+            this.sessionProvider = sessionProvider;
 		}
 
 		public IUser CurrentUser
@@ -21,11 +27,11 @@ namespace Pug.Application.Security
 
 				if (currentUser == null)
 				{
-					IPrincipalIdentity userIdentity = userIdentityProvider.GetUserIdentity();
+					IPrincipalIdentity userIdentity = sessionUserIdentityAccessor.GetUserIdentity();
 
 					if (userIdentity != null)
 					{
-						currentUser = new User(userIdentity, userRoleProvider, authorizationProvider);
+						currentUser = new User(userIdentity, UserRoleProvider, AuthorizationProvider);
 						SetCurrentUser(currentUser);
 					}
 				}
@@ -34,18 +40,26 @@ namespace Pug.Application.Security
 			}
 		}
 
-		protected abstract void SetCurrentUser(IUser user);
+		protected virtual void SetCurrentUser(IUser user)
+        {
+            sessionProvider.CurrentSession.Set<IUser>($"{application}.SecurityManager.User", user);
+        }
 
-		protected abstract IUser GetCurrentUser();
+		protected virtual IUser GetCurrentUser()
+        {
+            return sessionProvider.CurrentSession?.Get<IUser>($"{application}.SecurityManager.User");
+        }
 
-		protected IUserIdentityProvider UserIdentityProvider
+		protected ISessionUserIdentityAccessor SessionUserIdentityAccessor
 		{
 			get
 			{
-				return userIdentityProvider;
+				return sessionUserIdentityAccessor;
 			}
 		}
 
-		protected IUserRoleProvider UserRoleProvider => this.userRoleProvider;
-	}
+        public  IUserRoleProvider UserRoleProvider { get; private set; }
+
+        public IAuthorizationProvider AuthorizationProvider { get => authorizationProvider; private set => authorizationProvider = value; }
+    }
 }

@@ -7,14 +7,15 @@ namespace Pug.Application.ServiceModel
 		where DS : class, IApplicationDataSession
 	{
 		ISecurityManager securityManager;
-		IApplicationData<DS> applicationDataProvider;
 
-		protected SecuredApplicationService( ISecurityManager securityManager, IApplicationData<DS> applicationDataProvider )
-			: base( applicationDataProvider )
+		protected SecuredApplicationService( ISecurityManager securityManager, IApplicationData<DS> applicationDataProvider, IUserSessionProvider userSessionProvider )
+			: base( applicationDataProvider, userSessionProvider )
 		{
 			this.securityManager = securityManager;
 		}
 
 		protected ISecurityManager SecurityManager => this.securityManager;
+
+        protected IUser User => SecurityManager.CurrentUser;
 	}
 }

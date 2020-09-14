@@ -9,7 +9,7 @@ namespace Pug.Application.Data
 		where T : class, IApplicationDataSession
 	{
 		string location;
-        DbProviderFactory dataProvider;
+		DbProviderFactory dataProvider;
 
 		protected ApplicationData(string location, DbProviderFactory dataProvider)
 		{
@@ -34,23 +34,23 @@ namespace Pug.Application.Data
 		}
 
 		public T GetSession()
-        {
-            DbConnection connection = dataProvider.CreateConnection();
-            connection.ConnectionString = location;
+		{
+			IDbConnection connection = dataProvider.CreateConnection();
+			connection.ConnectionString = location;
 
-            try
-            {
-                connection.Open();
-            }
-            catch ( Exception exception )
-            {
-                throw new UnableToConnect( "Unable to connect to database given the connection string and DbProviderFactory", exception );
-            }
+			try
+			{
+				connection.Open();
+			}
+			catch ( Exception exception )
+			{
+				throw new UnableToConnect( "Unable to connect to database given the connection string and DbProviderFactory", exception );
+			}
 
-            return CreateApplicationDataSession( connection, DataAccessProvider);
-        }
+			return CreateApplicationDataSession( connection, DataAccessProvider);
+		}
 
-        protected abstract T CreateApplicationDataSession(IDbConnection databaseSession, DbProviderFactory dataAccessProvider );
+		protected abstract T CreateApplicationDataSession(IDbConnection databaseSession, DbProviderFactory dataAccessProvider );
 
 		/// <summary>
 		/// This is a wrapper function that allows developer to perform data tasks without having to worry about 

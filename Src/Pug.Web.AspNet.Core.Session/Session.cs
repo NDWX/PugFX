@@ -4,7 +4,7 @@ using Pug.Application;
 using Microsoft.AspNetCore.Http;
 using System;
 
-namespace Pug.Web.AspNet.Core.Application
+namespace Pug.Web.AspNet.Core
 {
     public abstract class Session : Pug.Application.IUserSession
     {

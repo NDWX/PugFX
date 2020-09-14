@@ -4,32 +4,8 @@ using Pug.Application;
 
 using Microsoft.AspNetCore.Http;
 
-namespace Pug.Web.AspNet.Core.Application
+namespace Pug.Web.AspNet.Core
 {
-    //public abstract class SessionProvider : IUserSessionProvider, IAspNetCoreSessionListener
-    //{
-    //    IHttpContextAccessor httpContextAccessor;
-
-    //    public SessionProvider(IHttpContextAccessor httpContextAccessor)
-    //    {
-    //        this.httpContextAccessor = httpContextAccessor;
-    //    }
-
-    //    public IHttpContextAccessor HttpContextAccessor => httpContextAccessor;
-
-    //    public abstract IApplicationSession CurrentSession
-    //    {
-    //        get;
-    //    }
-
-    //    public abstract event SessionEventHandler SessionStarted;
-    //    public abstract event SessionEventHandler SessionEnded;
-
-    //    public abstract void OnNewSessionStarted(HttpContext context);
-
-    //    public abstract void OnSessionEnded(HttpContext context);
-    //}
-
     public class RequestSessionProvider : IUserSessionProvider, IAspNetCoreSessionListener
     {
         readonly object HTTP_CONTEXT_ITEM_KEY = typeof(IUserSessionProvider).FullName;
@@ -60,14 +36,15 @@ namespace Pug.Web.AspNet.Core.Application
 
                 HttpContext httpContext = httpContextAccessor.HttpContext;
 
-                if (httpContext.Items.ContainsKey(HTTP_CONTEXT_ITEM_KEY))
-                {
-                    session = (RequestSession)httpContextAccessor.HttpContext.Items[HTTP_CONTEXT_ITEM_KEY];
-                }
-                else
-                {
-                    CreateAndRegisterSession(httpContext);
-                }
+                if (httpContext != null)
+                    if (httpContext.Items.ContainsKey(HTTP_CONTEXT_ITEM_KEY))
+                    {
+                        session = (RequestSession)httpContext.Items[HTTP_CONTEXT_ITEM_KEY];
+                    }
+                    else
+                    {
+                        session = CreateAndRegisterSession(httpContext);
+                    }
 
                 return session;
             }

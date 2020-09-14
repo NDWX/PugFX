@@ -1,0 +1,31 @@
+on:
+  push:
+    branches:
+      - develop
+
+env:
+  DomeProject: src/Pug.Dome/Pug.Dome.csproj
+  EffableProject: src/Pug.Effable/Pug.Effable.csproj
+
+jobs:
+  build:
+    name: Build Projects
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      # Authenticates packages to push to GPR
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x' # SDK Version to use.
+          source-url: https://nuget.pkg.github.com/PugCS/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      
+      # Build, pack, and publish Pug.Dome NuGet package
+      - name: Build Pug.Dome project
+        run: dotnet build --nologo --configuration debug ${{env.DomeProject}}
+      
+      # Build, pack, and publish Pug.Effable NuGet package
+      - name: Build Pug.Effable project
+        run: dotnet build --nologo --configuration debug ${{env.EffableProject}}

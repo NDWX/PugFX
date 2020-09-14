@@ -1,8 +1,6 @@
 using System;
-using System.Data;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace Pug.Application.Data.Csv
@@ -235,8 +233,10 @@ namespace Pug.Application.Data.Csv
 		{
 			if (fileStream != null)
 			{
-				fileStream.Close();
-				fileStream.Dispose();
+#if NETFX
+                fileStream.Close();
+#endif
+                fileStream.Dispose();
 			}
 
 			fileStream = null;

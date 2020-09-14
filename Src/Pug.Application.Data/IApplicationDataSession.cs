@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Data;
-using System.Data.Common;
-using System.Collections.Generic;
 #if NETFX
 using System.Transactions;
 #endif
 
 namespace Pug.Application.Data
 {
-    public interface IApplicationDataSession : IDisposable
-    {
-        void BeginTransaction();
+	public interface IApplicationDataSession : IDisposable
+	{
+		void BeginTransaction();
 
-        void CommitTransaction();
+		void BeginTransaction(System.Data.IsolationLevel isolationLevel);
 
-        void RollbackTransaction();
+		void CommitTransaction();
+
+		void RollbackTransaction();
 #if NETFX
-        void EnlistInTransaction(Transaction transaction);
+		void EnlistInTransaction(Transaction transaction);
 #endif
-    }
+	}
 }

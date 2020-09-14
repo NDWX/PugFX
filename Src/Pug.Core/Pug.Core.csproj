@@ -1,10 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Pug Core Framework</Description>
+    <Description>Pug Core Library</Description>
     <AssemblyTitle>Pug.Core</AssemblyTitle>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <VersionPrefix>1.0.1</VersionPrefix>
+    <Version>0.1.1</Version>
+    <PackageVersion>0.1.1</PackageVersion>
+    <AssemblyVersion>0.1.1</AssemblyVersion>
+    <FileVersion>0.1.1</FileVersion>
     <TargetFrameworks>netstandard1.2;netcoreapp1.0;</TargetFrameworks>
     <AssemblyName>Pug.Core</AssemblyName>
     <!--<PackageTargetFallback Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>-->
@@ -12,6 +15,13 @@
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <Authors>Andrian</Authors>
+    <PackageLicenseExpression>Apache-2.0+</PackageLicenseExpression>
+    <License>Apache2.0</License>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/PugCS/PugFX.git</RepositoryUrl>
+    <PackageTags>Pug Core Library</PackageTags>
+    <PackageReleaseNotes>Added new type ChainLink to link objects of a type together.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -39,6 +49,8 @@
 
   <ItemGroup>
     <Compile Remove="Base32.cs" />
+    <Compile Remove="Base32Encoder.cs" />
+    <Compile Remove="Chain.cs" />
     <Compile Remove="Properties\AssemblyInfo.cs" />
   </ItemGroup>
 

@@ -2,159 +2,249 @@
 using System;
 using System.Collections.Generic;
 
-using Pug.Application;
+using System.Reflection;
+
+#if !NETSTANDARD_1_3
+using System.Transactions;
+#endif
+
+using Castle.DynamicProxy;
+
 using Pug.Application.Data;
 
 namespace Pug.Application.ServiceModel
 {
-    public interface IApplicationTransaction<DS> : IDisposable
-        where DS : class, IApplicationDataSession
-    {
-        void Commit();
-
-        void Rollback();
-    }
-
-    internal class ApplicationTransaction<DS> : IApplicationTransaction<DS>
-         where DS : class, IApplicationDataSession
-    {
-        bool transactionEnded = false;
-
-        public DS DataSession { get; }
-
-        public ApplicationTransaction(DS dataSession)
-        {
-            this.DataSession = dataSession;
-        }
-
-        public void Commit()
-        {
-            try
-            {
-                DataSession.CommitTransaction();
-            }
-            catch(Exception e)
-            {
-                throw;
-            }
-            finally
-            {
-                transactionEnded = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            if (!transactionEnded)
-                DataSession.RollbackTransaction();
-        }
-
-        public void Rollback()
-        {
-            try
-            {
-                DataSession.RollbackTransaction();
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-            finally
-            {
-                transactionEnded = true;
-            }
-        }
-    }
-
-    public abstract class ApplicationService<DS> where DS : class, IApplicationDataSession
+	public abstract class ApplicationService<DS> : IApplicationData<DS>, IDisposable 
+		where DS : class, IApplicationDataSession
 	{
 		IApplicationData<DS> applicationDataProvider;
-        IUserSessionProvider sessionProvider;
-
+		IUserSessionProvider sessionProvider;
+#if NETSTANDARD_1_3
+		ProxyGenerator dynamicProxyGenerator = new ProxyGenerator();
+#endif
 		protected ApplicationService( IApplicationData<DS> applicationDataProvider, IUserSessionProvider sessionProvider )
 		{
-            this.applicationDataProvider = applicationDataProvider;
-            this.sessionProvider = sessionProvider;
+			this.applicationDataProvider = applicationDataProvider;
+			this.sessionProvider = sessionProvider;
+
+			sessionProvider.SessionStarted += SessionProvider_SessionStarted;
+		}
+		
+		private void SessionProvider_SessionStarted(IUserSession session)
+		{
+			session.Ending += UserSession_Ending;
 		}
 
-		protected IApplicationData<DS> DataProvider => this.applicationDataProvider;
+		private void UserSession_Ending(object sender, EventArgs e)
+		{
+			((IUserSession) sender).Ending -= UserSession_Ending;
+			
+			ApplicationTransaction<DS> transaction = Transaction;
 
-        void setCurrentTransaction(IApplicationTransaction<DS> transaction)
-        {
-            IUserSession userSession = sessionProvider.CurrentSession;
+			if(transaction != null)
+			{
+#if NETSTANDARD_1_3
+				transaction.DataSession.Dispose();
+				transaction.Dispose();
+#else
+				foreach(ApplicationTransaction<DS> tx in UserTransactions.Values)
+				{
+					tx.Dispose();
+				}
+#endif
+			}
 
-            userSession.Set("CURRENT", transaction);
-        }
+		}
 
-        void Register(ApplicationTransaction<DS> transaction)
-        {
-            IUserSession userSession = sessionProvider.CurrentSession;
+		protected IApplicationData<DS> DataProvider => this;
 
-            userSession.Ending += UserSession_Ending;
-            
-            List<ApplicationTransaction<DS>> userTransactions = userSession.Get<List<ApplicationTransaction<DS>>>();
+#if NETSTANDARD_1_3
 
-            if (userTransactions == null)
-            {
-                userTransactions = new List<ApplicationTransaction<DS>>();
-                userSession.Set(string.Empty, userTransactions);
-            }
+		DS Proxy(DS session)
+		{
+			Type sessionType = typeof(DS);
+			TransactionDataSession.Interceptor interceptor = new TransactionDataSession.Interceptor();
 
-            setCurrentTransaction(transaction);
+			DS proxy = null;
 
-            userTransactions.Add(transaction);
-        }
+			if (sessionType.GetTypeInfo().IsInterface)
+				proxy = (DS)dynamicProxyGenerator.CreateInterfaceProxyWithTarget(sessionType, session, interceptor);
+			else
+				proxy = (DS)dynamicProxyGenerator.CreateClassProxyWithTarget(sessionType, session, interceptor);
 
-        private void UserSession_Ending(object sender, EventArgs e)
-        {
-            IUserSession userSession = sessionProvider.CurrentSession;
+			return proxy;
+		}
 
-            List<ApplicationTransaction<DS>> userTransactions = userSession.Get<List<ApplicationTransaction<DS>>>();
+		protected DS GetTransactionDataSessionProxy()
+		{
+			if (Transaction != null)
+				return ((ApplicationTransaction<DS>)Transaction).DataSessionProxy;
 
-            foreach (ApplicationTransaction<DS> transaction in userTransactions)
-                transaction.Dispose();
-        }
+			return null;
+		}
+#endif
+		IDictionary<string, ApplicationTransaction<DS>> UserTransactions
+		{
+			get
+			{
+				IUserSession userSession = sessionProvider.CurrentSession;
 
-        public IApplicationTransaction<DS> CurrentTransaction
-        {
-            get
-            {
-                IUserSession userSession = sessionProvider.CurrentSession;
+				IDictionary<string, ApplicationTransaction<DS>> userTransactions = userSession.Get<IDictionary<string, ApplicationTransaction<DS>>>();
 
-                return userSession.Get<ApplicationTransaction<DS>>("CURRENT");
-            }
-            set
-            {
-                if( value is ApplicationTransaction<DS> )
-                {
-                    setCurrentTransaction(value);
+				if (userTransactions == null)
+				{
+					userTransactions = new Dictionary<string, ApplicationTransaction<DS>>(1);
+					
+					userSession.Set(string.Empty, userTransactions);
+				}
 
-                    return;
-                }
+				return userTransactions;
+			}
+		}
+		
+		void Register(ApplicationTransaction<DS> transaction)
+		{
+			UserTransactions.Add(transaction.Identifier, transaction);
 
-                throw new InvalidOperationException("Specified value is not a valid IApplicationTransaction<DS> implementation.");
-            }
-        }
+			Transaction = transaction;
+		}
 
-        protected DS GetDataSession()
-        {
-            if (CurrentTransaction != null)
-                return ((ApplicationTransaction<DS>)CurrentTransaction).DataSession;
+		ApplicationTransaction<DS> Transaction
+		{
+			get
+			{
+				IUserSession userSession = sessionProvider.CurrentSession;
 
-            return applicationDataProvider.GetSession();
-        }
+				return userSession?.Get<ApplicationTransaction<DS>>("CURRENT");
+			}
+			set
+			{
+				IUserSession userSession = sessionProvider.CurrentSession;
 
-        public IApplicationTransaction<DS> BeginTransaction()
-        {
-            DS dataSession = applicationDataProvider.GetSession();
+				userSession.Set("CURRENT", value);
+			}
+		}
+		
+		public IApplicationTransaction<DS> CurrentTransaction
+		{
+			get
+			{
+				return Transaction;
+			}
+		}
 
-            dataSession.BeginTransaction();
+		public IApplicationTransaction<DS> BeginTransaction()
+		{
+			ApplicationTransaction<DS> transaction = null;
 
-            ApplicationTransaction<DS> transaction = new ApplicationTransaction<DS>(dataSession);
+#if NETSTANDARD_1_3
+			transaction = Transaction;
 
-            Register(transaction);
+			if (transaction == null)
+			{
 
-            return transaction;
-        }
+				DS dataSession = applicationDataProvider.GetSession();
+
+				dataSession.BeginTransaction();
+
+				transaction = new ApplicationTransaction<DS>(dataSession, Proxy(dataSession), onEnded: tx => UserTransactions.Remove(tx.Identifier));
+				Register(transaction);
+			}
+#else
+			transaction = new ApplicationTransaction<DS>();
+			Register(transaction);
+#endif
+
+			return transaction;
+		}
+#if !NETSTANDARD_1_3
+		public IApplicationTransaction<DS> BeginTransaction(Transaction tx)
+		{
+			ApplicationTransaction<DS> transaction = new ApplicationTransaction<DS>(tx);
+			Register(transaction);
+
+			return transaction;
+		}
+		public IApplicationTransaction<DS> BeginTransaction(Transaction tx, TimeSpan timeout)
+		{
+			ApplicationTransaction<DS> transaction = new ApplicationTransaction<DS>(tx);
+			Register(transaction);
+
+			return transaction;
+		}
+		
+		public IApplicationTransaction<DS> BeginTransaction(Transaction tx, TransactionScopeAsyncFlowOption asyncFlowOption)
+		{
+			ApplicationTransaction<DS> transaction = new ApplicationTransaction<DS>(tx, asyncFlowOption);
+			Register(transaction);
+
+			return transaction;
+		}
+		
+		public IApplicationTransaction<DS> BeginTransaction(Transaction tx, TimeSpan timeout, TransactionScopeAsyncFlowOption asyncFlowOption)
+		{
+			ApplicationTransaction<DS> transaction = new ApplicationTransaction<DS>(tx, timeout, asyncFlowOption);
+			Register(transaction);
+
+			return transaction;
+		}
+		
+		public IApplicationTransaction<DS> BeginTransaction(TransactionScopeOption option)
+		{
+			ApplicationTransaction<DS> transaction = new ApplicationTransaction<DS>(option);
+			Register(transaction);
+
+			return transaction;
+		}
+		
+		public IApplicationTransaction<DS> BeginTransaction(TransactionScopeOption option, TimeSpan timeout)
+		{
+			ApplicationTransaction<DS> transaction = new ApplicationTransaction<DS>(option, timeout);
+			Register(transaction);
+
+			return transaction;
+		}
+		
+		public IApplicationTransaction<DS> BeginTransaction(TransactionScopeOption option, TransactionScopeAsyncFlowOption asyncFlowOption)
+		{
+			ApplicationTransaction<DS> transaction = new ApplicationTransaction<DS>(option, asyncFlowOption);
+			Register(transaction);
+
+			return transaction;
+		}
+		
+		public IApplicationTransaction<DS> BeginTransaction(TransactionScopeOption option, TimeSpan timeout, TransactionScopeAsyncFlowOption asyncFlowOption)
+		{
+			ApplicationTransaction<DS> transaction = new ApplicationTransaction<DS>(option, timeout, asyncFlowOption);
+			Register(transaction);
+
+			return transaction;
+		}
+		
+		public IApplicationTransaction<DS> BeginTransaction(TransactionScopeOption option, TransactionOptions options, TransactionScopeAsyncFlowOption asyncFlowOption)
+		{
+			ApplicationTransaction<DS> transaction  = new ApplicationTransaction<DS>(option, options, asyncFlowOption);
+			Register(transaction);
+
+			return transaction;
+		}
+#endif
+		DS IApplicationData<DS>.GetSession()
+		{
+			DS dataSession = null;
+#if NETSTANDARD_1_3
+			dataSession = GetTransactionDataSessionProxy();
+
+			if (dataSession == null)
+				dataSession = applicationDataProvider.GetSession();
+#else
+			dataSession = applicationDataProvider.GetSession();
+#endif
+			return dataSession;
+		}
+
+		public void Dispose()
+		{
+		}
 	}
 }

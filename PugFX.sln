@@ -14,29 +14,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3F96EF91
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NetFX", "NetFX", "{4AFD75B2-6BA8-4758-815B-530768AC826E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application.Security", "Pug.Application.Security\Pug.Application.Security.csproj", "{4FBA48B5-134C-4AB8-8393-6C61358011C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application.Security", "src\Pug.Application.Security\Pug.Application.Security.csproj", "{4FBA48B5-134C-4AB8-8393-6C61358011C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Application.Security.Web", "NetFX\Pug.Application.Security.Web\Pug.Application.Security.Web.csproj", "{31F1E8F1-6CE8-4B40-A3D0-2D52190C9C30}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Application.Security.Web", "src\NetFX\Pug.Application.Security.Web\Pug.Application.Security.Web.csproj", "{31F1E8F1-6CE8-4B40-A3D0-2D52190C9C30}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Security", "Pug.Security\Pug.Security.csproj", "{6F747831-AC01-46CA-80D0-4834EBB16E75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Security", "src\Pug.Security\Pug.Security.csproj", "{6F747831-AC01-46CA-80D0-4834EBB16E75}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application.Data.Common", "Pug.Application.Data.Common\Pug.Application.Data.Common.csproj", "{341E2282-5B7D-47C8-9F48-F2F28BAFFF5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application.Data.Common", "src\Pug.Application.Data.Common\Pug.Application.Data.Common.csproj", "{341E2282-5B7D-47C8-9F48-F2F28BAFFF5D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application.Data", "Pug.Application.Data\Pug.Application.Data.csproj", "{405E5AD9-DF32-424D-9437-E17EECC09592}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application.Data", "src\Pug.Application.Data\Pug.Application.Data.csproj", "{405E5AD9-DF32-424D-9437-E17EECC09592}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application", "Pug.Application\Pug.Application.csproj", "{AD6FB099-81F3-423B-BF4E-A16112A5DC3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application", "src\Pug.Application\Pug.Application.csproj", "{AD6FB099-81F3-423B-BF4E-A16112A5DC3A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application.Data.Postgres", "Pug.Application.Data.Postgres\Pug.Application.Data.Postgres.csproj", "{46933926-D203-43A8-A28C-E46F832344F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application.Data.Postgres", "src\Pug.Application.Data.Postgres\Pug.Application.Data.Postgres.csproj", "{46933926-D203-43A8-A28C-E46F832344F5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application.Data.SqlServer", "Pug.Application.Data.SqlServer\Pug.Application.Data.SqlServer.csproj", "{F90DF93B-191A-476C-B576-75AB93F771CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application.Data.SqlServer", "src\Pug.Application.Data.SqlServer\Pug.Application.Data.SqlServer.csproj", "{F90DF93B-191A-476C-B576-75AB93F771CF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Core", "Pug.Core\Pug.Core.csproj", "{6F790938-D789-4C98-9693-DE980DAAEB7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Core", "src\Pug.Core\Pug.Core.csproj", "{6F790938-D789-4C98-9693-DE980DAAEB7B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application.ServiceModel", "Pug.Application.ServiceModel\Pug.Application.ServiceModel.csproj", "{5D9806F0-D678-4E70-B29F-45DE2CEC86E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application.ServiceModel", "src\Pug.Application.ServiceModel\Pug.Application.ServiceModel.csproj", "{5D9806F0-D678-4E70-B29F-45DE2CEC86E6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Web.AspNet.Core.Session", "Pug.Web.AspNet.Core.Session\Pug.Web.AspNet.Core.Session.csproj", "{132AF8F5-AA00-4AD3-99C8-7BD1DE78D268}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Web.AspNet.Core", "src\Pug.Web.AspNet.Core.Session\Pug.Web.AspNet.Core.csproj", "{132AF8F5-AA00-4AD3-99C8-7BD1DE78D268}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Application.Data.Csv", "Pug.Application.Data.Csv\Pug.Application.Data.Csv.csproj", "{B038BB75-0909-4329-B39E-69D88F1BDE8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application.Data.Csv", "src\Pug.Application.Data.Csv\Pug.Application.Data.Csv.csproj", "{B038BB75-0909-4329-B39E-69D88F1BDE8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
