@@ -26,6 +26,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Extensions\SecureStringExtensions.cs" />
+  </ItemGroup>
+
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net46' ">
     <DefineConstants>$(DefineConstants);NETFX</DefineConstants>
   </PropertyGroup>
