@@ -15,7 +15,7 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Andrian</Authors>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/PugCS/PugFX.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/NDWX/PugFX.git</RepositoryUrl>
     <PackageLicenseExpression>Apache-2.0+</PackageLicenseExpression>
     <License>Apache2.0</License>
   </PropertyGroup>

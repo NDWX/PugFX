@@ -1,0 +1,67 @@
+on:
+  push:
+    branches:
+      - develop
+
+env:
+  BuildConfiguration: debug
+  CoreProject: src/Pug.Core/Pug.Core.csproj
+  SecurityProject: src/Pug.Security/Pug.Security.csproj
+  ApplicationProject: src/Pug.Application/Pug.Application.csproj
+  ApplicationDataCommonProject: src/Pug.Application.Data.Common/Pug.Application.Data.Common.csproj
+  ApplicationDataProject: src/Pug.Application.Data/Pug.Application.Data.csproj
+  ApplicationCsvDataProject: src/Pug.Application.Data.Csv/Pug.Application.Data.Csv.csproj
+  ApplicationSecurityProject: src/Pug.Application.Security/Pug.Application.Security.csproj
+  ApplicationServiceModelProject: src/Pug.ServiceModel/Pug.ServiceModel.csproj
+  AspNetCoreProject: src/Pug.Web.AspNet.Core/Pug.Web.AspNet.Core.csproj
+
+jobs:
+  build:
+    name: Build Projects
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      # Authenticates packages to push to GPR
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x' # SDK Version to use.
+          source-url: https://nuget.pkg.github.com/PugCS/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      
+      # Build, pack, and publish Pug.Dome NuGet package
+      - name: Build Core project
+        run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.CoreProject}}
+
+      # Build, pack, and publish Pug.Dome NuGet package
+      - name: Build Security project
+        run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.SecurityProject}}
+
+      # Build, pack, and publish Pug.Dome NuGet package
+      - name: Build Application project
+        run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationProject}}
+
+      # Build, pack, and publish Pug.Dome NuGet package
+      - name: Build ApplicationDataCommon project
+        run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationDataCommonProject}}
+
+      # Build, pack, and publish Pug.Dome NuGet package
+      - name: Build ApplicationData project
+        run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationDataProject}}
+
+      # Build, pack, and publish Pug.Dome NuGet package
+      - name: Build ApplicationCsvData project
+        run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationCsvDataProject}}
+
+      # Build, pack, and publish Pug.Dome NuGet package
+      - name: Build ApplicationSecurity project
+        run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationSecurityProject}}
+
+      # Build, pack, and publish Pug.Dome NuGet package
+      - name: Build ApplicationServiceModel project
+        run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationServiceModelProject}}
+
+      # Build, pack, and publish Pug.Dome NuGet package
+      - name: Build AspNetCore project
+        run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.AspNetCoreProject}}

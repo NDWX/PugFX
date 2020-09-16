@@ -13,7 +13,7 @@
     <License>Apache2.0</License>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/PugCS/PugFX.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/NDWX/PugFX.git</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
