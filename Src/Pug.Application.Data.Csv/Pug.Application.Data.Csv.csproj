@@ -5,11 +5,11 @@
     <Description>Pug CSV Data Processing Library</Description>
     <AssemblyTitle>Pug.Application.Data.Csv</AssemblyTitle>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>1.0.1</Version>
-    <FileVersion>1.0.1</FileVersion>
-    <AssemblyVersion>1.0.1</AssemblyVersion>
-    <PackageVersion>1.0.1</PackageVersion>
-    <TargetFrameworks>net35;netstandard1.3;netcoreapp1.0;</TargetFrameworks>
+    <Version>1.1.0</Version>
+    <FileVersion>1.1.0</FileVersion>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
+    <PackageVersion>1.1.0</PackageVersion>
+    <TargetFrameworks>netstandard1.3;netcoreapp1.0;</TargetFrameworks>
     <AssemblyName>Pug.Application.Data.Csv</AssemblyName>
     <Authors>Andrian</Authors>
     <!--<PackageTargetFallback Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>-->
