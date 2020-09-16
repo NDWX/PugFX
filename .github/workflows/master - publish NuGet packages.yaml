@@ -1,10 +1,10 @@
 on:
   push:
     branches:
-      - develop
+      - master
 
 env:
-  BuildConfiguration: debug
+  BuildConfiguration: release
   CoreProject: Src/Pug.Core/Pug.Core.csproj
   SecurityProject: Src/Pug.Security/Pug.Security.csproj
   ApplicationProject: Src/Pug.Application/Pug.Application.csproj
@@ -14,6 +14,7 @@ env:
   ApplicationSecurityProject: Src/Pug.Application.Security/Pug.Application.Security.csproj
   ApplicationServiceModelProject: Src/Pug.Application.ServiceModel/Pug.Application.ServiceModel.csproj
   AspNetCoreProject: Src/Pug.Web.AspNet.Core/Pug.Web.AspNet.Core.csproj
+  PackagesBaseFolder: packages
 
 jobs:
   build:
@@ -30,38 +31,63 @@ jobs:
         env:
           NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       
-      # Build, pack, and publish Pug.Dome NuGet package
       - name: Build Core project
         run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.CoreProject}}
 
-      # Build, pack, and publish Pug.Dome NuGet package
       - name: Build Security project
         run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.SecurityProject}}
 
-      # Build, pack, and publish Pug.Dome NuGet package
       - name: Build Application project
         run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationProject}}
 
-      # Build, pack, and publish Pug.Dome NuGet package
       - name: Build ApplicationDataCommon project
         run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationDataCommonProject}}
 
-      # Build, pack, and publish Pug.Dome NuGet package
       - name: Build ApplicationData project
         run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationDataProject}}
 
-      # Build, pack, and publish Pug.Dome NuGet package
       - name: Build ApplicationCsvData project
         run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationCsvDataProject}}
 
-      # Build, pack, and publish Pug.Dome NuGet package
       - name: Build ApplicationSecurity project
         run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationSecurityProject}}
 
-      # Build, pack, and publish Pug.Dome NuGet package
       - name: Build ApplicationServiceModel project
         run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationServiceModelProject}}
 
-      # Build, pack, and publish Pug.Dome NuGet package
       - name: Build AspNetCore project
         run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.AspNetCoreProject}}
+
+
+      - name: Create packages base folder
+        run: mkdir packages
+        
+      - name: Pack Core project
+        run: dotnet pack --output ${{env.PackagesBaseFolder}} --nologo --configuration ${{env.BuildConfiguration}} ${{env.CoreProject}}
+
+      - name: Pack Security project
+        run: dotnet pack --output ${{env.PackagesBaseFolder}} --nologo --configuration ${{env.BuildConfiguration}} ${{env.SecurityProject}}
+
+      - name: Pack Application project
+        run: dotnet pack --output ${{env.PackagesBaseFolder}} --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationProject}}
+
+      - name: Pack ApplicationDataCommon project
+        run: dotnet pack --output ${{env.PackagesBaseFolder}} --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationDataCommonProject}}
+
+      - name: Pack ApplicationData project
+        run: dotnet pack --output ${{env.PackagesBaseFolder}} --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationDataProject}}
+
+      - name: Pack ApplicationCsvData project
+        run: dotnet pack --output ${{env.PackagesBaseFolder}} --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationCsvDataProject}}
+
+      - name: Pack ApplicationSecurity project
+        run: dotnet pack --output ${{env.PackagesBaseFolder}} --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationSecurityProject}}
+
+      - name: Pack ApplicationServiceModel project
+        run: dotnet pack --output ${{env.PackagesBaseFolder}} --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationServiceModelProject}}
+
+      - name: Pack AspNetCore project
+        run: dotnet pack --output ${{env.PackagesBaseFolder}} --nologo --configuration ${{env.BuildConfiguration}} ${{env.AspNetCoreProject}}
+
+      - name: Publish NuGet Packages
+        run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --skip-duplicate
