@@ -1,49 +1,12 @@
 using System;
-using System.Data;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace Pug.Application.Data.Csv
 {
 	public class CsvReader : IDisposable
 	{
-		//class ValueContext
-		//{
-		//    bool hasOpeningQuote, waitingForClosingQuote, previousCharacterIsQuote;
-
-		//    StringBuilder valueBuilder;
-
-		//    public ValueContext(bool hasOpeningQuote)
-		//    {
-		//        this.valueBuilder = new StringBuilder();
-		//        this.hasOpeningQuote = hasOpeningQuote;
-		//    }
-
-		//    public bool HasOpeningQuote
-		//    {
-		//        get
-		//        {
-		//            return hasOpeningQuote;
-		//        }
-		//    }
-
-		//    public void AddCharacter(char character)
-		//    {
-		//        valueBuilder.Append(character);
-		//    }
-
-		//    public string Value
-		//    {
-		//        get
-		//        {
-		//            return this.valueBuilder.ToString();
-		//        }
-		//    }
-		//}
-
-
 		Stream fileStream;
 
 		byte[] readData = new byte[256];
@@ -252,7 +215,6 @@ namespace Pug.Application.Data.Csv
 						}
 						else
 						{
-							//line = new CsvLine(new string[] { });
 							return null;
 						}
 					}
@@ -271,8 +233,10 @@ namespace Pug.Application.Data.Csv
 		{
 			if (fileStream != null)
 			{
-				fileStream.Close();
-				fileStream.Dispose();
+#if NETFX
+                fileStream.Close();
+#endif
+                fileStream.Dispose();
 			}
 
 			fileStream = null;

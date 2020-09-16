@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
+//using System.Runtime.Serialization;
 
 namespace Pug.Application.Data
 {
-    [Serializable]
-    public class TransactionStarted : Exception
+	//[Serializable]
+	public class TransactionStarted : Exception
     {
         public TransactionStarted()
             : base()
@@ -23,9 +21,9 @@ namespace Pug.Application.Data
         {
         }
 
-        protected TransactionStarted(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
+        //protected TransactionStarted(SerializationInfo info, StreamingContext context)
+        //    : base(info, context)
+        //{
+        //}
     }
 }

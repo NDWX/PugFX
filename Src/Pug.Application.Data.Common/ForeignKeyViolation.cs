@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Text;
+﻿using System.Data.Common;
 
 namespace Pug.Application.Data
 {
-    public class ForeignKeyViolation : DatabaseError
+	public class ForeignKeyViolation : DatabaseError
     {
         public ForeignKeyViolation(string message, DbException exception)
             : base(message, exception)

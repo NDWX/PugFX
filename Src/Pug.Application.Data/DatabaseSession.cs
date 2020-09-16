@@ -1,15 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+#if NETFX
 using System.Transactions;
+#endif
 
 namespace Pug.Application.Data
 {
-	public class DatabaseSession
+
+    public class DatabaseSession
 	{
 		DbConnection connection;
 		DbTransaction transaction;
+		
+#if NETFX
 		Transaction distributedTransaction;
+#endif
 
 		//DbProviderFactory dbProviderFactory;
 
@@ -56,17 +63,6 @@ namespace Pug.Application.Data
 		{
 			if (this.transaction == null)
 				throw new TransactionNotStarted();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <exception cref="EnlistedInDistributedTransaction"></exception>
-		void CheckEnlistedInDistributedTransaction()
-		{
-			if (this.distributedTransaction != null)
-				throw new EnlistedInDistributedTransaction();
-
 		}
 
 		void Prepare(DbCommand command)
@@ -124,8 +120,9 @@ namespace Pug.Application.Data
 		public void BeginTransaction()
 		{
 			CheckConnectionIsOpen();
+#if NETFX
 			CheckEnlistedInDistributedTransaction();
-
+#endif
 			CheckTransactionNotExist();
 
 			try
@@ -147,8 +144,9 @@ namespace Pug.Application.Data
 		public void BeginTransaction(System.Data.IsolationLevel isolationLevel)
 		{
 			CheckConnectionIsOpen();
+#if NETFX
 			CheckEnlistedInDistributedTransaction();
-
+#endif
 			CheckTransactionNotExist();
 			
 			try
@@ -159,6 +157,18 @@ namespace Pug.Application.Data
 			{
 				exceptionHandler( exception );
 			}
+		}
+
+#if NETFX
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <exception cref="EnlistedInDistributedTransaction"></exception>
+		void CheckEnlistedInDistributedTransaction()
+		{
+			if (this.distributedTransaction != null)
+				throw new EnlistedInDistributedTransaction();
+
 		}
 
 		/// <summary>
@@ -180,6 +190,7 @@ namespace Pug.Application.Data
 		{
 			this.distributedTransaction = null;
 		}
+#endif
 
 		/// <summary>
 		/// 
@@ -251,7 +262,8 @@ namespace Pug.Application.Data
 		/// 
 		/// </summary>
 		/// <exception cref="NotConnected"></exception>
-		public DbDataReader ExecuteQuery(DbCommand command)
+        [Obsolete( "Use ExecuteQuery<R>( DbCommand command, Func<DbDataReader, R> func ) instead.")]
+        public DbDataReader ExecuteQuery(DbCommand command)
 		{
 			CheckConnectionIsOpen();
 			
@@ -269,13 +281,23 @@ namespace Pug.Application.Data
 			}
 
 			return dataReader;
-		}
+        }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <exception cref="NotConnected"></exception>
-		public DbDataReader ExecuteQuery(DbCommand command, CommandBehavior behavior)
+        public void ExecuteQuery( DbCommand command, Action<DbDataReader> action )
+        {
+            ExecuteQuery( command, CommandBehavior.Default, action );
+        }
+
+        public R ExecuteQuery<R>( DbCommand command, Func<DbDataReader, R> func )
+        {
+            return ExecuteQuery( command, CommandBehavior.Default, func );
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <exception cref="NotConnected"></exception>
+        public DbDataReader ExecuteQuery(DbCommand command, CommandBehavior behavior)
 		{
 			CheckConnectionIsOpen();
 
@@ -293,13 +315,33 @@ namespace Pug.Application.Data
 			}
 
 			return dataReader;
-		}
+        }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <exception cref="NotConnected"></exception>
-		public object ExecuteScalar(DbCommand command)
+        public void ExecuteQuery( DbCommand command, CommandBehavior behavior, Action<DbDataReader> action )
+        {
+            using ( DbDataReader dataReader = ExecuteQuery( command, behavior ) )
+            {
+                action( dataReader );
+            }
+        }
+
+        public R ExecuteQuery<R>( DbCommand command, CommandBehavior behavior, Func<DbDataReader, R> func )
+        {
+            R returnValue = default( R );
+
+            using (DbDataReader dataReader = ExecuteQuery(command, behavior) )
+            {
+                returnValue = func( dataReader );
+            }
+            
+            return returnValue;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <exception cref="NotConnected"></exception>
+        public object ExecuteScalar(DbCommand command)
 		{
 			CheckConnectionIsOpen();
 

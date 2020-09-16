@@ -1,5 +1,4 @@
-﻿using System;
-namespace Pug.Application.Security
+﻿namespace Pug.Application.Security
 {
 	/// <summary>
 	/// General interface for a security manager.

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data.Common;
-using System.Runtime.Serialization;
+//using System.Runtime.Serialization;
 
 namespace Pug.Application.Data
 {
@@ -15,9 +15,9 @@ namespace Pug.Application.Data
         {
         }
 
-        protected DatabaseError(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
+        //protected DatabaseError(SerializationInfo info, StreamingContext context)
+        //    : base(info, context)
+        //{
+        //}
     }
 }

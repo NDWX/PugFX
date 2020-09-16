@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Pug.Application.Security
 {
@@ -18,25 +15,6 @@ namespace Pug.Application.Security
 		}
 
 		public InvalidCredentials(string message, Exception innerException)
-			: base(message, innerException)
-		{
-		}
-	}
-
-
-	public class NotAuthorized : Exception
-	{
-		public NotAuthorized()
-			: base()
-		{
-		}
-
-		public NotAuthorized(string message)
-			: base(message)
-		{
-		}
-
-		public NotAuthorized(string message, Exception innerException)
 			: base(message, innerException)
 		{
 		}

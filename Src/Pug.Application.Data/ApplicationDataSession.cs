@@ -1,63 +1,141 @@
 ﻿using System;
+using System.Data;
+using System.Data.Common;
+#if NETFX || NETSTANDARD_2_0
+using System.Transactions;
+#endif
+
+using Pug;
+
+using Castle.DynamicProxy;
 
 namespace Pug.Application.Data
 {
+
 	public abstract class ApplicationDataSession : IApplicationDataSession
 	{
-		DatabaseSession databaseSession;
-		IDataAccessProvider dataAccessProvider;
+		IDbConnection connection;
+		Chain<IDbTransaction>.Link currentTxLink;
 
-		public ApplicationDataSession(DatabaseSession databaseSession, IDataAccessProvider dataAccessProvider)
+		object transactionSync = new object();
+
+		ProxyGenerator dynamicProxyGenerator = new ProxyGenerator();
+
+		public ApplicationDataSession(IDbConnection databaseSession)
 		{
-			this.databaseSession = databaseSession;
-			this.dataAccessProvider = dataAccessProvider;
+			this.connection = databaseSession;
 		}
 
-		//public ApplicationDataSession(DataAccessProviderFactory providerFactory)
-		//    : this(providerFactory.GetInstance())
+		//private void onTransactionCompleted(Chain<IDbTransaction>.Link link)
 		//{
+		//    link.Content.Dispose();
+		//}
+
+		private void onTransactionDisposed(Chain<IDbTransaction>.Link link)
+		{
+			currentTxLink = link.Previous;
+			TransactionDepth--;
+		}
+
+		//IDbTransaction Mix(Chain<IDbTransaction>.Link link)
+		//{
+		//    IDbTransaction transaction = link.Content;
+
+		//    Type transactionType = transaction.GetType();
+
+		//    ProxyGenerationOptions options = new ProxyGenerationOptions();
+		//    options.AddMixinInstance(link);
+
+		//    TransactionInterceptor interceptor = new TransactionInterceptor(onTransactionCompleted, onTransactionDisposed);
+
+		//    IDbTransaction proxy = (IDbTransaction)dynamicProxyGenerator.CreateClassProxyWithTarget(transactionType, link.Content, options, interceptor);
+
+		//    return proxy;
 		//}
 
 		#region IApplicationData Members
 
-		protected DatabaseSession DatabaseSession
+		protected IDbConnection Connection
 		{
 			get
 			{
-				return databaseSession;
+				return connection;
 			}
 		}
 
-		protected IDataAccessProvider DataAccessProvider
-		{
-			get
+		protected IDbTransaction Transaction
+		{   get
 			{
-				return dataAccessProvider;
+				return currentTxLink.Content;
 			}
 		}
+
+		public int TransactionDepth { get; private set; }
 
 		public void BeginTransaction()
 		{
-			DatabaseSession.BeginTransaction();
+			lock (transactionSync)
+			{
+				currentTxLink = new Chain<IDbTransaction>.Link(Connection.BeginTransaction(), currentTxLink);
+				TransactionDepth++;
+			}
+		}
+
+		public void BeginTransaction(System.Data.IsolationLevel isolation )
+		{
+			lock (transactionSync)
+			{ 
+				currentTxLink = new Chain<IDbTransaction>.Link(Connection.BeginTransaction(isolation), currentTxLink);
+				TransactionDepth++;
+			}
 		}
 
 		public void RollbackTransaction()
 		{
-			DatabaseSession.RollbackTransaction();
+			lock (transactionSync)
+				if ( currentTxLink != null)
+					try
+					{
+						currentTxLink.Content.Rollback();
+					}
+					catch
+					{
+						throw;
+					}
+					finally
+					{
+						currentTxLink.Content.Dispose();
+						onTransactionDisposed(currentTxLink);
+					}
 		}
 
 		public void CommitTransaction()
 		{
-			DatabaseSession.CommitTransaction();
+			lock (transactionSync)
+				if (currentTxLink != null)
+					try
+					{
+						currentTxLink.Content.Commit();
+					}
+					catch
+					{
+						throw;
+					}
+					finally
+					{
+						currentTxLink.Content.Dispose();
+						onTransactionDisposed(currentTxLink);
+					}
 		}
 
-		public void EnlistInTransaction(System.Transactions.Transaction transaction)
+#if NETFX
+		public void EnlistInTransaction(Transaction transaction)
 		{
-			DatabaseSession.EnlistTransaction(transaction);
+			Connection.EnlistTransaction(transaction);
 		}
-
+#endif
 		#endregion
-		
+
 		protected T EvaluateIsNullToDefault<T>(object obj)
 		{
 			if (DBNull.Value == obj)
@@ -76,13 +154,16 @@ namespace Pug.Application.Data
 			return (T)obj;
 		}
 
-		#region IDisposable Members
+#region IDisposable Members
 
 		public virtual void Dispose()
-		{
-			DatabaseSession.Close();
+		{ 
+			while( currentTxLink != null )
+				RollbackTransaction();
+
+			Connection.Close();
 		}
 
-		#endregion
+#endregion
 	}
 }

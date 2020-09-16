@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Pug
 {
-	internal class ReadOnlyDictionary<TKey, TValue> : IDictionary<TKey, TValue>
+    internal class ReadOnlyDictionary<TKey, TValue> : IDictionary<TKey, TValue>
 	{
 		private IDictionary<TKey, TValue> _dictionary;
 
@@ -129,6 +127,5 @@ namespace Pug
 		}
 
 		#endregion
-	} 
-
+	}
 }

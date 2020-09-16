@@ -1,0 +1,7 @@
+﻿/Src/Pug.Application.Data.Postgres/
+/Src/Pug.Application.Data.SqlServer/
+/Src/NetFX/
+/Src/Tests/CsvTests/
+/Src/Tests/SqlLiteTests/
+Src/Pug.Application.Data.Postgres
+Src/Base32Test
