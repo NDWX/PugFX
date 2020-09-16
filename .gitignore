@@ -4,3 +4,4 @@
 /Src/Tests/CsvTests/
 /Src/Tests/SqlLiteTests/
 Src/Pug.Application.Data.Postgres
+Src/Base32Test
