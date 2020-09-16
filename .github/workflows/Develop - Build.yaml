@@ -12,7 +12,7 @@ env:
   ApplicationDataProject: Src/Pug.Application.Data/Pug.Application.Data.csproj
   ApplicationCsvDataProject: Src/Pug.Application.Data.Csv/Pug.Application.Data.Csv.csproj
   ApplicationSecurityProject: Src/Pug.Application.Security/Pug.Application.Security.csproj
-  ApplicationServiceModelProject: Src/Pug.ServiceModel/Pug.ServiceModel.csproj
+  ApplicationServiceModelProject: Src/Pug.Application.ServiceModel/Pug.Application.ServiceModel.csproj
   AspNetCoreProject: Src/Pug.Web.AspNet.Core/Pug.Web.AspNet.Core.csproj
 
 jobs:
