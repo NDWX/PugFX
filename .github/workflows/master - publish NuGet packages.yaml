@@ -1,3 +1,5 @@
+name: master - build and NuGet publish
+
 on:
   push:
     branches:
@@ -65,29 +67,80 @@ jobs:
       - name: Pack Core project
         run: dotnet pack --output ${{env.PackagesBaseFolder}} --nologo --configuration ${{env.BuildConfiguration}} ${{env.CoreProject}}
 
+      - name: Publish Core project NuGet package
+        run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --skip-duplicate
+        
+      - name: Clear packages folder
+        run: rm packages/*.nupkg
+
       - name: Pack Security project
         run: dotnet pack --output ${{env.PackagesBaseFolder}} --nologo --configuration ${{env.BuildConfiguration}} ${{env.SecurityProject}}
+
+      - name: Publish Security NuGet package
+        run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --skip-duplicate
+
+      - name: Clear packages folder
+        run: rm packages/*.nupkg
 
       - name: Pack Application project
         run: dotnet pack --output ${{env.PackagesBaseFolder}} --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationProject}}
 
+      - name: Publish Application NuGet package
+        run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --skip-duplicate
+
+      - name: Clear packages folder
+        run: rm packages/*.nupkg
+
       - name: Pack ApplicationDataCommon project
         run: dotnet pack --output ${{env.PackagesBaseFolder}} --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationDataCommonProject}}
+
+      - name: Publish ApplicationDataCommon NuGet package
+        run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --skip-duplicate
+
+      - name: Clear packages folder
+        run: rm packages/*.nupkg
 
       - name: Pack ApplicationData project
         run: dotnet pack --output ${{env.PackagesBaseFolder}} --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationDataProject}}
 
+      - name: Publish ApplicationData NuGet package
+        run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --skip-duplicate
+
+      - name: Clear packages folder
+        run: rm packages/*.nupkg
+
       - name: Pack ApplicationCsvData project
         run: dotnet pack --output ${{env.PackagesBaseFolder}} --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationCsvDataProject}}
+
+      - name: Publish ApplicationCsvData NuGet package
+        run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --skip-duplicate
+
+      - name: Clear packages folder
+        run: rm packages/*.nupkg
 
       - name: Pack ApplicationSecurity project
         run: dotnet pack --output ${{env.PackagesBaseFolder}} --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationSecurityProject}}
 
+      - name: Publish ApplicationSecurity NuGet package
+        run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --skip-duplicate
+
+      - name: Clear packages folder
+        run: rm packages/*.nupkg
+
       - name: Pack ApplicationServiceModel project
         run: dotnet pack --output ${{env.PackagesBaseFolder}} --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationServiceModelProject}}
+
+      - name: Publish ApplicationServiceModel NuGet package
+        run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --skip-duplicate
+
+      - name: Clear packages folder
+        run: rm packages/*.nupkg
 
       - name: Pack AspNetCore project
         run: dotnet pack --output ${{env.PackagesBaseFolder}} --nologo --configuration ${{env.BuildConfiguration}} ${{env.AspNetCoreProject}}
 
-      - name: Publish NuGet Packages
+      - name: Publish AspNetCore NuGet package
         run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --skip-duplicate
+
+      - name: Clear packages folder
+        run: rm packages/*.nupkg

@@ -1,3 +1,5 @@
+name: develop - build
+
 on:
   push:
     branches:
