@@ -1,3 +1,5 @@
+name: master - build and NuGet publish
+
 on:
   push:
     branches:
