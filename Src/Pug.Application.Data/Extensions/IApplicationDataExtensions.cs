@@ -174,7 +174,7 @@ namespace Pug.Application.Data
 				}
 				else
 				{
-					using(TransactionScope tx = new TransactionScope(transactionScopeOption, transactionOptions))
+					using(TransactionScope tx = new TransactionScope(transactionScopeOption, transactionOptions, TransactionScopeAsyncFlowOption.Enabled))
 					{
 						dataSession = applicationData.GetSession();
 
@@ -322,7 +322,7 @@ namespace Pug.Application.Data
 
 			try
 			{
-				using (TransactionScope tx = new TransactionScope(transactionScopeOption))
+				using (TransactionScope tx = new TransactionScope(transactionScopeOption, TransactionScopeAsyncFlowOption.Enabled))
 				{
 					dataSession = applicationData.GetSession();
 
@@ -490,7 +490,7 @@ namespace Pug.Application.Data
 				}
 				else
 				{
-					using(TransactionScope tx = new TransactionScope(transactionScopeOption, transactionOptions))
+					using(TransactionScope tx = new TransactionScope(transactionScopeOption, transactionOptions, TransactionScopeAsyncFlowOption.Enabled))
 					{
 						using(dataSession = applicationData.GetSession())
 						{
@@ -617,7 +617,7 @@ namespace Pug.Application.Data
 
 			try
 			{
-				using (TransactionScope tx = new TransactionScope(transactionScopeOption))
+				using (TransactionScope tx = new TransactionScope(transactionScopeOption, TransactionScopeAsyncFlowOption.Enabled))
 				{
 					using( dataSession = applicationData.GetSession() )
 					{

@@ -9,15 +9,18 @@
 	<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
 	<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
 	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-	<Version>1.1.10</Version>
-	<AssemblyVersion>1.1.10</AssemblyVersion>
-	<FileVersion>1.1.10</FileVersion>
+	<Version>1.1.11</Version>
+	<AssemblyVersion>1.1.11</AssemblyVersion>
+	<FileVersion>1.1.11</FileVersion>
 	<Authors>Andrian</Authors>
 	<RepositoryType>git</RepositoryType>
 	<RepositoryUrl>https://github.com/NDWX/PugFX.git</RepositoryUrl>
 	<PackageLicenseExpression>Apache-2.0+</PackageLicenseExpression>
 	<License>Apache2.0</License>
 	<PackageReleaseNotes>
+		v1.1.11
+			- Fixed IApplicationData async extension functions TransactionScope async flow fix
+		
 		v1.1.10
 			- Added async IApplicationData extension methods
 		
@@ -34,6 +37,7 @@
 			- Fixed bug where connection is not enlisted in transaction when calling IApplicationData extension methods
 		
 	</PackageReleaseNotes>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
