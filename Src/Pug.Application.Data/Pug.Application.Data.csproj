@@ -9,33 +9,16 @@
 	<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
 	<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
 	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-	<Version>1.1.11</Version>
-	<AssemblyVersion>1.1.11</AssemblyVersion>
-	<FileVersion>1.1.11</FileVersion>
+	<Version>1.1.12</Version>
+	<AssemblyVersion>1.1.12</AssemblyVersion>
+	<FileVersion>1.1.12</FileVersion>
 	<Authors>Andrian</Authors>
 	<RepositoryType>git</RepositoryType>
 	<RepositoryUrl>https://github.com/NDWX/PugFX.git</RepositoryUrl>
 	<PackageLicenseExpression>Apache-2.0+</PackageLicenseExpression>
 	<License>Apache2.0</License>
 	<PackageReleaseNotes>
-		v1.1.11
-			- Fixed IApplicationData async extension functions TransactionScope async flow fix
-		
-		v1.1.10
-			- Added async IApplicationData extension methods
-		
-		v1.1.9
-			- IApplicationData extension methods overload rework
-		
-		v1.1.8
-			- Allow specification of TransactionOptions when calling IApplicationData Perform and Execute extension methods
-		
-		v1.1.7
-			- Fixed bug in NetStandard 2.0 where TransactionScope is not completed in case of successful execution of queries
-		
-		v1.1.6
-			- Fixed bug where connection is not enlisted in transaction when calling IApplicationData extension methods
-		
+		Modified IApplicationData extension methods to commit TransactionScope while IApplicationDataSession is still open.		
 	</PackageReleaseNotes>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
