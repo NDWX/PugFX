@@ -1,3 +1,4 @@
+using System;
 using Pug.Application;
 
 namespace Pug.Application.Security
@@ -46,9 +47,19 @@ namespace Pug.Application.Security
         }
 
 		protected virtual IUser GetCurrentUser()
-        {
-            return sessionProvider.CurrentSession?.Get<IUser>($"{application}.SecurityManager.User");
-        }
+		{
+			IUser currentUser = null;
+
+			try
+			{
+				currentUser = sessionProvider.CurrentSession?.Get<IUser>($"{application}.SecurityManager.User");
+			}
+			catch(NullReferenceException e)
+			{
+			}
+
+			return currentUser;
+		}
 
 		protected ISessionUserIdentityAccessor SessionUserIdentityAccessor
 		{

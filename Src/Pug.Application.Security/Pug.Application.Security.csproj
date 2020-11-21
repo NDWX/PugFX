@@ -15,10 +15,11 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/NDWX/PugFX.git</RepositoryUrl>
     <PackageTags>Pug Security Session User Identity PugFX</PackageTags>
-    <Version>1.1.4</Version>
-    <AssemblyVersion>1.1.4</AssemblyVersion>
-    <FileVersion>1.1.4</FileVersion>
-    <PackageVersion>1.1.4</PackageVersion>
+    <Version>1.2</Version>
+    <AssemblyVersion>1.2</AssemblyVersion>
+    <FileVersion>1.2</FileVersion>
+    <PackageVersion>1.2</PackageVersion>
+    <PackageReleaseNotes>Handle NullReferenceException when application user session does not contain requested item.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
