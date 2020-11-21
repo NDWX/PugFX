@@ -67,9 +67,12 @@ jobs:
       - name: Pack Core project
         run: dotnet pack --output ${{env.PackagesBaseFolder}} --nologo --configuration ${{env.BuildConfiguration}} ${{env.CoreProject}}
 
-      - name: Publish Core project NuGet package
+      - name: Publish Core NuGet package
         run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --skip-duplicate
-        
+
+      - name: Publish Core NuGet package to NuGet.org
+        run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --api-key ${{secrets.NUGET_APIKEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
       - name: Clear packages folder
         run: rm packages/*.nupkg
 
@@ -78,6 +81,9 @@ jobs:
 
       - name: Publish Security NuGet package
         run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --skip-duplicate
+
+      - name: Publish Security NuGet package to NuGet.org
+        run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --api-key ${{secrets.NUGET_APIKEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
 
       - name: Clear packages folder
         run: rm packages/*.nupkg
@@ -88,6 +94,9 @@ jobs:
       - name: Publish Application NuGet package
         run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --skip-duplicate
 
+      - name: Publish Application NuGet package to NuGet.org
+        run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --api-key ${{secrets.NUGET_APIKEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
       - name: Clear packages folder
         run: rm packages/*.nupkg
 
@@ -96,6 +105,9 @@ jobs:
 
       - name: Publish ApplicationDataCommon NuGet package
         run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --skip-duplicate
+
+      - name: Publish ApplicationDataCommon NuGet package to NuGet.org
+        run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --api-key ${{secrets.NUGET_APIKEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
 
       - name: Clear packages folder
         run: rm packages/*.nupkg
@@ -106,6 +118,9 @@ jobs:
       - name: Publish ApplicationData NuGet package
         run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --skip-duplicate
 
+      - name: Publish ApplicationData NuGet package to NuGet.org
+        run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --api-key ${{secrets.NUGET_APIKEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
       - name: Clear packages folder
         run: rm packages/*.nupkg
 
@@ -115,6 +130,9 @@ jobs:
       - name: Publish ApplicationCsvData NuGet package
         run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --skip-duplicate
 
+      - name: Publish ApplicationCsvData NuGet package to NuGet.org
+        run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --api-key ${{secrets.NUGET_APIKEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
       - name: Clear packages folder
         run: rm packages/*.nupkg
 
@@ -123,6 +141,9 @@ jobs:
 
       - name: Publish ApplicationSecurity NuGet package
         run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --skip-duplicate
+  
+      - name: Publish ApplicationSecurity NuGet package to NuGet.org
+        run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --api-key ${{secrets.NUGET_APIKEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
 
       - name: Clear packages folder
         run: rm packages/*.nupkg
@@ -133,6 +154,9 @@ jobs:
       - name: Publish ApplicationServiceModel NuGet package
         run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --skip-duplicate
 
+      - name: Publish ApplicationServiceModel NuGet package to NuGet.org
+        run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --api-key ${{secrets.NUGET_APIKEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
       - name: Clear packages folder
         run: rm packages/*.nupkg
 
@@ -141,6 +165,9 @@ jobs:
 
       - name: Publish AspNetCore NuGet package
         run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --skip-duplicate
+
+      - name: Publish AspNetCore NuGet package to NuGet.org
+        run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --api-key ${{secrets.NUGET_APIKEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
 
       - name: Clear packages folder
         run: rm packages/*.nupkg
