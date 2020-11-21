@@ -48,7 +48,7 @@ namespace Pug.Application.Data
 			Action<Exception, C> errorHandler = null, 
 			Action<C> onSuccess = null, 
 			Action<C> onFinished = null
-		)		
+		)
 			where T : class, IApplicationDataSession
 		{
 			T dataSession = null;
@@ -404,9 +404,8 @@ namespace Pug.Application.Data
 						using(dataSession = applicationData.GetSession())
 						{
 							result = function(dataSession, context);
+							tx.Complete();
 						}
-
-						tx.Complete();
 					}
 				}
 #else
@@ -495,9 +494,8 @@ namespace Pug.Application.Data
 						using(dataSession = applicationData.GetSession())
 						{
 							result = await function(dataSession, context).ConfigureAwait(false);
+							tx.Complete();
 						}
-
-						tx.Complete();
 					}
 				}
 #else
@@ -570,9 +568,9 @@ namespace Pug.Application.Data
 					using( dataSession = applicationData.GetSession() )
 					{
 						result = function(dataSession, context);
-					}
 
-					tx.Complete();
+						tx.Complete();
+					}
 				}
 			}
 			catch (Exception exception)
@@ -622,9 +620,9 @@ namespace Pug.Application.Data
 					using( dataSession = applicationData.GetSession() )
 					{
 						result = await function(dataSession, context).ConfigureAwait(false);
-					}
 
-					tx.Complete();
+						tx.Complete();
+					}
 				}
 			}
 			catch (Exception exception)
