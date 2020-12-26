@@ -15,11 +15,11 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/NDWX/PugFX.git</RepositoryUrl>
     <PackageTags>Pug Security Session User Identity PugFX</PackageTags>
-    <Version>1.2</Version>
-    <AssemblyVersion>1.2</AssemblyVersion>
-    <FileVersion>1.2</FileVersion>
-    <PackageVersion>1.2</PackageVersion>
-    <PackageReleaseNotes>Handle NullReferenceException when application user session does not contain requested item.</PackageReleaseNotes>
+    <Version>1.3</Version>
+    <AssemblyVersion>1.3</AssemblyVersion>
+    <FileVersion>1.3</FileVersion>
+    <PackageVersion>1.3</PackageVersion>
+    <PackageReleaseNotes>Added authorization scoping support.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

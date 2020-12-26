@@ -4,6 +4,7 @@ namespace Pug.Application.Security
 {
 	public interface IAuthorizationProvider
 	{
-		bool UserIsAuthorized(IDictionary<string, string> context, ICredentials credentials, string operation, string objectType, string objectName = "");
+		bool UserIsAuthorized(IDictionary<string, string> context, IUser user, string operation, string objectType,
+							string objectName = "", string purpose = "", string domain = "");
 	}
 }

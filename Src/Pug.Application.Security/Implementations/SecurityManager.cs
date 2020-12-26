@@ -1,23 +1,20 @@
 using System;
-using Pug.Application;
 
 namespace Pug.Application.Security
 {
 
     public class SecurityManager : ISecurityManager
 	{
-        string application;
-        ISessionUserIdentityAccessor sessionUserIdentityAccessor;
-        IAuthorizationProvider authorizationProvider;
-        IUserSessionProvider sessionProvider;
+		private readonly string _application;
+		private readonly IUserSessionProvider _sessionProvider;
 
 		public SecurityManager(string application, ISessionUserIdentityAccessor sessionUserIdentityAccessor, IUserRoleProvider userRoleProvider, IAuthorizationProvider uathorizationProvider, IUserSessionProvider sessionProvider)
 		{
-            this.application = application;
-			this.sessionUserIdentityAccessor = sessionUserIdentityAccessor;
+            this._application = application;
+			this.SessionUserIdentityAccessor = sessionUserIdentityAccessor;
 			this.UserRoleProvider = userRoleProvider;
 			this.AuthorizationProvider = uathorizationProvider;
-            this.sessionProvider = sessionProvider;
+            this._sessionProvider = sessionProvider;
 		}
 
 		public IUser CurrentUser
@@ -28,7 +25,7 @@ namespace Pug.Application.Security
 
 				if (currentUser == null)
 				{
-					IPrincipalIdentity userIdentity = sessionUserIdentityAccessor.GetUserIdentity();
+					IPrincipalIdentity userIdentity = SessionUserIdentityAccessor.GetUserIdentity();
 
 					if (userIdentity != null)
 					{
@@ -43,7 +40,7 @@ namespace Pug.Application.Security
 
 		protected virtual void SetCurrentUser(IUser user)
         {
-            sessionProvider.CurrentSession.Set<IUser>($"{application}.SecurityManager.User", user);
+            _sessionProvider.CurrentSession.Set($"{_application}.SecurityManager.User", user);
         }
 
 		protected virtual IUser GetCurrentUser()
@@ -52,25 +49,19 @@ namespace Pug.Application.Security
 
 			try
 			{
-				currentUser = sessionProvider.CurrentSession?.Get<IUser>($"{application}.SecurityManager.User");
+				currentUser = _sessionProvider.CurrentSession?.Get<IUser>($"{_application}.SecurityManager.User");
 			}
-			catch(NullReferenceException e)
+			catch(NullReferenceException)
 			{
 			}
 
 			return currentUser;
 		}
 
-		protected ISessionUserIdentityAccessor SessionUserIdentityAccessor
-		{
-			get
-			{
-				return sessionUserIdentityAccessor;
-			}
-		}
+		protected ISessionUserIdentityAccessor SessionUserIdentityAccessor { get; }
 
-        public  IUserRoleProvider UserRoleProvider { get; private set; }
+		public  IUserRoleProvider UserRoleProvider { get;  }
 
-        public IAuthorizationProvider AuthorizationProvider { get => authorizationProvider; private set => authorizationProvider = value; }
-    }
+        public IAuthorizationProvider AuthorizationProvider { get; }
+	}
 }
