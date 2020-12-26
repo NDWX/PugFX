@@ -5,45 +5,42 @@ using System.Security.Principal;
 namespace Pug.Application.Security
 {
 
-	public class User : Pug.Application.Security.IUser, System.Security.Principal.IPrincipal
+	public class User : IUser
 	{
-		IPrincipalIdentity identity;
-		IUserRoleProvider userRoleProvider;
-		IAuthorizationProvider userSecurity;
+		private readonly IUserRoleProvider _userRoleProvider;
+		private readonly IAuthorizationProvider _userSecurity;
 
-		public User(IPrincipalIdentity credentials, IUserRoleProvider userRoleProvider, IAuthorizationProvider userSecurity)
+		public User(IPrincipalIdentity credentials, IUserRoleProvider userRoleProvider,
+					IAuthorizationProvider userSecurity)
 		{
-			this.identity = credentials;
-			this.userRoleProvider = userRoleProvider;
-			this.userSecurity = userSecurity;
+			this.Identity = credentials;
+			this._userRoleProvider = userRoleProvider;
+			this._userSecurity = userSecurity;
 		}
 
 		public bool IsInRole(string role)
 		{
-			return userRoleProvider.UserIsInRole(identity.Identifier, role);
+			return _userRoleProvider.UserIsInRole(Identity.Identifier, role);
 		}
 
-		public bool IsAuthorized( IDictionary<string, string> context, string operation, string objectType, string objectName = "" )
+		public bool IsAuthorized(IDictionary<string, string> context, string operation, string objectType,
+								string objectName = "", string purpose = "", string domain = "")
 		{
-			return userSecurity.UserIsAuthorized( context, identity, operation, objectType, objectName);
+			return _userSecurity.UserIsAuthorized(context, this, operation, objectType, objectName, purpose, domain);
 		}
 
-		public IPrincipalIdentity Identity
+		public IEnumerable<string> GetRoles()
 		{
-			get { return identity; }
+			return _userRoleProvider.GetUserRoles(this.Identity.Identifier);
 		}
 
-		IIdentity IPrincipal.Identity
-		{
-			get
-			{
-				return identity;
-			}
-		}
+		public IPrincipalIdentity Identity { get; }
+
+		IIdentity IPrincipal.Identity => Identity;
 
 		public void Dispose()
 		{
-			this.identity.Dispose();
+			this.Identity.Dispose();
 		}
 	}
 }
