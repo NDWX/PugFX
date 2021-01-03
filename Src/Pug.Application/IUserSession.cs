@@ -12,7 +12,6 @@ namespace Pug.Application
 
         event EventHandler Ending;
     }
-    
 }
 
 
