@@ -16,6 +16,7 @@ env:
   ApplicationSecurityProject: Src/Pug.Application.Security/Pug.Application.Security.csproj
   ApplicationServiceModelProject: Src/Pug.Application.ServiceModel/Pug.Application.ServiceModel.csproj
   AspNetCoreProject: Src/Pug.Web.AspNet.Core/Pug.Web.AspNet.Core.csproj
+  WebApiClientProject: Src/Pug.Web.Api.CLient/Pug.Web.Api.Client.csproj
 
 jobs:
   build:
@@ -58,3 +59,6 @@ jobs:
 
       - name: Build AspNetCore project
         run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.AspNetCoreProject}}
+
+      - name: Build WebApiClient project
+        run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.WebApiClientProject}}
