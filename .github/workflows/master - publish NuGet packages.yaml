@@ -16,6 +16,7 @@ env:
   ApplicationSecurityProject: Src/Pug.Application.Security/Pug.Application.Security.csproj
   ApplicationServiceModelProject: Src/Pug.Application.ServiceModel/Pug.Application.ServiceModel.csproj
   AspNetCoreProject: Src/Pug.Web.AspNet.Core/Pug.Web.AspNet.Core.csproj
+  WebApiClientProject: Src/Pug.Web.Api.Client/Pug.Web.Api.Client.csproj
   PackagesBaseFolder: packages
 
 jobs:
@@ -59,6 +60,9 @@ jobs:
 
       - name: Build AspNetCore project
         run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.AspNetCoreProject}}
+
+      - name: Build WebApiClient project
+        run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.WebApiClientProject}}
 
 
       - name: Create packages base folder
@@ -167,6 +171,15 @@ jobs:
         run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --skip-duplicate
 
       - name: Publish AspNetCore NuGet package to NuGet.org
+        run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --api-key ${{secrets.NUGET_APIKEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+      - name: Pack WebApiClient project
+        run: dotnet pack --output ${{env.PackagesBaseFolder}} --nologo --configuration ${{env.BuildConfiguration}} ${{env.WebApiClientProject}}
+
+      - name: Publish WebApiClient NuGet package
+        run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --skip-duplicate
+
+      - name: Publish WebApiClient NuGet package to NuGet.org
         run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --api-key ${{secrets.NUGET_APIKEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
 
       - name: Clear packages folder

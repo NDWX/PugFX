@@ -38,6 +38,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Web.AspNet.Core", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application.Data.Csv", "src\Pug.Application.Data.Csv\Pug.Application.Data.Csv.csproj", "{B038BB75-0909-4329-B39E-69D88F1BDE8D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Web.Api.Client", "src\Pug.Web.Api.Client\Pug.Web.Api.Client.csproj", "{B666CD6B-675F-49F8-9AD4-0DD4A6454C4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -192,6 +194,18 @@ Global
 		{B038BB75-0909-4329-B39E-69D88F1BDE8D}.Release|x64.Build.0 = Release|Any CPU
 		{B038BB75-0909-4329-B39E-69D88F1BDE8D}.Release|x86.ActiveCfg = Release|Any CPU
 		{B038BB75-0909-4329-B39E-69D88F1BDE8D}.Release|x86.Build.0 = Release|Any CPU
+		{B666CD6B-675F-49F8-9AD4-0DD4A6454C4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B666CD6B-675F-49F8-9AD4-0DD4A6454C4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B666CD6B-675F-49F8-9AD4-0DD4A6454C4A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B666CD6B-675F-49F8-9AD4-0DD4A6454C4A}.Debug|x64.Build.0 = Debug|Any CPU
+		{B666CD6B-675F-49F8-9AD4-0DD4A6454C4A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B666CD6B-675F-49F8-9AD4-0DD4A6454C4A}.Debug|x86.Build.0 = Debug|Any CPU
+		{B666CD6B-675F-49F8-9AD4-0DD4A6454C4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B666CD6B-675F-49F8-9AD4-0DD4A6454C4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B666CD6B-675F-49F8-9AD4-0DD4A6454C4A}.Release|x64.ActiveCfg = Release|Any CPU
+		{B666CD6B-675F-49F8-9AD4-0DD4A6454C4A}.Release|x64.Build.0 = Release|Any CPU
+		{B666CD6B-675F-49F8-9AD4-0DD4A6454C4A}.Release|x86.ActiveCfg = Release|Any CPU
+		{B666CD6B-675F-49F8-9AD4-0DD4A6454C4A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
