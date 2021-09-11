@@ -13,8 +13,8 @@ namespace Pug.Web.Api.Client
       protected Uri BaseAddress { get; }
       protected string BasePath { get; }
       
-#if NETSTANDARD
-      private IHttpClientFactory httpClientFactory;
+#if NETSTANDARD_2_0
+      private readonly IHttpClientFactory httpClientFactory;
 #else
       private static HttpClient customerClient = new HttpClient();
 #endif
@@ -22,6 +22,25 @@ namespace Pug.Web.Api.Client
       public Uri BaseUrl { get; }
       
       public IApiClientCredentialsProvider CredentialsProvider { get; }
+      
+#if NETSTANDARD_2_0
+      
+      public ApiClient(Uri baseUrl, IHttpClientFactory httpClientFactory, IApiClientCredentialsProvider credentialsProvider)
+      {
+         BaseUrl = baseUrl ?? throw new ArgumentNullException(nameof(baseUrl));
+         this.httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
+         CredentialsProvider = credentialsProvider ?? throw new ArgumentNullException(nameof(credentialsProvider));
+         
+         BaseAddress = new Uri(baseUrl.ToString().Replace(baseUrl.AbsolutePath, string.Empty));
+         BasePath = baseUrl.AbsolutePath;
+      }
+      
+      public ApiClient(string baseUrl, IHttpClientFactory httpClientFactory, IApiClientCredentialsProvider credentialsProvider)
+         : this(new Uri(baseUrl), httpClientFactory, credentialsProvider)
+      {
+      }
+      
+#else
       
       public ApiClient(Uri baseUrl, IApiClientCredentialsProvider credentialsProvider)
       {
@@ -36,10 +55,12 @@ namespace Pug.Web.Api.Client
       {
       }
       
+#endif
+      
       private HttpClient CreateHttpClient()
       {
          HttpClient httpClient;
-#if !NETSTANDARD
+#if !NETSTANDARD_2_0
          httpClient = customerClient;
 #else
          httpClient = httpClientFactory.CreateClient();
