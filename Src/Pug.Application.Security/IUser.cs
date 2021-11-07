@@ -10,9 +10,11 @@ namespace Pug.Application.Security
 		new Pug.Application.Security.IPrincipalIdentity Identity { get; }
 
 		bool IsAuthorized(IDictionary<string, string> context, string operation, string objectType,
-						string objectName = "", string purpose = "", string domain = "");
+						string objectName = "", string purpose = "", string domain = null);
 
-		IEnumerable<string> GetRoles();
+		IEnumerable<string> GetRoles(string domain = null);
+		
+		bool IsInRole(string role, string domain);
 
 		void Dispose();
 	}

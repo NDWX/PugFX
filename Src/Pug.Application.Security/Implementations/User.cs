@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-
 using System.Security.Principal;
 
 namespace Pug.Application.Security
@@ -20,18 +19,23 @@ namespace Pug.Application.Security
 
 		public bool IsInRole(string role)
 		{
-			return _userRoleProvider.UserIsInRole(Identity.Identifier, role);
+			return _userRoleProvider.UserIsInRole(Identity.Identifier, null, role);
+		}
+		
+		public bool IsInRole(string role, string domain)
+		{
+			return _userRoleProvider.UserIsInRole(Identity.Identifier, domain, role);
 		}
 
 		public bool IsAuthorized(IDictionary<string, string> context, string operation, string objectType,
-								string objectName = "", string purpose = "", string domain = "")
+								string objectName = "", string purpose = "", string domain = null)
 		{
 			return _userSecurity.UserIsAuthorized(context, this, operation, objectType, objectName, purpose, domain);
 		}
 
-		public IEnumerable<string> GetRoles()
+		public IEnumerable<string> GetRoles(string domain = null)
 		{
-			return _userRoleProvider.GetUserRoles(this.Identity.Identifier);
+			return _userRoleProvider.GetUserRoles(this.Identity.Identifier, domain);
 		}
 
 		public IPrincipalIdentity Identity { get; }

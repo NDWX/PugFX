@@ -15,11 +15,11 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/NDWX/PugFX.git</RepositoryUrl>
     <PackageTags>Pug Security Session User Identity PugFX</PackageTags>
-    <Version>1.3</Version>
-    <AssemblyVersion>1.3</AssemblyVersion>
-    <FileVersion>1.3</FileVersion>
-    <PackageVersion>1.3</PackageVersion>
-    <PackageReleaseNotes>Added authorization scoping support.</PackageReleaseNotes>
+    <Version>2.0.0-b1</Version>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
+    <PackageVersion>2.0.0-b1</PackageVersion>
+    <PackageReleaseNotes>Added 'domain' support for role.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
