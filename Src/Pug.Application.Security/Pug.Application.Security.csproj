@@ -18,7 +18,7 @@
     <Version>2.0.0-b1</Version>
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <FileVersion>2.0.0.0</FileVersion>
-    <PackageVersion>2.0.0-b1</PackageVersion>
+    <PackageVersion>2.0.0</PackageVersion>
     <PackageReleaseNotes>Added 'domain' support for role.</PackageReleaseNotes>
   </PropertyGroup>
 

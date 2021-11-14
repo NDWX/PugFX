@@ -5,7 +5,6 @@ namespace Pug.Application.Security
 	public class NotAuthorized : Exception
 	{
 		public NotAuthorized()
-			: base()
 		{
 		}
 

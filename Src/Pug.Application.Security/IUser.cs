@@ -7,7 +7,7 @@ namespace Pug.Application.Security
 	/// </summary>
 	public interface IUser : System.Security.Principal.IPrincipal
 	{
-		new Pug.Application.Security.IPrincipalIdentity Identity { get; }
+		new IPrincipalIdentity Identity { get; }
 
 		bool IsAuthorized(IDictionary<string, string> context, string operation, string objectType,
 						string objectName = "", string purpose = "", string domain = null);

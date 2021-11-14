@@ -10,6 +10,6 @@
 		/// <summary>
 		/// Get currently logged in user.
 		/// </summary>
-		global::Pug.Application.Security.IUser CurrentUser { get; }
+		IUser CurrentUser { get; }
 	}
 }

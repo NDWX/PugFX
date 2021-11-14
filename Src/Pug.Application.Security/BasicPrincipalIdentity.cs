@@ -8,11 +8,11 @@ namespace Pug.Application.Security
     {
         public BasicPrincipalIdentity(string identifier, string name, bool isAuthenticated, string authenticationType, IDictionary<string, string> attributes)
         {
-            this.Identifier = identifier;
-            this.Name = name;
-            this.AuthenticationType = authenticationType;
-            this.IsAuthenticated = IsAuthenticated;
-            this.Attributes = attributes.ReadOnly();
+            Identifier = identifier;
+            Name = name;
+            AuthenticationType = authenticationType;
+            IsAuthenticated = IsAuthenticated;
+            Attributes = attributes.ReadOnly();
         }
 
         public IDictionary<string, string> Attributes { get; private set; }
@@ -31,7 +31,7 @@ namespace Pug.Application.Security
 
         public bool Equals(ICredentials other)
         {
-            return other.Identifier == this.Identifier;
+            return other.Identifier == Identifier;
         }
     }
 }

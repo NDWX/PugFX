@@ -5,7 +5,6 @@ namespace Pug.Application.Security
 	public class InvalidCredentials : Exception
 	{
 		public InvalidCredentials()
-			: base()
 		{
 		}
 
