@@ -28,8 +28,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application", "src\Pug.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application.Data.Postgres", "src\Pug.Application.Data.Postgres\Pug.Application.Data.Postgres.csproj", "{46933926-D203-43A8-A28C-E46F832344F5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application.Data.SqlServer", "src\Pug.Application.Data.SqlServer\Pug.Application.Data.SqlServer.csproj", "{F90DF93B-191A-476C-B576-75AB93F771CF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Core", "src\Pug.Core\Pug.Core.csproj", "{6F790938-D789-4C98-9693-DE980DAAEB7B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application.ServiceModel", "src\Pug.Application.ServiceModel\Pug.Application.ServiceModel.csproj", "{5D9806F0-D678-4E70-B29F-45DE2CEC86E6}"
@@ -69,7 +67,6 @@ Global
 		{31F1E8F1-6CE8-4B40-A3D0-2D52190C9C30}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{31F1E8F1-6CE8-4B40-A3D0-2D52190C9C30}.Debug|x86.Build.0 = Debug|Any CPU
 		{31F1E8F1-6CE8-4B40-A3D0-2D52190C9C30}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{31F1E8F1-6CE8-4B40-A3D0-2D52190C9C30}.Release|Any CPU.Build.0 = Release|Any CPU
 		{31F1E8F1-6CE8-4B40-A3D0-2D52190C9C30}.Release|x64.ActiveCfg = Release|Any CPU
 		{31F1E8F1-6CE8-4B40-A3D0-2D52190C9C30}.Release|x64.Build.0 = Release|Any CPU
 		{31F1E8F1-6CE8-4B40-A3D0-2D52190C9C30}.Release|x86.ActiveCfg = Release|Any CPU
@@ -134,18 +131,6 @@ Global
 		{46933926-D203-43A8-A28C-E46F832344F5}.Release|x64.Build.0 = Release|Any CPU
 		{46933926-D203-43A8-A28C-E46F832344F5}.Release|x86.ActiveCfg = Release|Any CPU
 		{46933926-D203-43A8-A28C-E46F832344F5}.Release|x86.Build.0 = Release|Any CPU
-		{F90DF93B-191A-476C-B576-75AB93F771CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F90DF93B-191A-476C-B576-75AB93F771CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F90DF93B-191A-476C-B576-75AB93F771CF}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F90DF93B-191A-476C-B576-75AB93F771CF}.Debug|x64.Build.0 = Debug|Any CPU
-		{F90DF93B-191A-476C-B576-75AB93F771CF}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F90DF93B-191A-476C-B576-75AB93F771CF}.Debug|x86.Build.0 = Debug|Any CPU
-		{F90DF93B-191A-476C-B576-75AB93F771CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F90DF93B-191A-476C-B576-75AB93F771CF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F90DF93B-191A-476C-B576-75AB93F771CF}.Release|x64.ActiveCfg = Release|Any CPU
-		{F90DF93B-191A-476C-B576-75AB93F771CF}.Release|x64.Build.0 = Release|Any CPU
-		{F90DF93B-191A-476C-B576-75AB93F771CF}.Release|x86.ActiveCfg = Release|Any CPU
-		{F90DF93B-191A-476C-B576-75AB93F771CF}.Release|x86.Build.0 = Release|Any CPU
 		{6F790938-D789-4C98-9693-DE980DAAEB7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6F790938-D789-4C98-9693-DE980DAAEB7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F790938-D789-4C98-9693-DE980DAAEB7B}.Debug|x64.ActiveCfg = Debug|Any CPU

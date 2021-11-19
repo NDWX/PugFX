@@ -4,9 +4,9 @@ namespace Pug.Application.Security
 {
 	public interface IUserRoleProvider
 	{
-		bool UserIsInRole(string user, string domain, string role);
+		bool UserIsInRole(string user, string role);
 
-		bool UserIsInRoles(string user, string domain, ICollection<string> roles);
+		bool UserIsInRoles(string user, ICollection<string> roles);
 
 		ICollection<string> GetUserRoles(string user, string domain);
 	}
