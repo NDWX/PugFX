@@ -14,7 +14,7 @@ namespace Pug.Application.Security
 
 		IEnumerable<string> GetRoles(string domain = null);
 		
-		bool IsInRole(string role, string domain);
+		bool IsInRole(string role);
 
 		void Dispose();
 	}

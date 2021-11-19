@@ -10,11 +10,11 @@ namespace Pug.Application.Security
 
 		public SecurityManager(string application, ISessionUserIdentityAccessor sessionUserIdentityAccessor, IUserRoleProvider userRoleProvider, IAuthorizationProvider uathorizationProvider, IUserSessionProvider sessionProvider)
 		{
-            this._application = application;
-			this.SessionUserIdentityAccessor = sessionUserIdentityAccessor;
-			this.UserRoleProvider = userRoleProvider;
-			this.AuthorizationProvider = uathorizationProvider;
-            this._sessionProvider = sessionProvider;
+            _application = application;
+			SessionUserIdentityAccessor = sessionUserIdentityAccessor;
+			UserRoleProvider = userRoleProvider;
+			AuthorizationProvider = uathorizationProvider;
+            _sessionProvider = sessionProvider;
 		}
 
 		public IUser CurrentUser

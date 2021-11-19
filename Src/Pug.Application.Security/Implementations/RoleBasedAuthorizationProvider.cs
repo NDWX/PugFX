@@ -6,7 +6,7 @@ namespace Pug.Application.Security
 	{
 		protected RoleBasedAuthorizationProvider(IUserRoleProvider roleProvider)
 		{
-			this.RoleProvider = roleProvider;
+			RoleProvider = roleProvider;
 		}
 
 		protected IUserRoleProvider RoleProvider { get; }
