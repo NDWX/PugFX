@@ -16,11 +16,11 @@ namespace Pug.Application.Data
 
             public CommandInfo(string query, CommandType type, ICollection<IDbDataParameter> parameters, CommandBehavior behavior, int timeout)
             {
-                this.Query = query;
-                this.Type = type;
-                this.Parameters = parameters;
-                this.Behavior = behavior;
-                this.Timeout = timeout;
+                Query = query;
+                Type = type;
+                Parameters = parameters;
+                Behavior = behavior;
+                Timeout = timeout;
             }
     }
 }

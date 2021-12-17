@@ -1,14 +1,11 @@
-﻿
-using Pug.Application;
-
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System;
 
 namespace Pug.Web.AspNet.Core
 {
-    public abstract class Session : Pug.Application.IUserSession
+    public abstract class Session : Application.IUserSession
     {
-        HttpContext httpContext;
+        private HttpContext httpContext;
 
         public abstract event EventHandler Ending;
 
@@ -17,7 +14,7 @@ namespace Pug.Web.AspNet.Core
             this.httpContext = httpContext;
         }
 
-        public HttpContext HttpContext => this.httpContext;
+        public HttpContext HttpContext => httpContext;
 
         public abstract T Get<T>(string identifier = "");
 

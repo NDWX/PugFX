@@ -7,26 +7,26 @@ namespace Pug.Application.Data.Csv
 {
 	public class CsvLine
 	{
-		ICollection<string> values;
-		char delimiter;
+		private ICollection<string> _values;
+		private char _delimiter;
 
 		public CsvLine(ICollection<string> values, char delimiter)
 		{
-			this.values = values;
-			this.delimiter = delimiter;
+			_values = values;
+			_delimiter = delimiter;
 		}
 
 		public CsvLine(string[] values)
 			: this(values, ',')
 		{
-			this.values = values;
+			_values = values;
 		}
 
 		public int Length
 		{
 			get
 			{
-				return this.values.Count;
+				return _values.Count;
 			}
 		}
 
@@ -34,20 +34,20 @@ namespace Pug.Application.Data.Csv
 		{
 			get
 			{
-				if (index > values.Count)
+				if (index > _values.Count)
 					throw new IndexOutOfRangeException();
 
-				return values.ElementAt(index);
+				return _values.ElementAt(index);
 			}
 		}
 
-		void Write(string value, TextWriter writer, char delimiter)
+		private void Write(string value, TextWriter writer, char delimiter)
 		{
 			bool enclosingQuotesRequired = false;
 
 			if (value.Contains('"'))
 			{
-				value.Replace("\"", "\"\"");
+				value = value.Replace("\"", "\"\"");
 
 				enclosingQuotesRequired = true;
 			}
@@ -65,7 +65,7 @@ namespace Pug.Application.Data.Csv
 
 		public void Write(TextWriter writer, char delimiter)
 		{
-			foreach (string value in values)
+			foreach (string value in _values)
 			{
 				Write(value, writer, delimiter);
 			}
@@ -75,19 +75,19 @@ namespace Pug.Application.Data.Csv
 
 		public void Write(TextWriter writer)
 		{
-			Write(writer, this.delimiter);
+			Write(writer, _delimiter);
 		}
 
 		public void Write(Stream stream, char delimiter)
 		{
 			TextWriter writer = new StreamWriter(stream);
 
-			Write(stream);
+			Write(writer, delimiter);
 		}
 
 		public void Write(Stream stream)
 		{
-			Write(stream, this.delimiter);
+			Write(stream, _delimiter);
 		}
 	}
 }

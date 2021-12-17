@@ -6,12 +6,11 @@ namespace Pug.Application.Data
 	public class EnlistedInDistributedTransaction : Exception
 	{
 		public EnlistedInDistributedTransaction()
-			: base()
 		{
 		}
 
-		public EnlistedInDistributedTransaction(string message)
-			: base()
+		public EnlistedInDistributedTransaction(string message) 
+			: base(message)
 		{
 		}
 

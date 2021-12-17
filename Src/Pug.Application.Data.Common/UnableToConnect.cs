@@ -6,12 +6,11 @@ namespace Pug.Application.Data
 	//[Serializable]
 	public class UnableToConnect : Exception
 	{
-		public UnableToConnect() : base()
+		public UnableToConnect()
 		{
 		}
 
-		public UnableToConnect(string message)
-			: base()
+		public UnableToConnect(string message) : base(message)
 		{
 		}
 

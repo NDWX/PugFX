@@ -5,42 +5,42 @@ namespace Pug.Application.Threading
 {
     public class WorkersDispatcher<I,T,R>
     {
-        I identifier;
-		Func<T, R> work;
-        bool dispatchFromThreadPool;
+        private I _identifier;
+        private Func<T, R> _work;
+        private bool _dispatchFromThreadPool;
 
         public WorkersDispatcher(I identifier, Func<T,R> work, bool dispatchFromThreadPool)
         {
-            this.identifier = identifier;
-            this.work = work;
-            this.dispatchFromThreadPool = dispatchFromThreadPool;
+            this._identifier = identifier;
+            this._work = work;
+            this._dispatchFromThreadPool = dispatchFromThreadPool;
         }
 
         public void DispatchWorker(T task)
         {
-            if (dispatchFromThreadPool)
+            if (_dispatchFromThreadPool)
                 DispatchWorkerFromThreadPool(task);
             else
                 DispatchWorkerThread(task);
         }
 
-        void DispatchWorkerThread(T task)
+        private void DispatchWorkerThread(T task)
         {
             Thread workerThread = new Thread(new ParameterizedThreadStart(DoWork));
 
             workerThread.Start(task);
         }
 
-        void DispatchWorkerFromThreadPool(T task)
+        private void DispatchWorkerFromThreadPool(T task)
         {
-            ThreadPool.QueueUserWorkItem(new WaitCallback(DoWork), task);
+            ThreadPool.QueueUserWorkItem(DoWork, task);
         }
 
-        void DoWork(object taskObject)
+        private void DoWork(object taskObject)
         {
             T task = (T)taskObject;
 
-            work(task);
+            _work(task);
         }
     }
 }

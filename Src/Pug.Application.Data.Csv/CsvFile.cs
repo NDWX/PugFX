@@ -5,27 +5,27 @@ namespace Pug.Application.Data.Csv
 {
 	public class CsvFile : IDisposable
 	{
-		CsvReader reader;
+		private CsvReader _reader;
 
 		protected CsvFile(string file)
 		{
-			reader = CsvReader.Read(File.OpenRead(file));
+			_reader = CsvReader.Read(File.OpenRead(file));
 		}
 
         [Obsolete]
         public CsvLine ReadNext()
         {
-            return reader.ReadLine();
+            return _reader.ReadLine();
         }
 
 		public CsvLine ReadLine()
 		{
-			return reader.ReadLine();
+			return _reader.ReadLine();
 		}
 
 		public void Dispose()
 		{
-			reader.Dispose();
+			_reader.Dispose();
 		}
 
 		public static CsvFile Open(string file)

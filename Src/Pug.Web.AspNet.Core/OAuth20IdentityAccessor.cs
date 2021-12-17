@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
-
-using Pug;
 using Pug.Application.Security;
 
 namespace Pug.Web.AspNet.Core
@@ -48,9 +46,9 @@ namespace Pug.Web.AspNet.Core
 			public static readonly string AuthenticationType = "authentication-type";
 		}
 
-		IHttpContextAccessor httpContextAccessor;
+		private IHttpContextAccessor httpContextAccessor;
 
-		Dictionary<string, string> claimTypeDictionary = new Dictionary<string, string>()
+		private Dictionary<string, string> claimTypeDictionary = new Dictionary<string, string>()
 		{
 			["ISS"] = AttributeNames.TokenIssuer,
 			["SUB"] = AttributeNames.TokenSubject,

@@ -8,8 +8,8 @@ namespace Pug.Web.AspNet.Core
 {
     public class RequestSessionProvider : IUserSessionProvider, IAspNetCoreSessionListener
     {
-        readonly object HTTP_CONTEXT_ITEM_KEY = typeof(IUserSessionProvider).FullName;
-        IHttpContextAccessor httpContextAccessor;
+        private readonly object HTTP_CONTEXT_ITEM_KEY = typeof(IUserSessionProvider).FullName;
+        private IHttpContextAccessor httpContextAccessor;
 
         public RequestSessionProvider(IHttpContextAccessor httpContextAccessor)
         {
@@ -19,20 +19,20 @@ namespace Pug.Web.AspNet.Core
         public event SessionEventHandler SessionStarted = delegate { };
         public event SessionEventHandler SessionEnded = delegate { };
 
-        Pug.Application.IUserSession CreateAndRegisterSession(HttpContext httpContext)
+        private IUserSession CreateAndRegisterSession(HttpContext httpContext)
         {
-            Pug.Application.IUserSession session = new RequestSession(httpContext);
+            IUserSession session = new RequestSession(httpContext);
 
             httpContext.Items[HTTP_CONTEXT_ITEM_KEY] = session;
 
             return session;
         }
 
-        public Pug.Application.IUserSession CurrentSession
+        public IUserSession CurrentSession
         {
             get
             {
-                Pug.Application.IUserSession session = null;
+                IUserSession session = null;
 
                 HttpContext httpContext = httpContextAccessor.HttpContext;
 
@@ -52,7 +52,7 @@ namespace Pug.Web.AspNet.Core
 
         async Task IAspNetCoreSessionListener.OnSessionStartedAsync(HttpContext context)
         {
-            Pug.Application.IUserSession session = CreateAndRegisterSession(context);
+            IUserSession session = CreateAndRegisterSession(context);
 
             await Task.Run(() => SessionStarted(session));
         }

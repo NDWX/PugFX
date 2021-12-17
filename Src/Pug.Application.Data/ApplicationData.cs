@@ -8,8 +8,8 @@ namespace Pug.Application.Data
 		: IApplicationData<T>
 		where T : class, IApplicationDataSession
 	{
-		string location;
-		DbProviderFactory dataProvider;
+		private string location;
+		private DbProviderFactory dataProvider;
 
 		protected ApplicationData(string location, DbProviderFactory dataProvider)
 		{
@@ -21,7 +21,7 @@ namespace Pug.Application.Data
 		{
 			get
 			{
-				return this.location;
+				return location;
 			}
 		}
 
@@ -29,7 +29,7 @@ namespace Pug.Application.Data
 		{
 			get
 			{
-				return this.dataProvider;
+				return dataProvider;
 			}
 		}
 

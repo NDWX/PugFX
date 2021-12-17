@@ -5,8 +5,8 @@ namespace Pug.Application.Threading
 {
 	public struct NonBindingWait<T>
 	{
-		int waitTimeout;
-		EventWaitHandle waitHandle;
+		private int _waitTimeout;
+		private EventWaitHandle _waitHandle;
 		public IWaitable<T> Source;
 		public bool TaskReceived;
 		public T Task;
@@ -16,19 +16,19 @@ namespace Pug.Application.Threading
 			TaskReceived = false;
 			Task = default(T);
 			Source = null;
-			waitTimeout = 0;
-			this.waitHandle = null;
+			_waitTimeout = 0;
+			_waitHandle = null;
 		}
 
-		void Wait()
+		private void Wait()
 		{
 			T task = default(T);
 
-			TaskReceived = Source.Wait(waitTimeout, ref task);
+			TaskReceived = Source.Wait(_waitTimeout, ref task);
 
 			try
 			{
-				waitHandle.Set();
+				_waitHandle.Set();
 			}
 			catch (ObjectDisposedException)
 			{
@@ -42,10 +42,10 @@ namespace Pug.Application.Threading
 
 		public void WaitAndNotify(int waitTimeout, EventWaitHandle wait)
 		{
-			this.waitTimeout = waitTimeout;
-			this.waitHandle = wait;
+			this._waitTimeout = waitTimeout;
+			_waitHandle = wait;
 
-			new Thread(new ThreadStart(this.Wait)).Start();
+			new Thread(new ThreadStart(Wait)).Start();
 		}
 	}
 }

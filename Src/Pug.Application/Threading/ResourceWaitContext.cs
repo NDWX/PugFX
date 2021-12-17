@@ -1,30 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 
 namespace Pug.Application.Threading
 {
 	public class ResourceWaitContext<T>
 	{
-		EventWaitHandle waitHandle;
-		object shakeSync;
-		bool isWaiting;
+		private EventWaitHandle _waitHandle;
+		private object _shakeSync;
+		private bool _isWaiting;
 
-		T emptyResource;
-		EqualityComparer<T> resourceComparer;
+		private T _emptyResource;
+		private EqualityComparer<T> _resourceComparer;
 
 		public ResourceWaitContext(int waitTimeout)
 		{
-			this.WaitTimeout = waitTimeout;
+			WaitTimeout = waitTimeout;
 
 			TaskReceived = false;
 			Resource = default(T);
-			this.waitHandle = new EventWaitHandle(false, EventResetMode.ManualReset);
+			_waitHandle = new EventWaitHandle(false, EventResetMode.ManualReset);
 
-			shakeSync = new object();
-			isWaiting = true;
-			emptyResource = default(T);
-			resourceComparer = EqualityComparer<T>.Default;
+			_shakeSync = new object();
+			_isWaiting = true;
+			_emptyResource = default(T);
+			_resourceComparer = EqualityComparer<T>.Default;
 		}
 
 		public bool TaskReceived
@@ -45,32 +44,32 @@ namespace Pug.Application.Threading
 			protected set;
 		}
 
-		bool Shake(T resource)
+		private bool Shake(T resource)
 		{
-			lock (shakeSync)
+			lock (_shakeSync)
 			{
-				if (resourceComparer.Equals(resource, emptyResource))
+				if (_resourceComparer.Equals(resource, _emptyResource))
 				{
-					waitHandle.Dispose();
-					isWaiting = false;
+					_waitHandle.Dispose();
+					_isWaiting = false;
 
-					return !resourceComparer.Equals(this.Resource, emptyResource);
+					return !_resourceComparer.Equals(Resource, _emptyResource);
 				}
 				else
 				{
-					if (!isWaiting)
+					if (!_isWaiting)
 						return false;
 
 					try
 					{
-						waitHandle.Set();
+						_waitHandle.Set();
 					}
 					catch
 					{
 						return false;
 					}
 
-					this.Resource = resource;
+					Resource = resource;
 
 					return true;
 				}
@@ -79,7 +78,7 @@ namespace Pug.Application.Threading
 
 		public bool Wait()
 		{
-			waitHandle.WaitOne(WaitTimeout);
+			_waitHandle.WaitOne(WaitTimeout);
 
 			TaskReceived = Shake(default(T));
 
@@ -95,7 +94,7 @@ namespace Pug.Application.Threading
 		{
 			try
 			{
-				waitHandle.Set();
+				_waitHandle.Set();
 			}
 			catch
 			{

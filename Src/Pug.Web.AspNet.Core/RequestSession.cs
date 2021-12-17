@@ -65,7 +65,8 @@ namespace Pug.Web.AspNet.Core
                 {
                     Ending(this, EventArgs.Empty);
                 }
-                catch(Exception exception)
+                // ReSharper disable once EmptyGeneralCatchClause
+                catch(Exception)
                 {
                 }
         }

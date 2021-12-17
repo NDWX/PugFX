@@ -1,12 +1,11 @@
-using System;
 using System.Collections;
 
 namespace Pug.Extensions
 {
     public static class BitArrayExtension
     {
-        static readonly byte[] bitDictionary = new byte[] { 1, 2, 4, 8, 16, 32, 64, 128 };
-        static readonly byte byteLength = 8;
+        private static readonly byte[] bitDictionary = new byte[] { 1, 2, 4, 8, 16, 32, 64, 128 };
+        private static readonly byte byteLength = 8;
 
         public static byte[] GetBytes(this BitArray bitArray, int start, int length)
         {

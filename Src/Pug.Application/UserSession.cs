@@ -5,21 +5,21 @@ namespace Pug.Application
 {
     public class UserSession : IUserSession
     {
-        Dictionary<string, Dictionary<Type, object>> store;
+        private Dictionary<string, Dictionary<Type, object>> _store;
         
         public UserSession()
         {
-            this.store = new Dictionary<string, Dictionary<Type, object>>();
+            _store = new Dictionary<string, Dictionary<Type, object>>();
         }
 
         public event EventHandler Ending;
 
         public T Get<T>(string identifier = "")
         {
-            if (!store.ContainsKey(identifier))
+            if (!_store.ContainsKey(identifier))
                 return default(T);
 
-            Dictionary<Type, object> typeVariables = (Dictionary<Type, object>)store[identifier];
+            Dictionary<Type, object> typeVariables = _store[identifier];
 
             if (typeVariables.ContainsKey(typeof(T)))
                 return (T)typeVariables[typeof(T)];
@@ -31,14 +31,14 @@ namespace Pug.Application
         {
             Dictionary<Type, object> typeVariables;
 
-            if (store.ContainsKey(identifier))
+            if (_store.ContainsKey(identifier))
             {
-                typeVariables = (Dictionary<Type, object>)store[identifier];
+                typeVariables = _store[identifier];
 
                 typeVariables.Remove(typeof(T));
 
                 if (typeVariables.Count == 0)
-                    store.Remove(identifier);
+                    _store.Remove(identifier);
             }
         }
 
@@ -46,14 +46,14 @@ namespace Pug.Application
         {
             Dictionary<Type, object> typeVariables;
 
-            if (!store.ContainsKey(identifier))
+            if (!_store.ContainsKey(identifier))
             {
                 typeVariables = new Dictionary<Type, object>();
-                store.Add(identifier, typeVariables);
+                _store.Add(identifier, typeVariables);
             }
             else
             {
-                typeVariables = (Dictionary<Type, object>)store[identifier];
+                typeVariables = _store[identifier];
             }
 
             typeVariables[typeof(T)] = value;

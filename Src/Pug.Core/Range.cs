@@ -4,7 +4,7 @@ namespace Pug
 {
 	public class Range<T> where T : IComparable<T>
 	{
-		T start, end;
+		private T start, end;
 
 		public Range(T start, T end)
 		{

@@ -118,7 +118,7 @@ namespace Pug.Application.Data
 					{
 						dataSession.Dispose();
 					}
-					catch (Exception finalException)
+					catch (Exception)
 					{
 						// todo: log error?
 					}
@@ -135,7 +135,6 @@ namespace Pug.Application.Data
 		/// This is a wrapper function that allows developer to perform data tasks without having to worry about 
 		/// </summary>
 		/// <param name="action">Action to perform when a new instance of T data session has been successfully created.</param>
-		/// <param name="transactionScopeOption">Specifies requirement and the scope of transaction.</param>
 		/// <param name="onError">Action to perform when an error occured prior to completion of <paramref name="action"/>, this includes when error occured during creation of T data session instance.</param>
 		/// <param name="errorHandler">Specifies if and how an error is to be handled. Corresponding error would be thrown by the function if this parameter is null.</param>
 		/// <param name="onSuccess">Action to perform upon successful completion of <paramref name="action"/>. Created instance of T data session would have already been disposed at this stage.</param>
@@ -224,7 +223,7 @@ namespace Pug.Application.Data
 					{
 						dataSession.Dispose();
 					}
-					catch (Exception finalException)
+					catch (Exception)
 					{
 						// todo: log error?
 					}
@@ -292,7 +291,7 @@ namespace Pug.Application.Data
 					{
 						dataSession.Dispose();
 					}
-					catch (Exception finalException)
+					catch (Exception)
 					{
 						// todo: log error?
 					}
@@ -350,7 +349,7 @@ namespace Pug.Application.Data
 					{
 						dataSession.Dispose();
 					}
-					catch (Exception finalException)
+					catch (Exception)
 					{
 						// todo: log error?
 					}

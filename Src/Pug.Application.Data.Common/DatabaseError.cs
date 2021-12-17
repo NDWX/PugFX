@@ -10,6 +10,11 @@ namespace Pug.Application.Data
         {
         }
 
+        public DatabaseError(string message)
+            : base(message)
+        {
+        }
+
         public DatabaseError(string message, DbException exception)
             : base(message, exception)
         {

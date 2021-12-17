@@ -7,12 +7,10 @@ namespace Pug.Application.Data
 	public class TransactionNotStarted : Exception
 	{
 		public TransactionNotStarted()
-			: base()
 		{
 		}
 
-		public TransactionNotStarted(string message)
-			: base()
+		public TransactionNotStarted(string message) : base(message)
 		{
 		}
 

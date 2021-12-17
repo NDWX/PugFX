@@ -2,16 +2,16 @@
 {
     public class AppDomainUserSessionProvider : IUserSessionProvider
     {
-        static IUserSession userSession = null;
+        private static IUserSession _userSession;
 
         public IUserSession CurrentSession
         {
             get
             {
-                if (userSession == null)
-                    userSession = new UserSession();
+                if (_userSession == null)
+                    _userSession = new UserSession();
 
-                return userSession;
+                return _userSession;
             }
         }
 
