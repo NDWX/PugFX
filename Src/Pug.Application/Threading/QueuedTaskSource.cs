@@ -56,9 +56,6 @@ namespace Pug.Application.Threading
 #if TRACE
 			Trace.WriteLineIf(_traceSwitch.TraceInfo, string.Format("[{1}] Thread {0} : asking for new task", Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
-#if DEBUG
-			Debug.WriteLine(string.Format("[{2}] Thread {0} : There is currently {1} task in the queue", taskQueue.Count, DateTime.Now.ToString("s"), Thread.CurrentThread.ManagedThreadId));
-#endif
 
 			lock(_taskDequeueSync)
 			{
