@@ -2,18 +2,9 @@
 {
     public class AppDomainUserSessionProvider : IUserSessionProvider
     {
-        static IUserSession _userSession;
-
-        public IUserSession CurrentSession
-        {
-            get
-            {
-                if (_userSession == null)
-                    _userSession = new UserSession();
-
-                return _userSession;
-            }
-        }
+        public IUserSession CurrentSession =>
+            UserSessionProviderAppDomainStore.UserSession ??
+            (UserSessionProviderAppDomainStore.UserSession = new UserSession());
 
         public event SessionEventHandler SessionStarted;
         public event SessionEventHandler SessionEnded;
