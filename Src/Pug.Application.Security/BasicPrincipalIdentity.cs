@@ -27,11 +27,12 @@ namespace Pug.Application.Security
 
         public void Dispose()
         {
+            // not required
         }
 
         public bool Equals(ICredentials other)
         {
-            return other.Identifier == Identifier;
+            return other != null && other.Identifier == Identifier;
         }
     }
 }

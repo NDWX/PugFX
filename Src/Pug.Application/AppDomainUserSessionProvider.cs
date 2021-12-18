@@ -2,7 +2,7 @@
 {
     public class AppDomainUserSessionProvider : IUserSessionProvider
     {
-        private static IUserSession _userSession;
+        static IUserSession _userSession;
 
         public IUserSession CurrentSession
         {

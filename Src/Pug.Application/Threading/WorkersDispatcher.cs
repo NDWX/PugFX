@@ -5,16 +5,17 @@ namespace Pug.Application.Threading
 {
     public class WorkersDispatcher<I,T,R>
     {
-        private I _identifier;
         private readonly Func<T, R> _work;
         private readonly bool _dispatchFromThreadPool;
 
         public WorkersDispatcher(I identifier, Func<T,R> work, bool dispatchFromThreadPool)
         {
-            this._identifier = identifier;
+            this.Identifier = identifier;
             this._work = work;
             this._dispatchFromThreadPool = dispatchFromThreadPool;
         }
+        
+        public I Identifier { get; }
 
         public void DispatchWorker(T task)
         {

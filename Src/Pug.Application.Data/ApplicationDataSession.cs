@@ -74,11 +74,11 @@ namespace Pug.Application.Data
 			}
 		}
 
-		public void BeginTransaction(System.Data.IsolationLevel isolation )
+		public void BeginTransaction(System.Data.IsolationLevel isolationLevel )
 		{
 			lock (transactionSync)
 			{ 
-				currentTxLink = new Chain<IDbTransaction>.Link(Connection.BeginTransaction(isolation), currentTxLink);
+				currentTxLink = new Chain<IDbTransaction>.Link(Connection.BeginTransaction(isolationLevel), currentTxLink);
 				TransactionDepth++;
 			}
 		}

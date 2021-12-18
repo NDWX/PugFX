@@ -244,8 +244,6 @@ namespace Pug.Application.ServiceModel
 			return dataSession;
 		}
 
-		public void Dispose()
-		{
-		}
+		public abstract void Dispose();
 	}
 }
