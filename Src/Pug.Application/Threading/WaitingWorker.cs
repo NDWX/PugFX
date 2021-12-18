@@ -32,20 +32,20 @@ namespace Pug.Application.Threading
 		}
 
 #if TRACE
-		private static TraceSwitch _traceSwitch = new TraceSwitch("Pug.Application.Threading.WaitingWorker", "WaitingWorker trace switch");
+		private static readonly TraceSwitch _traceSwitch = new TraceSwitch("Pug.Application.Threading.WaitingWorker", "WaitingWorker trace switch");
 #endif
-		private I _identifier;
+		private readonly I _identifier;
 
-		private object _disposeSync = new object();
-		private object _startSync = new object();
+		private readonly object _disposeSync = new object();
+		private readonly object _startSync = new object();
 
-		private IEventListener _eventListener;
-		private TaskSourceWaitableAdapter<T> _taskSource;
-		private IWorker _worker;
+		private readonly IEventListener _eventListener;
+		private readonly TaskSourceWaitableAdapter<T> _taskSource;
+		private readonly IWorker _worker;
 
 		private Thread _workerThread;
-		private EventWaitHandle _taskWait;
-		private EventWaitHandle _workingWaitHandle;
+		private readonly EventWaitHandle _taskWait;
+		private readonly EventWaitHandle _workingWaitHandle;
 
 		private bool _isWorking;
 		private bool _isDisposing;

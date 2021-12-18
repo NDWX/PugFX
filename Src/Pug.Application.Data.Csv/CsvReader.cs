@@ -9,7 +9,7 @@ namespace Pug.Application.Data.Csv
 	{
 		private Stream _fileStream;
 
-		private byte[] _readData = new byte[256];
+		private readonly byte[] _readData = new byte[256];
 
 		// ReSharper disable RedundantDefaultMemberInitializer
 		private int _lastReadBytes = 0;

@@ -5,7 +5,7 @@ namespace Pug.Web.AspNet.Core
 {
     public abstract class Session : Application.IUserSession
     {
-        private HttpContext httpContext;
+        private readonly HttpContext httpContext;
 
         public abstract event EventHandler Ending;
 

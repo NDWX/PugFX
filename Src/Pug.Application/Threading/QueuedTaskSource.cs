@@ -9,10 +9,10 @@ namespace Pug.Application.Threading
 		: IWorkerTaskSource<T>, IDisposable
 	{
 #if TRACE
-		private static TraceSwitch _traceSwitch = new TraceSwitch("Pug.Application.Threading.WorkerTaskQueue", "WorkerTaskQueue trace switch");
+		private static readonly TraceSwitch _traceSwitch = new TraceSwitch("Pug.Application.Threading.WorkerTaskQueue", "WorkerTaskQueue trace switch");
 #endif
-		private Queue<T> _taskQueue;
-		private EventWaitHandle _taskWaitHandle;
+		private readonly Queue<T> _taskQueue;
+		private readonly EventWaitHandle _taskWaitHandle;
 
 		public QueuedTaskSource()
 		{
@@ -46,7 +46,7 @@ namespace Pug.Application.Threading
 			return GetNextTask(0, ref task);
 		}
 
-		private object _taskDequeueSync = new object();
+		private readonly object _taskDequeueSync = new object();
 
 		public bool GetNextTask(int waitTimeout, ref T task)
 		{

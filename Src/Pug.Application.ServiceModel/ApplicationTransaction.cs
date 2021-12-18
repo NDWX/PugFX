@@ -12,7 +12,7 @@ namespace Pug.Application.ServiceModel
 	internal class ApplicationTransaction<DS> : IApplicationTransaction<DS>
 		where DS : class, IApplicationDataSession
 	{
-		private object sync = new object();
+		private readonly object sync = new object();
 
 		// ReSharper disable RedundantDefaultMemberInitializer
 		private bool transactionEnded = false;
@@ -21,13 +21,13 @@ namespace Pug.Application.ServiceModel
 		public string Identifier { get; }
 
 #if NETSTANDARD_1_3
-		private Action<ApplicationTransaction<DS>> onEnded;
+		private readonly Action<ApplicationTransaction<DS>> onEnded;
 
 		internal DS DataSession { get; }
 
 		public DS DataSessionProxy { get;  }
 #else
-		private TransactionScope transaction;
+		private readonly TransactionScope transaction;
 #endif
 
 #if NETSTANDARD_1_3

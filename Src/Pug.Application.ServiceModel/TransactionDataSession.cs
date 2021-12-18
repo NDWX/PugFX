@@ -19,7 +19,7 @@ namespace Pug.Application.ServiceModel
 
         public class Interceptor : IInterceptor
         {
-            private string[] interceptedMethods = new string[] { "Dispose" };
+            private readonly string[] interceptedMethods = new string[] { "Dispose" };
 
             public void Intercept(IInvocation invocation)
             {

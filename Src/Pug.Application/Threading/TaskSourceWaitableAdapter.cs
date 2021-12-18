@@ -2,7 +2,7 @@
 {
 	public class TaskSourceWaitableAdapter<T> : IWaitable<T>
 	{
-		private IWorkerTaskSource<T> _source;
+		private readonly IWorkerTaskSource<T> _source;
 
 		public TaskSourceWaitableAdapter(IWorkerTaskSource<T> source)
 		{

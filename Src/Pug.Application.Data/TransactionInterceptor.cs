@@ -12,9 +12,9 @@ namespace Pug.Application.Data
 {
     internal class TransactionInterceptor : IInterceptor
     {
-        private string[] completionMethods = new string[] { "Commit", "Rollback" };
-        private Action<Chain<IDbTransaction>.Link> onTransactionCompleted;
-        private Action<Chain<IDbTransaction>.Link> onTransactionDisposed;
+        private readonly string[] completionMethods = new string[] { "Commit", "Rollback" };
+        private readonly Action<Chain<IDbTransaction>.Link> onTransactionCompleted;
+        private readonly Action<Chain<IDbTransaction>.Link> onTransactionDisposed;
 
         public TransactionInterceptor(Action<Chain<IDbTransaction>.Link> onTransactionCompleted, Action<Chain<IDbTransaction>.Link> onTransactionDisposed)
         {

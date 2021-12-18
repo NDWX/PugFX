@@ -8,8 +8,8 @@ namespace Pug.Application.Data
 		: IApplicationData<T>
 		where T : class, IApplicationDataSession
 	{
-		private string location;
-		private DbProviderFactory dataProvider;
+		private readonly string location;
+		private readonly DbProviderFactory dataProvider;
 
 		protected ApplicationData(string location, DbProviderFactory dataProvider)
 		{

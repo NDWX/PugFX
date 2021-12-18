@@ -17,10 +17,10 @@ namespace Pug.Application.ServiceModel
 	public abstract class ApplicationService<DS> : IApplicationData<DS>, IDisposable 
 		where DS : class, IApplicationDataSession
 	{
-		private IApplicationData<DS> applicationDataProvider;
-		private IUserSessionProvider sessionProvider;
+		private readonly IApplicationData<DS> applicationDataProvider;
+		private readonly IUserSessionProvider sessionProvider;
 #if NETSTANDARD_1_3
-		private ProxyGenerator dynamicProxyGenerator = new ProxyGenerator();
+		private readonly ProxyGenerator dynamicProxyGenerator = new ProxyGenerator();
 #endif
 		protected ApplicationService( IApplicationData<DS> applicationDataProvider, IUserSessionProvider sessionProvider )
 		{

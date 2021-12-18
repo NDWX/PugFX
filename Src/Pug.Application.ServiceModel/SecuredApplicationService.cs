@@ -6,7 +6,7 @@ namespace Pug.Application.ServiceModel
 	public abstract class SecuredApplicationService<DS> : ApplicationService<DS>
 		where DS : class, IApplicationDataSession
 	{
-		private ISecurityManager securityManager;
+		private readonly ISecurityManager securityManager;
 
 		protected SecuredApplicationService( ISecurityManager securityManager, IApplicationData<DS> applicationDataProvider, IUserSessionProvider userSessionProvider )
 			: base( applicationDataProvider, userSessionProvider )

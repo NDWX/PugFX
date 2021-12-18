@@ -11,7 +11,7 @@ namespace Pug.Application.Security
             Identifier = identifier;
             Name = name;
             AuthenticationType = authenticationType;
-            IsAuthenticated = IsAuthenticated;
+            IsAuthenticated = isAuthenticated;
             Attributes = attributes.ReadOnly();
         }
 

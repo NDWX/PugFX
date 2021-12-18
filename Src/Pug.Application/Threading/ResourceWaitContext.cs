@@ -5,12 +5,12 @@ namespace Pug.Application.Threading
 {
 	public class ResourceWaitContext<T>
 	{
-		private EventWaitHandle _waitHandle;
-		private object _shakeSync;
+		private readonly EventWaitHandle _waitHandle;
+		private readonly object _shakeSync;
 		private bool _isWaiting;
 
-		private T _emptyResource;
-		private EqualityComparer<T> _resourceComparer;
+		private readonly T _emptyResource;
+		private readonly EqualityComparer<T> _resourceComparer;
 
 		public ResourceWaitContext(int waitTimeout)
 		{

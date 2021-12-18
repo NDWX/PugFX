@@ -5,7 +5,7 @@ namespace Pug.Application
 {
     public class UserSession : IUserSession
     {
-        private Dictionary<string, Dictionary<Type, object>> _store;
+        private readonly Dictionary<string, Dictionary<Type, object>> _store;
         
         public UserSession()
         {

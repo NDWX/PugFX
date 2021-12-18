@@ -5,7 +5,7 @@ namespace Pug.Application.Data.Csv
 {
 	public class CsvFile : IDisposable
 	{
-		private CsvReader _reader;
+		private readonly CsvReader _reader;
 
 		protected CsvFile(string file)
 		{

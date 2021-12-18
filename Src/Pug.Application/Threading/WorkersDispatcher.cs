@@ -6,8 +6,8 @@ namespace Pug.Application.Threading
     public class WorkersDispatcher<I,T,R>
     {
         private I _identifier;
-        private Func<T, R> _work;
-        private bool _dispatchFromThreadPool;
+        private readonly Func<T, R> _work;
+        private readonly bool _dispatchFromThreadPool;
 
         public WorkersDispatcher(I identifier, Func<T,R> work, bool dispatchFromThreadPool)
         {

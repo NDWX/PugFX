@@ -46,9 +46,9 @@ namespace Pug.Web.AspNet.Core
 			public static readonly string AuthenticationType = "authentication-type";
 		}
 
-		private IHttpContextAccessor httpContextAccessor;
+		private readonly IHttpContextAccessor httpContextAccessor;
 
-		private Dictionary<string, string> claimTypeDictionary = new Dictionary<string, string>()
+		private readonly Dictionary<string, string> claimTypeDictionary = new Dictionary<string, string>()
 		{
 			["ISS"] = AttributeNames.TokenIssuer,
 			["SUB"] = AttributeNames.TokenSubject,

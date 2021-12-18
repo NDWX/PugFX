@@ -5,7 +5,7 @@ namespace Pug
 {
     internal class ReadOnlyDictionary<TKey, TValue> : IDictionary<TKey, TValue>
 	{
-		private IDictionary<TKey, TValue> _dictionary;
+		private readonly IDictionary<TKey, TValue> _dictionary;
 
 		public ReadOnlyDictionary()
 		{

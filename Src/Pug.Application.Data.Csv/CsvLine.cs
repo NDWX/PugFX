@@ -7,8 +7,8 @@ namespace Pug.Application.Data.Csv
 {
 	public class CsvLine
 	{
-		private ICollection<string> _values;
-		private char _delimiter;
+		private readonly ICollection<string> _values;
+		private readonly char _delimiter;
 
 		public CsvLine(ICollection<string> values, char delimiter)
 		{

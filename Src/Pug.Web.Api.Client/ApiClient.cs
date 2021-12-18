@@ -16,7 +16,7 @@ namespace Pug.Web.Api.Client
 #if NETSTANDARD_2_0
       private readonly IHttpClientFactory httpClientFactory;
 #else
-      private static HttpClient customerClient = new HttpClient();
+      private static readonly HttpClient customerClient = new HttpClient();
 #endif
       
       public Uri BaseUrl { get; }

@@ -9,10 +9,10 @@ namespace Pug.Application.Data
 
 	public abstract class ApplicationDataSession : IApplicationDataSession
 	{
-		private IDbConnection connection;
+		private readonly IDbConnection connection;
 		private Chain<IDbTransaction>.Link currentTxLink;
 
-		private object transactionSync = new object();
+		private readonly object transactionSync = new object();
 		
 		public ApplicationDataSession(IDbConnection databaseSession)
 		{

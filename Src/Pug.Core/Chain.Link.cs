@@ -4,8 +4,8 @@
     {
         public class Link
         {
-            private T content;
-            private Link previous;
+            private readonly T content;
+            private readonly Link previous;
 
             public Link(T transaction, Link parent)
             {

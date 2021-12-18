@@ -9,7 +9,7 @@ namespace Pug.Web.AspNet.Core
     public class RequestSessionProvider : IUserSessionProvider, IAspNetCoreSessionListener
     {
         private readonly object HTTP_CONTEXT_ITEM_KEY = typeof(IUserSessionProvider).FullName;
-        private IHttpContextAccessor httpContextAccessor;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
         public RequestSessionProvider(IHttpContextAccessor httpContextAccessor)
         {
