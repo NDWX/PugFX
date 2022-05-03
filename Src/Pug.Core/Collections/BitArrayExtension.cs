@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace Pug.Extensions
+namespace Pug.Collections.Extensions
 {
     public static class BitArrayExtension
     {

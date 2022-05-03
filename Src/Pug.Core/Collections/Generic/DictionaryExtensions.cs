@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Pug.Extensions
+namespace Pug.Collections.Generic.Extensions
 {
 	public static class DictionaryExtensions
 	{

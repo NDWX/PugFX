@@ -15,11 +15,11 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/NDWX/PugFX.git</RepositoryUrl>
     <PackageTags>Pug Security Session User Identity PugFX</PackageTags>
-    <Version>2.0.0</Version>
-    <AssemblyVersion>2.0.0.1</AssemblyVersion>
-    <FileVersion>2.0.0.1</FileVersion>
-    <PackageVersion>2.0.1</PackageVersion>
-    <PackageReleaseNotes>Sanitize 'domain' support for 'role'.</PackageReleaseNotes>
+    <Version>2.0.2</Version>
+    <AssemblyVersion>2.0.2</AssemblyVersion>
+    <FileVersion>2.0.2</FileVersion>
+    <PackageVersion>2.0.2</PackageVersion>
+    <PackageReleaseNotes>Upgrade to Pug.Core 0.2.0.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
