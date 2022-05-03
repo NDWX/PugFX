@@ -6,38 +6,38 @@ using System.Threading;
 namespace Pug.Application.Threading
 {
 	public class QueuedTaskSource<T> 
-		: Pug.Application.Threading.IWorkerTaskSource<T>, IDisposable
+		: IWorkerTaskSource<T>, IDisposable
 	{
 #if TRACE
-		static TraceSwitch traceSwitch = new TraceSwitch("Pug.Application.Threading.WorkerTaskQueue", "WorkerTaskQueue trace switch");
+		private static readonly TraceSwitch _traceSwitch = new TraceSwitch("Pug.Application.Threading.WorkerTaskQueue", "WorkerTaskQueue trace switch");
 #endif
-		Queue<T> taskQueue;
-		EventWaitHandle taskWaitHandle;
+		private readonly Queue<T> _taskQueue;
+		private readonly EventWaitHandle _taskWaitHandle;
 
 		public QueuedTaskSource()
 		{
-			taskWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
+			_taskWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
 
-			taskQueue = new Queue<T>();
+			_taskQueue = new Queue<T>();
 		}
 
 		public bool HasTasks
 		{
 			get
 			{
-				return taskQueue.Count > 0;
+				return _taskQueue.Count > 0;
 			}
 		}
 
 		public void Enqueue(T task)
 		{
 #if TRACE
-			Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{1}] Thread {0} : enqueuing new task", Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+			Trace.WriteLineIf(_traceSwitch.TraceInfo, string.Format("[{1}] Thread {0} : enqueuing new task", Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
-			taskQueue.Enqueue(task);
-			taskWaitHandle.Set();
+			_taskQueue.Enqueue(task);
+			_taskWaitHandle.Set();
 #if TRACE
-			Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{1}] Thread {0} : enqueued new task and new task event is signalled", Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+			Trace.WriteLineIf(_traceSwitch.TraceInfo, string.Format("[{1}] Thread {0} : enqueued new task and new task event is signalled", Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
 		}
 
@@ -46,7 +46,7 @@ namespace Pug.Application.Threading
 			return GetNextTask(0, ref task);
 		}
 
-		object taskDequeueSync = new object();
+		private readonly object _taskDequeueSync = new object();
 
 		public bool GetNextTask(int waitTimeout, ref T task)
 		{
@@ -54,38 +54,35 @@ namespace Pug.Application.Threading
 			task = default(T);
 
 #if TRACE
-			Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{1}] Thread {0} : asking for new task", Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
-#endif
-#if DEBUG
-			Debug.WriteLine(string.Format("[{2}] Thread {0} : There is currently {1} task in the queue", taskQueue.Count, DateTime.Now.ToString("s"), Thread.CurrentThread.ManagedThreadId));
+			Trace.WriteLineIf(_traceSwitch.TraceInfo, string.Format("[{1}] Thread {0} : asking for new task", Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
 
-			lock(taskDequeueSync)
+			lock(_taskDequeueSync)
 			{
 				//taskWaitHandle.Reset();
 
-				if (taskQueue.Count == 0)
+				if (_taskQueue.Count == 0)
 				{
 #if TRACE
-					Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{1}] Thread {0} : has no new task, waiting . . .", Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+					Trace.WriteLineIf(_traceSwitch.TraceInfo, string.Format("[{1}] Thread {0} : has no new task, waiting . . .", Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
 					if (waitTimeout > 0)
-						taskReceived = taskWaitHandle.WaitOne(waitTimeout);
+						taskReceived = _taskWaitHandle.WaitOne(waitTimeout);
 					else
-						taskReceived = taskWaitHandle.WaitOne();
+						taskReceived = _taskWaitHandle.WaitOne();
 #if TRACE
-					Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{1}] Thread {0} : new received new task signal", Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+					Trace.WriteLineIf(_traceSwitch.TraceInfo, string.Format("[{1}] Thread {0} : new received new task signal", Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
 				}
 
 #if TRACE
-				Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{1}] Thread {0} : dequeuing  new task", Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+				Trace.WriteLineIf(_traceSwitch.TraceInfo, string.Format("[{1}] Thread {0} : dequeuing  new task", Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
 				//if( taskQueue.Count > 0 )
 				if( taskReceived )
-					task = taskQueue.Dequeue();
+					task = _taskQueue.Dequeue();
 #if TRACE
-				Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{1}] Thread {0} : obtained new task", Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+				Trace.WriteLineIf(_traceSwitch.TraceInfo, string.Format("[{1}] Thread {0} : obtained new task", Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
 			}
 
@@ -155,7 +152,7 @@ namespace Pug.Application.Threading
 
 		public void Dispose()
 		{
-			taskWaitHandle.Dispose();
+			_taskWaitHandle.Dispose();
 		}
 	}
 }

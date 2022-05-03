@@ -17,10 +17,10 @@ namespace Pug.Application.ServiceModel
 	public abstract class ApplicationService<DS> : IApplicationData<DS>, IDisposable 
 		where DS : class, IApplicationDataSession
 	{
-		IApplicationData<DS> applicationDataProvider;
-		IUserSessionProvider sessionProvider;
+		private readonly IApplicationData<DS> applicationDataProvider;
+		private readonly IUserSessionProvider sessionProvider;
 #if NETSTANDARD_1_3
-		ProxyGenerator dynamicProxyGenerator = new ProxyGenerator();
+		private readonly ProxyGenerator dynamicProxyGenerator = new ProxyGenerator();
 #endif
 		protected ApplicationService( IApplicationData<DS> applicationDataProvider, IUserSessionProvider sessionProvider )
 		{
@@ -60,7 +60,7 @@ namespace Pug.Application.ServiceModel
 
 #if NETSTANDARD_1_3
 
-		DS Proxy(DS session)
+		private DS Proxy(DS session)
 		{
 			Type sessionType = typeof(DS);
 			TransactionDataSession.Interceptor interceptor = new TransactionDataSession.Interceptor();
@@ -78,12 +78,12 @@ namespace Pug.Application.ServiceModel
 		protected DS GetTransactionDataSessionProxy()
 		{
 			if (Transaction != null)
-				return ((ApplicationTransaction<DS>)Transaction).DataSessionProxy;
+				return Transaction.DataSessionProxy;
 
 			return null;
 		}
 #endif
-		IDictionary<string, ApplicationTransaction<DS>> UserTransactions
+		private IDictionary<string, ApplicationTransaction<DS>> UserTransactions
 		{
 			get
 			{
@@ -101,15 +101,15 @@ namespace Pug.Application.ServiceModel
 				return userTransactions;
 			}
 		}
-		
-		void Register(ApplicationTransaction<DS> transaction)
+
+		private void Register(ApplicationTransaction<DS> transaction)
 		{
 			UserTransactions.Add(transaction.Identifier, transaction);
 
 			Transaction = transaction;
 		}
 
-		ApplicationTransaction<DS> Transaction
+		private ApplicationTransaction<DS> Transaction
 		{
 			get
 			{
@@ -231,7 +231,8 @@ namespace Pug.Application.ServiceModel
 #endif
 		DS IApplicationData<DS>.GetSession()
 		{
-			DS dataSession = null;
+			DS dataSession;
+			
 #if NETSTANDARD_1_3
 			dataSession = GetTransactionDataSessionProxy();
 
@@ -243,8 +244,6 @@ namespace Pug.Application.ServiceModel
 			return dataSession;
 		}
 
-		public void Dispose()
-		{
-		}
+		public abstract void Dispose();
 	}
 }

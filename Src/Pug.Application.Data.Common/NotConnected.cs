@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data.Common;
+﻿using System.Data.Common;
 
 namespace Pug.Application.Data
 {
@@ -7,12 +6,10 @@ namespace Pug.Application.Data
 	public class NotConnected : DatabaseError
 	{
 		public NotConnected()
-			: base()
 		{
 		}
 
-		public NotConnected(string message)
-			: base()
+		public NotConnected(string message) : base(message)
 		{
 		}
 

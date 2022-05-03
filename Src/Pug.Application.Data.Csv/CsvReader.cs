@@ -7,23 +7,25 @@ namespace Pug.Application.Data.Csv
 {
 	public class CsvReader : IDisposable
 	{
-		Stream fileStream;
+		private Stream _fileStream;
 
-		byte[] readData = new byte[256];
+		private readonly byte[] _readData = new byte[256];
 
-		int lastReadBytes = 0;
-		int readBytes = 0;
+		// ReSharper disable RedundantDefaultMemberInitializer
+		private int _lastReadBytes = 0;
+		private int _readBytes = 0;
+		// ReSharper restore RedundantDefaultMemberInitializer
 
-		int charIdx;
+		private int _charIdx;
 
 		protected CsvReader(string file)
 		{
-			fileStream = File.OpenRead(file);
+			_fileStream = File.OpenRead(file);
 		}
 
 		protected CsvReader(Stream stream)
 		{
-			this.fileStream = stream;
+			_fileStream = stream;
 		}
 
 		public CsvLine ReadLine()
@@ -36,41 +38,24 @@ namespace Pug.Application.Data.Csv
 
 			bool waitingForClosingQuote = false, previousCharacterIsQuote = false, isStartOfNewValue = true;
 
-			Action<string> saveContentAsValue = new Action<string>(
-				delegate(string value)
-				{
-					lineValues.Add(value);
-					valueBuilder = new StringBuilder();
-					isStartOfNewValue = true;
-				}
-			);
+			Action<string> saveContentAsValue = value =>
+			{
+				lineValues.Add(value);
+				valueBuilder = new StringBuilder();
+				isStartOfNewValue = true;
+			};
 
-			Action saveBuilderContentAsValue = new Action(
-				delegate()
-				{
-					saveContentAsValue(valueBuilder.ToString());
-				}
-			);
+			Action saveBuilderContentAsValue = () => saveContentAsValue(valueBuilder.ToString());
 
-			Action saveValuesAsLine = new Action(
-				delegate()
-				{
-					line = new CsvLine(lineValues.ToArray());
-				}
-			);
+			Action saveValuesAsLine = () => line = new CsvLine(lineValues.ToArray());
 
-			Func<bool> isNewLine = new Func<bool>(
-				delegate()
-				{
-					return valueBuilder.Length == 0 && lineValues.Count == 0;
-				}
-			);
+			Func<bool> isNewLine = () => valueBuilder.Length == 0 && lineValues.Count == 0;
 
 			while (line == null)
 			{
-				while (line == null && charIdx < lastReadBytes)
+				while (line == null && _charIdx < _lastReadBytes)
 				{
-					character = (char)readData[charIdx];
+					character = (char)_readData[_charIdx];
 
 					switch (character)
 					{
@@ -194,17 +179,17 @@ namespace Pug.Application.Data.Csv
 							break;
 					}
 
-					charIdx++;
+					_charIdx++;
 				}
 
 				if (line == null)
 				{
-					if (readBytes < fileStream.Length)
+					if (_readBytes < _fileStream.Length)
 					{
-						lastReadBytes = fileStream.Read(readData, 0, 256);
-						readBytes += lastReadBytes;
+						_lastReadBytes = _fileStream.Read(_readData, 0, 256);
+						_readBytes += _lastReadBytes;
 
-						charIdx = 0;
+						_charIdx = 0;
 					}
 					else
 					{
@@ -231,22 +216,22 @@ namespace Pug.Application.Data.Csv
 
 		public void Close()
 		{
-			if (fileStream != null)
+			if (_fileStream != null)
 			{
 #if NETFX
                 fileStream.Close();
 #endif
-                fileStream.Dispose();
+                _fileStream.Dispose();
 			}
 
-			fileStream = null;
+			_fileStream = null;
 		}
 
 		#region IDisposable Members
 
 		public void Dispose()
 		{
-			this.Close();
+			Close();
 		}
 
 		#endregion

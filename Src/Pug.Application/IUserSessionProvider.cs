@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Pug.Application
+﻿namespace Pug.Application
 {
     public delegate void SessionEventHandler(IUserSession session);
 

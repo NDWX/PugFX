@@ -11,7 +11,7 @@ namespace Pug.Application.Security
             Identifier = identifier;
             Name = name;
             AuthenticationType = authenticationType;
-            IsAuthenticated = IsAuthenticated;
+            IsAuthenticated = isAuthenticated;
             Attributes = attributes.ReadOnly();
         }
 
@@ -27,11 +27,12 @@ namespace Pug.Application.Security
 
         public void Dispose()
         {
+            // not required
         }
 
         public bool Equals(ICredentials other)
         {
-            return other.Identifier == Identifier;
+            return other != null && other.Identifier == Identifier;
         }
     }
 }

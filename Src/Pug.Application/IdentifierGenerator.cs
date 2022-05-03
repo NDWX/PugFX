@@ -1,6 +1,6 @@
 ﻿namespace Pug.Application
 {
-	public interface IdentifierGenerator
+	public interface IDentifierGenerator
 	{
 		byte[] GetNext();
 	}

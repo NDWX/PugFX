@@ -1,19 +1,19 @@
 ﻿namespace Pug
 {
-    public partial class Chain<T>
+    public class Chain<T>
     {
         public class Link
         {
-            T content;
-            Chain<T>.Link previous;
+            private readonly T content;
+            private readonly Link previous;
 
-            public Link(T transaction, Chain<T>.Link parent) : base()
+            public Link(T transaction, Link parent)
             {
-                this.content = transaction;
-                this.previous = parent;
+                content = transaction;
+                previous = parent;
             }
 
-            public Chain<T>.Link Previous { get => previous; }
+            public Link Previous { get => previous; }
 
             public T Content { get => content; }
         }

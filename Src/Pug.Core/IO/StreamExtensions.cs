@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Pug.Extensions
+namespace Pug.IO.Extensions
 {
 	public static class StreamExtensions
 	{

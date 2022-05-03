@@ -32,24 +32,23 @@ namespace Pug.Application.Threading
 		}
 
 #if TRACE
-		static TraceSwitch traceSwitch = new TraceSwitch("Pug.Application.Threading.WaitingWorker", "WaitingWorker trace switch");
+		private static readonly TraceSwitch _traceSwitch = new TraceSwitch("Pug.Application.Threading.WaitingWorker", "WaitingWorker trace switch");
 #endif
-		I identifier;
+		private readonly I _identifier;
 
-		object disposeSync = new object();
-		object startSync = new object();
-		
-		IEventListener eventListener;
-		TaskSourceWaitableAdapter<T> taskSource;
-		IWorker worker;
+		private readonly object _disposeSync = new object();
+		private readonly object _startSync = new object();
 
-		Thread workerThread;
-		EventWaitHandle taskWait;
-        EventWaitHandle workingWaitHandle;
+		private readonly IEventListener _eventListener;
+		private readonly TaskSourceWaitableAdapter<T> _taskSource;
+		private readonly IWorker _worker;
 
-		bool isWaiting;
-		bool isWorking;
-		bool isDisposing, isDisposed;
+		private Thread _workerThread;
+		private readonly EventWaitHandle _taskWait;
+		private readonly EventWaitHandle _workingWaitHandle;
+
+		private bool _isWorking;
+		private bool _isDisposing;
 		
 		public WaitingWorker(I identifier, IWorkerTaskSource<T> workWait, IWorker worker, IEventListener eventListener)
 		{
@@ -62,124 +61,121 @@ namespace Pug.Application.Threading
 			if (worker == null)
 				throw new ArgumentNullException("worker");
 
-			this.identifier = identifier;
+			this._identifier = identifier;
 
-			this.taskSource = new TaskSourceWaitableAdapter<T>(workWait);
-			this.worker = worker;
-			this.eventListener = eventListener;
+			_taskSource = new TaskSourceWaitableAdapter<T>(workWait);
+			this._worker = worker;
+			this._eventListener = eventListener;
 
-			taskWait = new EventWaitHandle(false, EventResetMode.AutoReset);
-			workingWaitHandle = new EventWaitHandle(true, EventResetMode.ManualReset);
+			_taskWait = new EventWaitHandle(false, EventResetMode.AutoReset);
+			_workingWaitHandle = new EventWaitHandle(true, EventResetMode.ManualReset);
 		}
 
 		public EventHandler Ready, Finishing;
 
-		R DoWork(T task)
+		private R DoWork(T task)
 		{
-			isWorking = true;
+			_isWorking = true;
 
 			R result = default(R);
 #if TRACE
-			Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} is doing work", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+			Trace.WriteLineIf(_traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} is doing work", _identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
 			try
 			{
-				result = worker.DoWork(task);
+				result = _worker.DoWork(task);
 			}
 			catch (Exception exception)
 			{
 #if TRACE
-				Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} encountered error while doing work : {3}", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s"), exception.Message));
+				Trace.WriteLineIf(_traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} encountered error while doing work : {3}", _identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s"), exception.Message));
 #endif
-				if (eventListener != null)
-					eventListener.TaskError(task, exception, this);
+				if (_eventListener != null)
+					_eventListener.TaskError(task, exception, this);
 			}
 #if TRACE
-			Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} has finished working", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+			Trace.WriteLineIf(_traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} has finished working", _identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
-			isWorking = false;
+			_isWorking = false;
 
 			return result;
 		}
 
-		void WaitForWork()
+		private void WaitForWork()
 		{
-			workingWaitHandle.Reset();
+			_workingWaitHandle.Reset();
 
 			//T task;
 			R result;
 
-			if (eventListener != null)
+			if (_eventListener != null)
 			{
 #if TRACE
-				Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} notifying READY for work", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+				Trace.WriteLineIf(_traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} notifying READY for work", _identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
-				eventListener.Ready(this);
+				_eventListener.Ready(this);
 			}
 
-			isWaiting = true;
 #if TRACE
-			Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} waiting for work", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+			Trace.WriteLineIf(_traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} waiting for work", _identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
 
-			NonBindingWait<T> waiter = new NonBindingWait<T>(taskSource);
+			NonBindingWait<T> waiter = new NonBindingWait<T>(_taskSource);
 
-			while( !isDisposing)
+			while( !_isDisposing)
 			{
-				waiter.WaitAndNotify(0, taskWait);
+				waiter.WaitAndNotify(0, _taskWait);
 
-				taskWait.WaitOne();
+				_taskWait.WaitOne();
 
-				if (!isDisposing && waiter.TaskReceived)
+				if (!_isDisposing && waiter.TaskReceived)
 				{
 #if TRACE
-					Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} work received", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+					Trace.WriteLineIf(_traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} work received", _identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
-					if (eventListener != null)
+					if (_eventListener != null)
 					{
 #if TRACE
-						Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} notifying STARTING work", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+						Trace.WriteLineIf(_traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} notifying STARTING work", _identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
-						eventListener.StartingTask(waiter.Task, this);
+						_eventListener.StartingTask(waiter.Task, this);
 					}
 
 					result = DoWork(waiter.Task);
 
-					if (eventListener != null)
+					if (_eventListener != null)
 					{
 #if TRACE
-						Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} notifying FINISHED work", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+						Trace.WriteLineIf(_traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} notifying FINISHED work", _identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
-						eventListener.TaskCompleted(waiter.Task, result, this);
+						_eventListener.TaskCompleted(waiter.Task, result, this);
 					}
 				}
 					
 			}
 
-			taskWait.Dispose();
-
-			isWaiting = false;
+			_taskWait.Dispose();
 
 			if (Finishing != null)
 			{ 
 #if TRACE
-				Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} notifying FINISHING", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+				Trace.WriteLineIf(_traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} notifying FINISHING", _identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
-				eventListener.Finishing(this);
+				_eventListener.Finishing(this);
 			}
 
-			workingWaitHandle.Set();
+			_workingWaitHandle.Set();
 		}
 
 		public void Start()
 		{
-			lock(startSync)
+			lock(_startSync)
 			{
-				if (workerThread != null)
+				if (_workerThread != null)
 					return;
 
-				workerThread = new Thread(new ThreadStart(WaitForWork));
-				workerThread.Start();
+				_workerThread = new Thread(new ThreadStart(WaitForWork));
+				_workerThread.Start();
 			}
 		}
 
@@ -187,7 +183,7 @@ namespace Pug.Application.Threading
 		{
 			get
 			{
-				return isWorking;
+				return _isWorking;
 			}
 		}
 
@@ -195,35 +191,34 @@ namespace Pug.Application.Threading
 
 		public void Dispose()
 		{
-			lock( disposeSync)
+			lock( _disposeSync)
 			{
-				isDisposing = true;
+				_isDisposing = true;
 
 				// stop waiting for task;
-				taskWait.Set();
+				_taskWait.Set();
 
 #if TRACE
-				Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} waiting for all work to finish before disposing", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+				Trace.WriteLineIf(_traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} waiting for all work to finish before disposing", _identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
 
-				workingWaitHandle.WaitOne();
+				_workingWaitHandle.WaitOne();
 #if TRACE
-				Trace.WriteLineIf(traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} has finished all works and is ready to dispose", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+				Trace.WriteLineIf(_traceSwitch.TraceInfo, string.Format("[{2}] WaitingWorker: {0}@{1} has finished all works and is ready to dispose", _identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
 				try
 				{
-					workingWaitHandle.Dispose();
+					_workingWaitHandle.Dispose();
 				}
 				catch
 				{
 #if TRACE
-					Trace.WriteLineIf(traceSwitch.TraceWarning, string.Format("[{2}] WaitingWorker: {0}@{1} encounter error when trying to close working event handle on dispose", identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
+					Trace.WriteLineIf(_traceSwitch.TraceWarning, string.Format("[{2}] WaitingWorker: {0}@{1} encounter error when trying to close working event handle on dispose", _identifier, Thread.CurrentThread.ManagedThreadId, DateTime.Now.ToString("s")));
 #endif
 					throw;
 				}
 				finally
 				{
-					isDisposed = true;
 				}
 			}
 

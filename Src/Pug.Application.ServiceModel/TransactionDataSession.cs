@@ -7,7 +7,7 @@ using Castle.DynamicProxy;
 
 namespace Pug.Application.ServiceModel
 {
-    class TransactionDataSession
+    internal class TransactionDataSession
     {
         public class InterceptorSelector : IInterceptorSelector
         {
@@ -19,7 +19,7 @@ namespace Pug.Application.ServiceModel
 
         public class Interceptor : IInterceptor
         {
-            string[] interceptedMethods = new string[] { "Dispose" };
+            private readonly string[] interceptedMethods = new string[] { "Dispose" };
 
             public void Intercept(IInvocation invocation)
             {

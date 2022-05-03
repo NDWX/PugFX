@@ -1,29 +1,22 @@
 ﻿using System;
 using System.Data;
-using System.Data.Common;
 #if NETFX || NETSTANDARD_2_0
 using System.Transactions;
 #endif
-
-using Pug;
-
-using Castle.DynamicProxy;
 
 namespace Pug.Application.Data
 {
 
 	public abstract class ApplicationDataSession : IApplicationDataSession
 	{
-		IDbConnection connection;
-		Chain<IDbTransaction>.Link currentTxLink;
+		private readonly IDbConnection connection;
+		private Chain<IDbTransaction>.Link currentTxLink;
 
-		object transactionSync = new object();
-
-		ProxyGenerator dynamicProxyGenerator = new ProxyGenerator();
-
+		private readonly object transactionSync = new object();
+		
 		public ApplicationDataSession(IDbConnection databaseSession)
 		{
-			this.connection = databaseSession;
+			connection = databaseSession;
 		}
 
 		//private void onTransactionCompleted(Chain<IDbTransaction>.Link link)
@@ -81,11 +74,11 @@ namespace Pug.Application.Data
 			}
 		}
 
-		public void BeginTransaction(System.Data.IsolationLevel isolation )
+		public void BeginTransaction(System.Data.IsolationLevel isolationLevel )
 		{
 			lock (transactionSync)
 			{ 
-				currentTxLink = new Chain<IDbTransaction>.Link(Connection.BeginTransaction(isolation), currentTxLink);
+				currentTxLink = new Chain<IDbTransaction>.Link(Connection.BeginTransaction(isolationLevel), currentTxLink);
 				TransactionDepth++;
 			}
 		}
@@ -97,10 +90,6 @@ namespace Pug.Application.Data
 					try
 					{
 						currentTxLink.Content.Rollback();
-					}
-					catch
-					{
-						throw;
 					}
 					finally
 					{
@@ -116,10 +105,6 @@ namespace Pug.Application.Data
 					try
 					{
 						currentTxLink.Content.Commit();
-					}
-					catch
-					{
-						throw;
 					}
 					finally
 					{

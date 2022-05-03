@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Pug
+namespace Pug.Collections.Generic
 {
     internal class ReadOnlyDictionary<TKey, TValue> : IDictionary<TKey, TValue>
 	{
-		private IDictionary<TKey, TValue> _dictionary;
+		private readonly IDictionary<TKey, TValue> _dictionary;
 
 		public ReadOnlyDictionary()
 		{
