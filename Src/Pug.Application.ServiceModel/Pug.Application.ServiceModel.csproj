@@ -20,11 +20,7 @@
     <AssemblyVersion>1.0.10</AssemblyVersion>
     <FileVersion>1.0.10</FileVersion>
     <PackageReleaseNotes>
-      v1.0.10
-         - Fixed bug where ApplicationService.DataProvider is no longer visible in implementation
-      
-      v1.0.9
-        - Added Transaction backwards compatibility support for NetStandard 2.0
+      Upgraded Pug.Application.Data.Common to v1.0.3.
     </PackageReleaseNotes>
     <FileVersion>1.0.9</FileVersion>
     <AssemblyVersion>1.0.9</AssemblyVersion>
@@ -40,7 +36,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Pug.Application.Data.Common\Pug.Application.Data.Common.csproj" />
-    <ProjectReference Include="..\Pug.Application.Data\Pug.Application.Data.csproj" />
     <ProjectReference Include="..\Pug.Application.Security\Pug.Application.Security.csproj" />
     <ProjectReference Include="..\Pug.Application\Pug.Application.csproj" />
   </ItemGroup>

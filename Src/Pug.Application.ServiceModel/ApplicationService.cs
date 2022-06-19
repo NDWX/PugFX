@@ -14,7 +14,7 @@ using Pug.Application.Data;
 
 namespace Pug.Application.ServiceModel
 {
-	public abstract class ApplicationService<DS> : IApplicationData<DS>, IDisposable 
+	public abstract class ApplicationService<DS> : IDisposable 
 		where DS : class, IApplicationDataSession
 	{
 		private readonly IApplicationData<DS> applicationDataProvider;
@@ -55,8 +55,6 @@ namespace Pug.Application.ServiceModel
 			}
 
 		}
-
-		protected IApplicationData<DS> DataProvider => this;
 
 #if NETSTANDARD_1_3
 
@@ -229,20 +227,6 @@ namespace Pug.Application.ServiceModel
 			return transaction;
 		}
 #endif
-		DS IApplicationData<DS>.GetSession()
-		{
-			DS dataSession;
-			
-#if NETSTANDARD_1_3
-			dataSession = GetTransactionDataSessionProxy();
-
-			if (dataSession == null)
-				dataSession = applicationDataProvider.GetSession();
-#else
-			dataSession = applicationDataProvider.GetSession();
-#endif
-			return dataSession;
-		}
 
 		public abstract void Dispose();
 	}
