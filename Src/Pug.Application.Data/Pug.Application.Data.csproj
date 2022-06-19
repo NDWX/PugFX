@@ -4,21 +4,21 @@
 	<Description>Application (relational) data framework</Description>
 	<AssemblyTitle>Pug.Application.Data</AssemblyTitle>
 	  <TargetFrameworks>netstandard1.3;netstandard2.0;</TargetFrameworks>
+	  <LangVersion>9</LangVersion>
 	<AssemblyName>Pug.Application.Data</AssemblyName>
 	<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
 	<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
 	<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
 	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-	<Version>1.1.12</Version>
-	<AssemblyVersion>1.1.12</AssemblyVersion>
-	<FileVersion>1.1.12</FileVersion>
+	<Version>1.1.13</Version>
+	<AssemblyVersion>1.1.13</AssemblyVersion>
+	<FileVersion>1.1.13</FileVersion>
 	<Authors>Andrian</Authors>
 	<RepositoryType>git</RepositoryType>
 	<RepositoryUrl>https://github.com/NDWX/PugFX.git</RepositoryUrl>
-	<PackageLicenseExpression>Apache-2.0+</PackageLicenseExpression>
-	<License>Apache2.0</License>
+	<PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
 	<PackageReleaseNotes>
-		Modified IApplicationData extension methods to commit TransactionScope while IApplicationDataSession is still open.		
+		Added support for schema upgrade scripts.
 	</PackageReleaseNotes>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
