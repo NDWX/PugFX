@@ -10,6 +10,7 @@ env:
   CoreProject: Src/Pug.Core/Pug.Core.csproj
   SecurityProject: Src/Pug.Security/Pug.Security.csproj
   ApplicationProject: Src/Pug.Application/Pug.Application.csproj
+  ApplicationDataModelsProject: Src/Pug.Application.Data.Models/Pug.Application.Data.Models.csproj
   ApplicationDataCommonProject: Src/Pug.Application.Data.Common/Pug.Application.Data.Common.csproj
   ApplicationDataProject: Src/Pug.Application.Data/Pug.Application.Data.csproj
   ApplicationCsvDataProject: Src/Pug.Application.Data.Csv/Pug.Application.Data.Csv.csproj
@@ -51,6 +52,9 @@ jobs:
 
       - name: Build Application project
         run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationProject}}
+
+      - name: Build ApplicationDataModels project
+        run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationDataModelsProject}}
 
       - name: Build ApplicationDataCommon project
         run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationDataCommonProject}}

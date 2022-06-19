@@ -5,7 +5,7 @@
 		<AssemblyTitle>Pug.Application.Data.Models</AssemblyTitle>
 		<TargetFrameworks>netstandard1.3;netstandard2.0;</TargetFrameworks>
 		<LangVersion>9</LangVersion>
-		<AssemblyName>Pug.Application.Data</AssemblyName>
+		<AssemblyName>Pug.Application.Data.Models</AssemblyName>
 		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
 		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
 		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
