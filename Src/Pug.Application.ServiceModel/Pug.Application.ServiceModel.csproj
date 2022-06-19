@@ -15,19 +15,15 @@
     <RepositoryUrl>https://github.com/NDWX/PugFX.git</RepositoryUrl>
     <PackageLicenseExpression>Apache-2.0+</PackageLicenseExpression>
     <License>Apache2.0</License>
-    <Version>1.0.10</Version>
-    <PackageVersion>1.0.10</PackageVersion>
-    <AssemblyVersion>1.0.10</AssemblyVersion>
-    <FileVersion>1.0.10</FileVersion>
+    <Version>1.0.11</Version>
+    <PackageVersion>1.0.11</PackageVersion>
+    <AssemblyVersion>1.0.11</AssemblyVersion>
+    <FileVersion>1.0.11</FileVersion>
     <PackageReleaseNotes>
-      v1.0.10
-         - Fixed bug where ApplicationService.DataProvider is no longer visible in implementation
-      
-      v1.0.9
-        - Added Transaction backwards compatibility support for NetStandard 2.0
+      Upgraded Pug.Application.Data.Common to v1.0.3.
     </PackageReleaseNotes>
-    <FileVersion>1.0.9</FileVersion>
-    <AssemblyVersion>1.0.9</AssemblyVersion>
+    <FileVersion>1.0.11</FileVersion>
+    <AssemblyVersion>1.0.11</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard1.3' ">
@@ -40,7 +36,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Pug.Application.Data.Common\Pug.Application.Data.Common.csproj" />
-    <ProjectReference Include="..\Pug.Application.Data\Pug.Application.Data.csproj" />
     <ProjectReference Include="..\Pug.Application.Security\Pug.Application.Security.csproj" />
     <ProjectReference Include="..\Pug.Application\Pug.Application.csproj" />
   </ItemGroup>

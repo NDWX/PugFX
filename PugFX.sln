@@ -38,6 +38,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application.Data.Csv", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Web.Api.Client", "src\Pug.Web.Api.Client\Pug.Web.Api.Client.csproj", "{B666CD6B-675F-49F8-9AD4-0DD4A6454C4A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Application.Data.Models", "Src\Pug.Application.Data.Models\Pug.Application.Data.Models.csproj", "{D2FFC194-840E-4230-9631-68AEA52DFD1D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -191,6 +193,18 @@ Global
 		{B666CD6B-675F-49F8-9AD4-0DD4A6454C4A}.Release|x64.Build.0 = Release|Any CPU
 		{B666CD6B-675F-49F8-9AD4-0DD4A6454C4A}.Release|x86.ActiveCfg = Release|Any CPU
 		{B666CD6B-675F-49F8-9AD4-0DD4A6454C4A}.Release|x86.Build.0 = Release|Any CPU
+		{D2FFC194-840E-4230-9631-68AEA52DFD1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2FFC194-840E-4230-9631-68AEA52DFD1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2FFC194-840E-4230-9631-68AEA52DFD1D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D2FFC194-840E-4230-9631-68AEA52DFD1D}.Debug|x64.Build.0 = Debug|Any CPU
+		{D2FFC194-840E-4230-9631-68AEA52DFD1D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D2FFC194-840E-4230-9631-68AEA52DFD1D}.Debug|x86.Build.0 = Debug|Any CPU
+		{D2FFC194-840E-4230-9631-68AEA52DFD1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2FFC194-840E-4230-9631-68AEA52DFD1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2FFC194-840E-4230-9631-68AEA52DFD1D}.Release|x64.ActiveCfg = Release|Any CPU
+		{D2FFC194-840E-4230-9631-68AEA52DFD1D}.Release|x64.Build.0 = Release|Any CPU
+		{D2FFC194-840E-4230-9631-68AEA52DFD1D}.Release|x86.ActiveCfg = Release|Any CPU
+		{D2FFC194-840E-4230-9631-68AEA52DFD1D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

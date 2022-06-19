@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<Description>Application (relational) data framework models</Description>
+		<AssemblyTitle>Pug.Application.Data.Models</AssemblyTitle>
+		<TargetFrameworks>netstandard1.3;netstandard2.0;</TargetFrameworks>
+		<LangVersion>9</LangVersion>
+		<AssemblyName>Pug.Application.Data.Models</AssemblyName>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<Version>1.0</Version>
+		<AssemblyVersion>1.0</AssemblyVersion>
+		<FileVersion>1.0</FileVersion>
+		<Authors>Andrian</Authors>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/NDWX/PugFX.git</RepositoryUrl>
+		<PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
+		<PackageReleaseNotes>
+		</PackageReleaseNotes>
+	</PropertyGroup>
+
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
+		<Reference Include="System" />
+		<Reference Include="System.Core" />
+		<Reference Include="System.Data" />
+		<Reference Include="Microsoft.CSharp" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="System.Data.Common">
+			<Version>4.1.0</Version>
+		</PackageReference>
+	</ItemGroup>
+</Project>
