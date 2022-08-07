@@ -39,8 +39,7 @@ namespace Pug.Web.AspNet.Core.Extensions
                             applicationName,
                             servicesProvider.GetService<ISessionUserIdentityAccessor>(),
                             userRoleProvider ?? servicesProvider.GetService<IUserRoleProvider>(),
-                            authorizationProvider ?? servicesProvider.GetService<IAuthorizationProvider>(),
-                            servicesProvider.GetService<IUserSessionProvider>()
+                            authorizationProvider ?? servicesProvider.GetService<IAuthorizationProvider>()
                         )
                 );
 

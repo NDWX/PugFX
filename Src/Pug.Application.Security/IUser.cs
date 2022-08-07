@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Pug.Application.Security
 {
@@ -13,6 +14,11 @@ namespace Pug.Application.Security
 		bool IsAuthorized(IDictionary<string, string> context, string operation, string objectType,
 						string objectName = "", string purpose = "", string domain = null);
 
+		Task<bool> IsAuthorizedAsync(IDictionary<string, string> context, string operation, string objectType,
+									string objectName = "", string purpose = "", string domain = null);
+
 		IEnumerable<string> GetRoles(string domain = null);
+		
+		Task<IEnumerable<string>> GetRolesAsync(string domain = null);
 	}
 }
