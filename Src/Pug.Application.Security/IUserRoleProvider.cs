@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Pug.Application.Security
 {
@@ -8,6 +9,10 @@ namespace Pug.Application.Security
 
 		bool UserIsInRoles(string user, ICollection<string> roles);
 
+		Task<bool> UserIsInRolesAsync(string user, ICollection<string> roles);
+
 		ICollection<string> GetUserRoles(string user, string domain);
+
+		Task<IEnumerable<string>> GetUserRolesAsync(string user, string domain);
 	}
 }
