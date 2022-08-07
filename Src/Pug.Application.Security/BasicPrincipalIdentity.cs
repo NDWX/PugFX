@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Pug.Collections.Generic.Extensions;
-using Pug.Extensions;
 
 namespace Pug.Application.Security
 {

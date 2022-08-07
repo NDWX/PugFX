@@ -4,6 +4,7 @@
     <Description>Application security framework library</Description>
     <AssemblyTitle>Pug.Application.Security</AssemblyTitle>
 	  <TargetFrameworks>netstandard1.3;netstandard2.0;</TargetFrameworks>
+    <LangVersion>9</LangVersion>
     <AssemblyName>Pug.Application.Security</AssemblyName>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
@@ -15,11 +16,11 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/NDWX/PugFX.git</RepositoryUrl>
     <PackageTags>Pug Security Session User Identity PugFX</PackageTags>
-    <Version>2.0.2</Version>
-    <AssemblyVersion>2.0.2</AssemblyVersion>
-    <FileVersion>2.0.2</FileVersion>
-    <PackageVersion>2.0.2</PackageVersion>
-    <PackageReleaseNotes>Upgrade to Pug.Core 0.2.0.</PackageReleaseNotes>
+    <Version>2.0.3</Version>
+    <AssemblyVersion>2.0.3</AssemblyVersion>
+    <FileVersion>2.0.3</FileVersion>
+    <PackageVersion>2.0.3</PackageVersion>
+    <PackageReleaseNotes>Async support.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

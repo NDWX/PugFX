@@ -6,11 +6,11 @@
     <Authors>Andrian</Authors>
     <Company>Pug Computing Services</Company>
     <Product>PugFX</Product>
-    <Version>1.0.12</Version>
-    <AssemblyVersion>1.0.12.0</AssemblyVersion>
-    <FileVersion>1.0.12.0</FileVersion>
-    <PackageVersion>1.0.12</PackageVersion>
-    <PackageReleaseNotes>Ignore claims not part of JWT standard.</PackageReleaseNotes>
+    <Version>1.0.13</Version>
+    <AssemblyVersion>1.0.13.0</AssemblyVersion>
+    <FileVersion>1.0.13.0</FileVersion>
+    <PackageVersion>1.0.13</PackageVersion>
+    <PackageReleaseNotes>Upgraded to Pug.Application.Security v2.0.3</PackageReleaseNotes>
     <PackageLicenseExpression>Apache-2.0+</PackageLicenseExpression>
     <License>Apache2.0</License>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
