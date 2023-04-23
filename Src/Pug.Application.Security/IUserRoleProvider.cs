@@ -13,7 +13,7 @@ namespace Pug.Application.Security
 		
 		Task<bool> UserIsInRolesAsync(string user, ICollection<string> roles);
 
-		ICollection<string> GetUserRoles(string user, string domain);
+		IEnumerable<string> GetUserRoles(string user, string domain);
 
 		Task<IEnumerable<string>> GetUserRolesAsync(string user, string domain);
 	}

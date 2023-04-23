@@ -16,10 +16,10 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/NDWX/PugFX.git</RepositoryUrl>
     <PackageTags>Pug Security Session User Identity PugFX</PackageTags>
-    <Version>2.1.0</Version>
-    <AssemblyVersion>2.1.0</AssemblyVersion>
-    <FileVersion>2.1.0</FileVersion>
-    <PackageVersion>2.1.0</PackageVersion>
+    <Version>2.1.1</Version>
+    <AssemblyVersion>2.1.1</AssemblyVersion>
+    <FileVersion>2.1.1</FileVersion>
+    <PackageVersion>2.1.1</PackageVersion>
     <PackageReleaseNotes>Updated target frameworks to .NET Standard 2.0 and .NET Core App 2.1</PackageReleaseNotes>
   </PropertyGroup>
 
