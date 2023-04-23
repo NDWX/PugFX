@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.3; netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netcoreapp2.1;</TargetFrameworks>
     <PackageTags>Pug Web AspNet Core ASP.NET .NET Session Security PugFX</PackageTags>
     <Authors>Andrian</Authors>
     <Company>Pug Computing Services</Company>
     <Product>PugFX</Product>
-    <Version>1.0.13</Version>
-    <AssemblyVersion>1.0.13.0</AssemblyVersion>
-    <FileVersion>1.0.13.0</FileVersion>
-    <PackageVersion>1.0.13</PackageVersion>
-    <PackageReleaseNotes>Upgraded to Pug.Application.Security v2.0.3</PackageReleaseNotes>
+    <Version>1.1.0</Version>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
+    <PackageVersion>1.1.0</PackageVersion>
+    <PackageReleaseNotes>Updated target frameworks to .NET Standard 2.0 and .NET Core App 2.1</PackageReleaseNotes>
     <PackageLicenseExpression>Apache-2.0+</PackageLicenseExpression>
     <License>Apache2.0</License>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -24,6 +24,11 @@
   
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
   </ItemGroup>
   
   <ItemGroup>

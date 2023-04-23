@@ -21,7 +21,7 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/NDWX/PugFX.git</RepositoryUrl>
     <PackageTags>Pug Core Library</PackageTags>
-    <PackageReleaseNotes>Added new type ChainLink to link objects of a type together.</PackageReleaseNotes>
+    <PackageReleaseNotes>Updated target frameworks to .NET Standard 2.0 and .NET Core App 2.1</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

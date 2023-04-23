@@ -3,16 +3,16 @@
   <PropertyGroup>
 	<Description>Application (relational) data framework</Description>
 	<AssemblyTitle>Pug.Application.Data</AssemblyTitle>
-	  <TargetFrameworks>netstandard1.3;netstandard2.0;</TargetFrameworks>
+	  <TargetFrameworks>netstandard2.0;netcoreapp2.1;</TargetFrameworks>
 	  <LangVersion>9</LangVersion>
 	<AssemblyName>Pug.Application.Data</AssemblyName>
 	<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
 	<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
 	<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
 	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-	<Version>1.1.13</Version>
-	<AssemblyVersion>1.1.13</AssemblyVersion>
-	<FileVersion>1.1.13</FileVersion>
+	<Version>1.2.0</Version>
+	<AssemblyVersion>1.2.0</AssemblyVersion>
+	<FileVersion>1.2.0</FileVersion>
 	<Authors>Andrian</Authors>
 	<RepositoryType>git</RepositoryType>
 	<RepositoryUrl>https://github.com/NDWX/PugFX.git</RepositoryUrl>
