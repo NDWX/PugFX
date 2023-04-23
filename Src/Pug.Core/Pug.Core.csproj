@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Pug Core Library</Description>
+    <TargetFrameworks>netstandard2.0;netcoreapp2.1;</TargetFrameworks>
     <AssemblyTitle>Pug.Core</AssemblyTitle>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <Description>Pug Core Library</Description>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>0.2.0</Version>
-    <PackageVersion>0.2.0</PackageVersion>
-    <AssemblyVersion>0.2.0</AssemblyVersion>
-    <FileVersion>0.2.0</FileVersion>
-    <TargetFrameworks>netstandard1.1;netcoreapp1.0;</TargetFrameworks>
+    <Version>1.0.0</Version>
+    <PackageVersion>1.0.0</PackageVersion>
+    <FileVersion>1.0.0</FileVersion>
     <AssemblyName>Pug.Core</AssemblyName>
     <!--<PackageTargetFallback Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>-->
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
