@@ -10,6 +10,7 @@
     <PackageVersion>1.0.0</PackageVersion>
     <FileVersion>1.0.0</FileVersion>
     <AssemblyName>Pug.Core</AssemblyName>
+    <LangVersion>9</LangVersion>
     <!--<PackageTargetFallback Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>-->
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
