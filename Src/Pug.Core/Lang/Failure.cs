@@ -1,7 +1,28 @@
 namespace Pug
 {
+	public record Failure
+	{
+		public UnexpectedError Error { get; set; }
+
+		public Failure()
+		{
+			
+		}
+		
+		public Failure( UnexpectedError error )
+		{
+			Error = error;
+		}
+		
+		public static implicit operator Failure( UnexpectedError _ ) => new ( _ );
+	}
+	
 	public record Failure<T0> : OneOf<T0, UnexpectedError>
 	{
+		public Failure() : base()
+		{
+		}
+		
 		public Failure( T0 _ ) : base( _ )
 		{
 		}
@@ -17,6 +38,10 @@ namespace Pug
 
 	public record Failure<T0, T1> : OneOf<T0, T1, UnexpectedError>
 	{
+		public Failure() : base()
+		{
+		}
+
 		public Failure( T0 _ ) : base( _ )
 		{
 		}
@@ -38,6 +63,10 @@ namespace Pug
 
 	public record Failure<T0, T1, T2> : OneOf<T0, T1, T2, UnexpectedError>
 	{
+		public Failure() : base()
+		{
+		}
+
 		public Failure( T0 _ ) : base( _ )
 		{
 		}
@@ -65,6 +94,10 @@ namespace Pug
 
 	public record Failure<T0, T1, T2, T3> : OneOf<T0, T1, T2, T3, UnexpectedError>
 	{
+		public Failure() : base()
+		{
+		}
+
 		public Failure( T0 _ ) : base( _ )
 		{
 		}
@@ -98,6 +131,10 @@ namespace Pug
 
 	public record Failure<T0, T1, T2, T3, T4> : OneOf<T0, T1, T2, T3, T4, UnexpectedError>
 	{
+		public Failure() : base()
+		{
+		}
+
 		public Failure( T0 _ ) : base( _ )
 		{
 		}

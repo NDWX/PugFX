@@ -3,12 +3,12 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.1;netstandard2.0;net6.0</TargetFrameworks>
     <AssemblyTitle>Pug.Core</AssemblyTitle>
-    <AssemblyVersion>1.0.2</AssemblyVersion>
+    <AssemblyVersion>1.0.3</AssemblyVersion>
     <Description>Pug Core Library</Description>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>1.0.2</Version>
-    <PackageVersion>1.0.2</PackageVersion>
-    <FileVersion>1.0.2</FileVersion>
+    <Version>1.0.3</Version>
+    <PackageVersion>1.0.3</PackageVersion>
+    <FileVersion>1.0.3</FileVersion>
     <AssemblyName>Pug.Core</AssemblyName>
     <LangVersion>9</LangVersion>
     <!--<PackageTargetFallback Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>-->
@@ -22,7 +22,7 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/NDWX/PugFX.git</RepositoryUrl>
     <PackageTags>Pug Core Library</PackageTags>
-    <PackageReleaseNotes>Native support for .NET 6.0</PackageReleaseNotes>
+    <PackageReleaseNotes>Language extensions minor enhancements</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
