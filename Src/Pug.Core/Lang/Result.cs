@@ -14,5 +14,10 @@
 		public TResult Value { get; set; }
 
 		public bool HasValue => Value is not null;
+
+		public static Result<TResult> Of( TResult result )
+		{
+			return new Result<TResult>( result );
+		}
 	}
 }
