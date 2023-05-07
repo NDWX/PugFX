@@ -1,14 +1,24 @@
 namespace Pug
 {
-	public record Success<TResult> : Result<TResult>
+	public record Success
 	{
-		public Success( TResult result ) : base( result )
+		public static Success Value { get; } = new Success();
+	}
+
+	public record Success<TValue> : Success
+	{
+		public Success( TValue value )
 		{
+			Value = value;
 		}
 
-		public static Success<TResult> From( TResult result )
+		public new TValue Value { get; set; }
+
+		public bool HasValue => Value is not null;
+
+		public static Success<TValue> With( TValue value )
 		{
-			return new Success<TResult>( result );
+			return new Success<TValue>( value );
 		}
 	}
 }
