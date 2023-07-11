@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Pug
+namespace Pug.Lang
 {
 	public record Options<TFirst, TSecond>
 	{

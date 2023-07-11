@@ -3,12 +3,12 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netcoreapp2.1;</TargetFrameworks>
     <AssemblyTitle>Pug.Core</AssemblyTitle>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0</AssemblyVersion>
     <Description>Pug Core Library</Description>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>1.0.0</Version>
-    <PackageVersion>1.0.0</PackageVersion>
-    <FileVersion>1.0.0</FileVersion>
+    <Version>2.0.0</Version>
+    <PackageVersion>2.0.0</PackageVersion>
+    <FileVersion>2.0.0</FileVersion>
     <AssemblyName>Pug.Core</AssemblyName>
     <LangVersion>9</LangVersion>
     <!--<PackageTargetFallback Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>-->
@@ -22,7 +22,7 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/NDWX/PugFX.git</RepositoryUrl>
     <PackageTags>Pug Core Library</PackageTags>
-    <PackageReleaseNotes>Updated target frameworks to .NET Standard 2.0 and .NET Core App 2.1</PackageReleaseNotes>
+    <PackageReleaseNotes>Namespace restructure, removal of Option classes, and Range class rework.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -46,6 +46,9 @@
     <EmbeddedResource Remove="output\**" />
     <None Remove="backup\**" />
     <None Remove="output\**" />
+    <Compile Remove="Lang\Option.cs" />
+    <Compile Remove="Lang\Options.cs" />
+    <Compile Remove="Lang\IOption.cs" />
   </ItemGroup>
 
   <ItemGroup>

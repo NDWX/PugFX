@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pug
+namespace Pug.Lang
 {
 	public record Option<TValue> : IOption
 	{
