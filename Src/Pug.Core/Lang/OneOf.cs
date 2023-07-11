@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace Pug
+namespace Pug.Lang
 {
 	public record OneOf<TFirst, TSecond, TThird, TFourth, TFifth, TSixth> : IOneOf
 	{
@@ -39,21 +39,21 @@ namespace Pug
 			Sixth = value;
 		}
 
-		public Option<TFirst> First { get; set; }
+		public TFirst First { get; set; }
 		
-		public Option<TSecond> Second { get; set; }
+		public TSecond Second { get; set; }
 
-		public Option<TThird> Third { get; set; }
+		public TThird Third { get; set; }
 
-		public Option<TFourth> Fourth { get; set; }
+		public TFourth Fourth { get; set; }
 
-		public Option<TFifth> Fifth { get; set; }
+		public TFifth Fifth { get; set; }
 
-		public Option<TSixth> Sixth { get; set; }
+		public TSixth Sixth { get; set; }
 		
 		public bool Is<TOption>()
 		{
-			return First is Option<TOption> || Second is Option<TOption> || Third is Option<TOption>;
+			return First is TOption || Second is TOption || Third is TOption;
 		}
 		
 		public static implicit operator OneOf<TFirst, TSecond, TThird, TFourth, TFifth, TSixth>(TFirst value) => new () { First = value };
@@ -135,19 +135,19 @@ namespace Pug
 			Fifth = value;
 		}
 
-		public Option<TFirst> First { get; set; }
+		public TFirst First { get; set; }
 		
-		public Option<TSecond> Second { get; set; }
+		public TSecond Second { get; set; }
 
-		public Option<TThird> Third { get; set; }
+		public TThird Third { get; set; }
 
-		public Option<TFourth> Fourth { get; set; }
+		public TFourth Fourth { get; set; }
 
-		public Option<TFifth> Fifth { get; set; }
+		public TFifth Fifth { get; set; }
 		
 		public bool Is<TOption>()
 		{
-			return First is Option<TOption> || Second is Option<TOption> || Third is Option<TOption>;
+			return First is TOption || Second is TOption || Third is TOption;
 		}
 		
 		public static implicit operator OneOf<TFirst, TSecond, TThird, TFourth, TFifth>(TFirst value) => new () { First = value };
@@ -219,17 +219,17 @@ namespace Pug
 			Fourth = value;
 		}
 
-		public Option<TFirst> First { get; set; }
+		public TFirst First { get; set; }
 		
-		public Option<TSecond> Second { get; set; }
+		public TSecond Second { get; set; }
 
-		public Option<TThird> Third { get; set; }
+		public TThird Third { get; set; }
 
-		public Option<TFourth> Fourth { get; set; }
+		public TFourth Fourth { get; set; }
 		
 		public bool Is<TOption>()
 		{
-			return First is Option<TOption> || Second is Option<TOption> || Third is Option<TOption>;
+			return First is TOption || Second is TOption || Third is TOption;
 		}
 		
 		public static implicit operator OneOf<TFirst, TSecond, TThird, TFourth>(TFirst value) => new () { First = value };
@@ -291,15 +291,15 @@ namespace Pug
 			Third = value;
 		}
 
-		public Option<TFirst> First { get; set; }
+		public TFirst First { get; set; }
 		
-		public Option<TSecond> Second { get; set; }
+		public TSecond Second { get; set; }
 
-		public Option<TThird> Third { get; set; }
+		public TThird Third { get; set; }
 		
 		public bool Is<TOption>()
 		{
-			return First is Option<TOption> || Second is Option<TOption> || Third is Option<TOption>;
+			return First is TOption || Second is TOption || Third is TOption;
 		}
 		
 		public static implicit operator OneOf<TFirst, TSecond, TThird>(TFirst value) => new () { First = value };
@@ -351,13 +351,13 @@ namespace Pug
 			Second = value;
 		}
 
-		public Option<TFirst> First { get; set; }
+		public TFirst First { get; set; }
 		
-		public Option<TSecond> Second { get; set; }
+		public TSecond Second { get; set; }
 		
 		public bool Is<TOption>()
 		{
-			return First is Option<TOption> || Second is Option<TOption>;
+			return First is TOption || Second is TOption;
 		}
 		
 		public static implicit operator OneOf<TFirst, TSecond>(TFirst t) => new () { First = t };

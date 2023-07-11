@@ -1,6 +1,6 @@
 using System.Runtime.Serialization;
 
-namespace Pug
+namespace Pug.Lang
 {
 	public record ErrorBase
 	{
@@ -8,7 +8,7 @@ namespace Pug
 
 		protected ErrorBase( string message = "" )
 		{
-			this.Message = message;
+			Message = message;
 		}
 	}
 }

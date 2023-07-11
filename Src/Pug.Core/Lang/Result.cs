@@ -1,4 +1,4 @@
-﻿namespace Pug
+﻿namespace Pug.Lang
 {
 	public record Result<TResult>
 	{

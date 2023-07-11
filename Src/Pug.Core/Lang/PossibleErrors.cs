@@ -1,4 +1,4 @@
-namespace Pug
+namespace Pug.Lang
 {
 	public record PossibleErrors<T0> : OneOf<T0, UnexpectedError>
 {

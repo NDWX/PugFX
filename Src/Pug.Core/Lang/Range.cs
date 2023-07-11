@@ -2,41 +2,20 @@
 
 namespace Pug
 {
-	public class Range<T> where T : IComparable<T>
+	public class Range<T> : IRange<T>
+		where T : struct, IComparable<T>
 	{
-		private readonly T start;
-		private readonly T end;
-
-		public Range(T start, T end)
+		public Range()
 		{
-			this.start = start;
-			this.end = end;
 		}
-
-		public T Start
+		
+		public Range(T? start, T? end)
 		{
-			get
-			{
-				return start;
-			}
+			Start = start;
+			End = end;
 		}
-
-		public T End
-		{
-			get
-			{
-				return end;
-			}
-		}
-
-		public bool Contains(T val)
-		{
-			return val.CompareTo(start) >= 0 && val.CompareTo(end) <= 0;
-		}
-
-		public static Range<T> Between(T start, T end)
-		{
-			return new Range<T>(start, end);
-		}
+		
+		public T? Start { get; set; }
+		public T? End { get; set; }
 	}
 }
