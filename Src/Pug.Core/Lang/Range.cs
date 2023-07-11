@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace Pug
 {
+	[DataContract]
 	public class Range<T> : IRange<T>
 		where T : struct, IComparable<T>
 	{
@@ -15,7 +17,10 @@ namespace Pug
 			End = end;
 		}
 		
+		[DataMember]
 		public T? Start { get; set; }
+		
+		[DataMember]
 		public T? End { get; set; }
 	}
 }
