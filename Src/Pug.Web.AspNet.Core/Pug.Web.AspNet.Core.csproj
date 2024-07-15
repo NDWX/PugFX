@@ -6,11 +6,11 @@
     <Authors>Andrian</Authors>
     <Company>Pug Computing Services</Company>
     <Product>PugFX</Product>
-    <Version>1.1.1</Version>
-    <AssemblyVersion>1.1.1</AssemblyVersion>
-    <FileVersion>1.1.1</FileVersion>
-    <PackageVersion>1.1.1</PackageVersion>
-    <PackageReleaseNotes>Updated target frameworks to .NET Standard 2.0 and .NET Core App 2.1</PackageReleaseNotes>
+    <Version>1.1.2</Version>
+    <AssemblyVersion>1.1.2</AssemblyVersion>
+    <FileVersion>1.1.2</FileVersion>
+    <PackageVersion>1.1.2</PackageVersion>
+    <PackageReleaseNotes>Upgraded Pug.Application.Security to v2.1.2</PackageReleaseNotes>
     <PackageLicenseExpression>Apache-2.0+</PackageLicenseExpression>
     <License>Apache2.0</License>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
