@@ -6,7 +6,7 @@ namespace Pug.Extensions
 	{
 		public static string Pad(this string original, char paddingCharacter, int desiredLength)
 		{
-			StringBuilder result = new StringBuilder(original);
+			StringBuilder result = new (original);
 
 			while (result.Length < desiredLength)
 				result.Append(paddingCharacter);
@@ -16,7 +16,7 @@ namespace Pug.Extensions
 
 		public static string Pad(this string original, string padding, int desiredLength)
 		{
-			StringBuilder result = new StringBuilder(original);
+			StringBuilder result = new (original);
 
 			while (result.Length < desiredLength)
 				result.Append(padding);
@@ -26,7 +26,7 @@ namespace Pug.Extensions
 
 		public static string PrePad(this string original, char paddingCharacter, int desiredLength)
 		{
-			StringBuilder result = new StringBuilder(original);
+			StringBuilder result = new (original);
 
 			while (result.Length < desiredLength)
 				result.Insert(0, paddingCharacter);
@@ -36,7 +36,7 @@ namespace Pug.Extensions
 
 		public static string PrePad(this string original, string padding, int desiredLength)
 		{
-			StringBuilder result = new StringBuilder(original);
+			StringBuilder result = new (original);
 
 			while (result.Length < desiredLength)
 				result.Insert(0, padding);

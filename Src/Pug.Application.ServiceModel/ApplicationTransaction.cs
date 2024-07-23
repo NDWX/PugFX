@@ -9,42 +9,24 @@ using Pug.Application.Data;
 
 namespace Pug.Application.ServiceModel
 {
-	internal class ApplicationTransaction<DS> : IApplicationTransaction<DS>
-		where DS : class, IApplicationDataSession
+	internal class ApplicationTransaction<TDataSession> : IApplicationTransaction<TDataSession>
+		where TDataSession : class, IApplicationDataSession
 	{
-		private readonly object sync = new object();
+		private readonly object _sync = new object();
 
 		// ReSharper disable RedundantDefaultMemberInitializer
-		private bool transactionEnded = false;
+		private bool _transactionEnded = false;
 		// ReSharper restore RedundantDefaultMemberInitializer
-		
+
 		public string Identifier { get; }
 
-#if NETSTANDARD_1_3
-		private readonly Action<ApplicationTransaction<DS>> onEnded;
+		private readonly TransactionScope _transaction;
 
-		internal DS DataSession { get; }
-
-		public DS DataSessionProxy { get;  }
-#else
-		private readonly TransactionScope transaction;
-#endif
-
-#if NETSTANDARD_1_3
-		public ApplicationTransaction(DS dataSession, DS dataSessionProxy, Action<ApplicationTransaction<DS>> onEnded)
-		{
-			Identifier = Guid.NewGuid().ToString();
-
-			DataSession = dataSession;
-			DataSessionProxy = dataSessionProxy;
-			this.onEnded = onEnded;
-		}
-#else
 		private ApplicationTransaction(TransactionScope transactionScope)
 		{
 			Identifier = Guid.NewGuid().ToString();
 
-			transaction = transactionScope;
+			_transaction = transactionScope;
 		}
 
 		public ApplicationTransaction()
@@ -118,75 +100,51 @@ namespace Pug.Application.ServiceModel
 		{
 
 		}
-#endif
 
 		public void Commit()
 		{
-			lock(sync)
+			lock(_sync)
 			{
-				if(transactionEnded)
+				if(_transactionEnded)
 					throw new InvalidTransactionState();
 
 				try
 				{
-#if NETSTANDARD_1_3
-					DataSession.CommitTransaction();
-#else
-					transaction.Complete();
-#endif
+					_transaction.Complete();
 				}
 				finally
 				{
-					transactionEnded = true;
-#if NETSTANDARD_1_3
-					onEnded(this);
-#endif
+					_transactionEnded = true;
 				}
 
-			}
-		}
-
-		private void rollback()
-		{
-			try
-			{
-#if NETSTANDARD_1_3
-				DataSession.RollbackTransaction();
-#else
-				transaction.Dispose();
-#endif
-			}
-			finally
-			{
-				transactionEnded = true;
-#if NETSTANDARD_1_3
-				onEnded(this);
-#endif
 			}
 		}
 
 		public void Rollback()
 		{
-			lock(sync)
+			lock(_sync)
 			{
-				if(transactionEnded)
+				if(_transactionEnded)
 					throw new InvalidTransactionState();
 
-				rollback();
+				try
+				{
+					_transaction.Dispose();
+				}
+				finally
+				{
+					_transactionEnded = true;
+				}
 			}
 		}
 
 		public void Dispose()
 		{
-			lock(sync)
+			lock(_sync)
 			{
-				if(!transactionEnded)
+				if(!_transactionEnded)
 				{
-#if NETSTANDARD_1_3
-					rollback();
-#else
-					transaction.Dispose();
-#endif
+					_transaction.Dispose();
 				}
 			}
 		}

@@ -7,7 +7,7 @@ namespace Pug.MapReduce
 	{
 		public static IEnumerable<R> Map<I, R>(this IEnumerable<I> items, Func<I, R> func)
 		{
-			List<R> results = new List<R>();
+			List<R> results = new ();
 
 			IEnumerator<I> enumerator = items.GetEnumerator();
 

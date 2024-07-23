@@ -27,10 +27,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Castle.Core" Version="4.4.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Pug.Application.Data.Common\Pug.Application.Data.Common.csproj" />
     <ProjectReference Include="..\Pug.Application.Security\Pug.Application.Security.csproj" />
     <ProjectReference Include="..\Pug.Application\Pug.Application.csproj" />

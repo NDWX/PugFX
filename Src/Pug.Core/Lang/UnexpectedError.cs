@@ -1,6 +1,8 @@
+using System;
+
 namespace Pug
 {
-	public record UnexpectedError : ErrorBase
+	public class UnexpectedError : Exception
 	{
 		public UnexpectedError( string message ) : base( message )
 		{
