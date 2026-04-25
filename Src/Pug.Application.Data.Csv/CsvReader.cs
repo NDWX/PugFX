@@ -38,18 +38,18 @@ namespace Pug.Application.Data.Csv
 
 			bool waitingForClosingQuote = false, previousCharacterIsQuote = false, isStartOfNewValue = true;
 
-			Action<string> saveContentAsValue = value =>
+			void SaveContentAsValue( string value )
 			{
-				lineValues.Add(value);
+				lineValues.Add( value );
 				valueBuilder = new StringBuilder();
 				isStartOfNewValue = true;
-			};
+			}
 
-			Action saveBuilderContentAsValue = () => saveContentAsValue(valueBuilder.ToString());
+			void SaveBuilderContentAsValue() => SaveContentAsValue( valueBuilder.ToString() );
 
-			Action saveValuesAsLine = () => line = new CsvLine(lineValues.ToArray());
+			void SaveValuesAsLine() => line = new CsvLine( lineValues.ToArray() );
 
-			Func<bool> isNewLine = () => valueBuilder.Length == 0 && lineValues.Count == 0;
+			bool IsNewLine() => valueBuilder.Length == 0 && lineValues.Count == 0;
 
 			while (line == null)
 			{
@@ -88,7 +88,7 @@ namespace Pug.Application.Data.Csv
 
 							if (!waitingForClosingQuote)
 							{
-								saveBuilderContentAsValue();
+								SaveBuilderContentAsValue();
 							}
 							else
 							{
@@ -96,7 +96,7 @@ namespace Pug.Application.Data.Csv
 								{
 									waitingForClosingQuote = false;
 
-									saveBuilderContentAsValue();
+									SaveBuilderContentAsValue();
 								}
 								else
 								{
@@ -109,7 +109,7 @@ namespace Pug.Application.Data.Csv
 							break;
 
 						case '\r':
-							if (isNewLine())
+							if (IsNewLine())
 								break;
 
 							if (isStartOfNewValue)
@@ -121,8 +121,8 @@ namespace Pug.Application.Data.Csv
 								{
 									waitingForClosingQuote = false;
 
-									saveBuilderContentAsValue();
-									saveValuesAsLine();
+									SaveBuilderContentAsValue();
+									SaveValuesAsLine();
 								}
 								else
 								{
@@ -131,15 +131,15 @@ namespace Pug.Application.Data.Csv
 							}
 							else
 							{
-								saveBuilderContentAsValue();
-								saveValuesAsLine();
+								SaveBuilderContentAsValue();
+								SaveValuesAsLine();
 							}
 
 							previousCharacterIsQuote = false;
 							break;
 
 						case '\n':
-							if (isNewLine())
+							if (IsNewLine())
 								break;
 
 							if (isStartOfNewValue)
@@ -151,8 +151,8 @@ namespace Pug.Application.Data.Csv
 								{
 									waitingForClosingQuote = false;
 
-									saveBuilderContentAsValue();
-									saveValuesAsLine();
+									SaveBuilderContentAsValue();
+									SaveValuesAsLine();
 								}
 								else
 								{
@@ -161,8 +161,8 @@ namespace Pug.Application.Data.Csv
 							}
 							else
 							{
-								saveBuilderContentAsValue();
-								saveValuesAsLine();
+								SaveBuilderContentAsValue();
+								SaveValuesAsLine();
 							}
 
 							previousCharacterIsQuote = false;
@@ -182,26 +182,25 @@ namespace Pug.Application.Data.Csv
 					_charIdx++;
 				}
 
-				if (line == null)
-				{
-					if (_readBytes < _fileStream.Length)
-					{
-						_lastReadBytes = _fileStream.Read(_readData, 0, 256);
-						_readBytes += _lastReadBytes;
+				if( line != null ) continue;
 
-						_charIdx = 0;
+				if (_readBytes < _fileStream.Length)
+				{
+					_lastReadBytes = _fileStream.Read(_readData, 0, 256);
+					_readBytes += _lastReadBytes;
+
+					_charIdx = 0;
+				}
+				else
+				{
+					if (lineValues.Count > 0)
+					{
+						lineValues.Add(valueBuilder.ToString());
+						SaveValuesAsLine();
 					}
 					else
 					{
-						if (lineValues.Count > 0)
-						{
-							lineValues.Add(valueBuilder.ToString());
-							saveValuesAsLine();
-						}
-						else
-						{
-							return null;
-						}
+						return null;
 					}
 				}
 			}

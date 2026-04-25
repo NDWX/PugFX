@@ -4,8 +4,8 @@ using Pug.Application.Data;
 
 namespace Pug.Application.ServiceModel
 {
-    public interface IApplicationTransaction<DS> : IDisposable
-        where DS : class, IApplicationDataSession
+    public interface IApplicationTransaction<TDataSession> : IDisposable
+        where TDataSession : class, IApplicationDataSession
     {
         string Identifier { get; }
         

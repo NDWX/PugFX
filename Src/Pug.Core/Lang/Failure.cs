@@ -1,4 +1,4 @@
-namespace Pug
+namespace Pug.Lang
 {
 	public record Failure
 	{
@@ -6,23 +6,23 @@ namespace Pug
 
 		public Failure()
 		{
-			
+
 		}
-		
+
 		public Failure( UnexpectedError error )
 		{
 			Error = error;
 		}
-		
+
 		public static implicit operator Failure( UnexpectedError _ ) => new ( _ );
 	}
-	
+
 	public record Failure<T0> : OneOf<T0, UnexpectedError>
 	{
 		public Failure() : base()
 		{
 		}
-		
+
 		public Failure( T0 _ ) : base( _ )
 		{
 		}

@@ -2,7 +2,7 @@ namespace Pug.Lang
 {
 	public record Success
 	{
-		public static Success Value { get; } = new Success();
+		public static Success Value { get; } = new ();
 	}
 
 	public record Success<TValue> : Success

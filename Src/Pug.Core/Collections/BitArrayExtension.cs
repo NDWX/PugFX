@@ -9,7 +9,7 @@ namespace Pug.Collections.Extensions
 
         public static byte[] GetBytes(this BitArray bitArray, int start, int length)
         {
-            BitArray resultArray = new BitArray(length);
+            BitArray resultArray = new (length);
 
             for (int idx = 0; idx < length; idx++)
             {
