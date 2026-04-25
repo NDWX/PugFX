@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;netstandard2.0;net5.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.1;netstandard2.0;net5.0</TargetFrameworks>
     <LangVersion>12</LangVersion>
     <AssemblyTitle>Pug.Core</AssemblyTitle>
-    <AssemblyVersion>1.0.3</AssemblyVersion>
+    <AssemblyVersion>2.0.1</AssemblyVersion>
     <Description>Pug Core Library</Description>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>1.0.3</Version>
-    <PackageVersion>1.0.3</PackageVersion>
-    <FileVersion>1.0.3</FileVersion>
+    <Version>2.0.1</Version>
+    <PackageVersion>2.0.1</PackageVersion>
+    <FileVersion>2.0.1</FileVersion>
     <AssemblyName>Pug.Core</AssemblyName>
     <!--<PackageTargetFallback Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>-->
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -22,7 +22,7 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/NDWX/PugFX.git</RepositoryUrl>
     <PackageTags>Pug Core Library</PackageTags>
-    <PackageReleaseNotes>Language extensions minor enhancements</PackageReleaseNotes>
+    <PackageReleaseNotes>Pug.Range data contract specification.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -46,6 +46,9 @@
     <EmbeddedResource Remove="output\**" />
     <None Remove="backup\**" />
     <None Remove="output\**" />
+    <Compile Remove="Lang\Option.cs" />
+    <Compile Remove="Lang\Options.cs" />
+    <Compile Remove="Lang\IOption.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -58,7 +61,7 @@
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
-  
+
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
   </PropertyGroup>

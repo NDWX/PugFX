@@ -51,21 +51,23 @@ namespace Pug.Application.Security
 		{
 			get
 			{
-				SecurityContext securityContext = asyncContext.Value;
+				SecurityContext securityContext = SecurityContext;
+
+				IUser user = SecurityContext.CurrentUser;
 				
-				if( securityContext.CurrentUser is not null )
-					return securityContext.CurrentUser;
+				if( user is not null )
+					return user;
 				
 				IPrincipalIdentity userIdentity = SessionUserIdentityAccessor.GetUserIdentity();
 
 				if( userIdentity is null )
 					return null;
 
-				IUser currentUser = new User( userIdentity, UserRoleProvider, AuthorizationProvider );
+				user = new User( userIdentity, UserRoleProvider, AuthorizationProvider );
 
-				securityContext.CurrentUser = currentUser;
+				securityContext.CurrentUser = user;
 				
-				return currentUser;
+				return user;
 			}
 		}
 
